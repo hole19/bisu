@@ -1,0 +1,14 @@
+type: iOS
+
+sheet_id: abc1234567890
+keys_column: key_name
+
+in:
+  - folder/file_1.translatable
+  - folder/file_2.translatable
+
+out:
+  - language: english
+    folder:   hole19/en.lproj/
+  - language: portuguese
+    folder:   hole19/pt.lproj/

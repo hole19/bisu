@@ -6,7 +6,7 @@ require 'bisu/translator'
 module Bisu
   def self.run
     if config = Bisu::Config.parse("translatable.yml")
-      kbase = Bisu::KnowledgeBase.new(config[:sheet_id], config[:keys_column])
+      kbase = Bisu::GoogleDriveKB.new(config[:sheet_id], config[:keys_column])
       trans = Bisu::Translator.new(kbase, config[:type])
 
       config[:in].each do |in_path|

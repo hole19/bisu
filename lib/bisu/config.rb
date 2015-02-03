@@ -1,8 +1,10 @@
 require "yaml"
 
 module Bisu
-  class Config
-    def self.parse(file_name)
+  module Config
+    extend self
+
+    def parse(file_name)
       unless file_name
         Logger.error("Config file not provided")
         return nil
@@ -21,7 +23,9 @@ module Bisu
       end
     end
 
-    def self.deep_sym(obj)
+    private
+
+    def deep_sym(obj)
       if obj.is_a?(Array)
         obj.map { |v| deep_sym(v) }
       elsif obj.is_a?(Hash)

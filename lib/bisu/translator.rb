@@ -1,17 +1,17 @@
 module Bisu
   class Translator
     def initialize(knowledge_base, type)
-      @@kb   = knowledge_base
-      @@type = type.downcase.to_sym
+      @kb   = knowledge_base
+      @type = type.downcase.to_sym
 
-      unless [:ios, :android].include?(@@type)
-        Logger.error("Unknown type #{@@type}")
+      unless [:ios, :android].include?(@type)
+        Logger.error("Unknown type #{@type}")
         raise
       end
     end
 
     def translate(language, in_path, out_folder)
-      unless @@kb.has_language?(language)
+      unless @kb.has_language?(language)
         Logger.error("Unknown language #{language}")
         return false
       end
@@ -67,7 +67,7 @@ module Bisu
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
       t = t.gsub(/\$(k[^\$]+)\$/) do |match|
-        if localized = @@kb.localize("#{$1}", language)
+        if localized = @kb.localize("#{$1}", language)
           process(localized)
         else
           match
@@ -80,12 +80,12 @@ module Bisu
     end
 
     def process(text)
-      if @@type.eql?(:android)
+      if @type.eql?(:android)
         text = text.gsub(/[']/, "\\\\'")
         text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
       
-      elsif @@type.eql?(:ios)
+      elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
       end
     end

@@ -17,6 +17,10 @@ module Bisu
       log :error, msg
     end
 
+    def clean_summary
+      @levels.each { |k, _| @levels[k] = 0 }
+    end
+
     def summary
       @levels
     end
@@ -31,9 +35,14 @@ module Bisu
       end
     end
 
+    def silent_mode=(value)
+      @silent_mode = value
+    end
+
     private
 
     @levels = { info: 0, warn: 0, error: 0 }
+    @silent_mode = false
 
     def log(level, msg)
       unless @levels.keys.include?(level)
@@ -46,7 +55,7 @@ module Bisu
       msg = msg.yellow if level.eql?(:warn)
       msg = msg.red    if level.eql?(:error)
 
-      puts msg
+      puts msg unless @silent_mode
     end
   end
 end

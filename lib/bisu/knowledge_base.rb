@@ -2,25 +2,37 @@ require "net/https"
 require "xmlsimple"
 
 module Bisu
+
   class KnowledgeBase
-    def initialize(sheet_id, keys_column_title)
-      @sheet_id = sheet_id
-      @key      = keys_column_title
+    def initialize(kb)
+      raise "Bad KB format (expected Hash)"             unless kb.is_a?(Hash)
+      raise "Bad KB format (expected :languages Array)" unless kb.key?(:languages) && kb[:languages].is_a?(Array)
+      raise "Bad KB format (expected :keys Hash)"       unless kb.key?(:keys)      && kb[:keys].is_a?(Hash)
+      @kb = kb
     end
 
     def has_language?(language)
-      kb[:languages].include?(language)
+      @kb[:languages].include?(language)
     end
 
     def localize(key, language)
-      (locals = kb[:keys][key]) && (res = locals[language]) ? res : nil
+      if locals = @kb[:keys][key]
+        locals[language]
+      else
+        nil
+      end
+    end
+  end
+
+
+  class GoogleDriveKB < KnowledgeBase
+    def initialize(sheet_id, keys_column_title)
+      raw = raw_data(sheet_id)
+      kb  = parse(raw, keys_column_title)
+      super(kb)
     end
 
     private
-
-    def kb
-      @@kb ||= parse(raw_data(@sheet_id), @key)
-    end
 
     def feed_data(uri, headers=nil)
       uri = URI.parse(uri)
@@ -56,4 +68,5 @@ module Bisu
       kb
     end
   end
+
 end
