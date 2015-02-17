@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bisu'
-  s.version     = '0.1.0'
+  s.version     = '1.0.0'
   s.date        = '2015-01-28'
   s.summary     = 'Bisu - localization automation service'
   s.description = 'Bisu is a localization automation service. It was built specially for Hole19'
