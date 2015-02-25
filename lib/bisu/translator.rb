@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Bisu
   class Translator
     def initialize(knowledge_base, type)
@@ -26,7 +28,7 @@ module Bisu
       end
 
       return false unless in_file  = open_file(in_path,  "r", true)
-      return false unless out_file = open_file(out_path, "w", false, true)
+      return false unless out_file = open_file(out_path, "w", false)
 
       Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
@@ -43,21 +45,17 @@ module Bisu
 
     private
 
-    def open_file(file_name, method, should_exist, can_overwrite=false)
-      if should_exist == File.file?(File.expand_path(file_name))
-        File.open(File.expand_path(file_name), method)
-
-      elsif should_exist
-        Logger.error("File #{file_name} not found!")
-        nil
-
-      elsif can_overwrite
-        File.open(File.expand_path(file_name), method)
-
-      elsif !should_exist
-        Logger.error("File #{file_name} already exists!")
-        nil
+    def open_file(file_name, method, must_exist)
+      if !File.file?(File.expand_path(file_name))
+        if must_exist
+          Logger.error("File #{file_name} not found!")
+          return nil
+        else
+          FileUtils.mkdir_p(File.dirname(file_name))
+        end
       end
+
+      File.open(File.expand_path(file_name), method)
     end
 
     def localize(text, language)
