@@ -1,4 +1,4 @@
-H19-Bisu
+Bisu 홀
 ========
 
 Bisu manages your app iOS and Android localization files for you. No more copy+paste induced errors!
@@ -7,9 +7,10 @@ Bisu manages your app iOS and Android localization files for you. No more copy+p
 
 Instalation
 -----
-
-1. Download gem file: [bisu.gem](https://github.com/hole19/h19-bisu/blob/master/bisu.gem?raw=true)
-1. Run in terminal: `gem install path/to/bisu.gem`
+  
+```
+gem install bisu
+```
 
 Usage
 -----
@@ -42,7 +43,7 @@ Configuration
       folder:   path/to/ko.lproj/
   ```
 
-1. Replace your **iOS** localization files with *.translatable* versions:
+1. Create a \*.translatable version for your **iOS** localization files:
 
   ```
   // $specialKComment1$
@@ -59,7 +60,7 @@ Configuration
   "klGeneral_Close"  = "$kClose$";
   ```
 
-1. Replace your **Android** localization files with *.translatable* versions:
+1. Create a \*.translatable version for your **Android** localization files:
 
   ```
   <?xml version="1.0" encoding="utf-8"?>

@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name        = 'bisu'
-  s.version     = '1.0.1'
-  s.date        = '2015-01-28'
-  s.summary     = 'Bisu - localization automation service'
-  s.description = 'Bisu is a localization automation service. It was built specially for Hole19'
+  s.version     = '1.0.2'
+  s.date        = '2015-02-25'
+  s.summary     = 'A localization automation service'
+  s.description = 'Bisu manages your app iOS and Android localization files for you. No more copy+paste induced errors!'
   s.authors     = ['joaoffcosta']
-  s.email       = 'joao.costa@hole19golf.com'
+  s.email       = 'joaostacosta@gmail.com'
   s.license     = 'MIT'
   s.homepage    = 'https://github.com/hole19/h19-bisu'
 
