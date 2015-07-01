@@ -13,7 +13,7 @@ module Bisu
 
       config[:in].each do |in_path|
         config[:out].each do |out|
-          localize(translator, out[:language], in_path, out[:folder])
+          localize(translator, out[:locale], out[:kb_language], in_path, out[:path] || config[:out_path])
         end
       end
     end
@@ -23,17 +23,18 @@ module Bisu
 
   private
 
-  def localize(translator, language, in_path, out_folder)
+  def localize(translator, locale, language, in_path, out_path)
     in_name = File.basename(in_path)
     out_name = in_name.gsub(/\.translatable$/, "")
-    out_path = "#{out_folder}#{out_name}"
 
     unless in_name.match /\.translatable$/
       Logger.error("Expected .translatable file. Got '#{in_name}'")
       return false
     end
 
-    translator.translate(language, in_path, out_path)
+    out_path = out_path % { locale: locale, out_name: out_name }
+
+    translator.translate(language, locale, in_path, out_path)
   end
 
 end
