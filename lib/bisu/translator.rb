@@ -6,13 +6,13 @@ module Bisu
       @kb   = knowledge_base
       @type = type.downcase.to_sym
 
-      unless [:ios, :android].include?(@type)
+      unless [:ios, :android, :ror].include?(@type)
         Logger.error("Unknown type #{@type}")
         raise
       end
     end
 
-    def translate(language, in_path, out_path)
+    def translate(language, locale, in_path, out_path)
       unless @kb.has_language?(language)
         Logger.error("Unknown language #{language}")
         return false
@@ -24,7 +24,7 @@ module Bisu
       Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
       in_file.each_line do |line|
-        out_file.write(localize(line, language))
+        out_file.write(localize(line, language, locale))
       end
 
       out_file.flush
@@ -49,9 +49,10 @@ module Bisu
       File.open(File.expand_path(file_name), method)
     end
 
-    def localize(text, language)
+    def localize(text, language, locale)
       t = text
       t = t.gsub("$specialKLanguage$", language.upcase)
+      t = t.gsub("$specialKLocale$", locale)
       t = t.gsub("$specialKComment1$", "This file was automatically generated based on a translation template.")
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
@@ -77,6 +78,8 @@ module Bisu
       elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
       end
+      
+      text
     end
   end
 end
