@@ -27,7 +27,7 @@ Configuration
 1. Create in your **iOS/Android** app project base folder a translatable.yml:
 
   ```
-  type: <iOS/Android>
+  type: <iOS/Android/RoR>
   
   sheet_id: <GOOGLE-DRIVE-SHEET-ID>
   keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
@@ -36,11 +36,13 @@ Configuration
     - path/to/1st/file.translatable
     - path/to/2nd/file.translatable
   
+  out_path: path/to/%{locale}.lproj/%{out_name}
   out:
-    - language: english
-      folder:   path/to/en.lproj/
-    - language: korean
-      folder:   path/to/ko.lproj/
+    - locale:   en
+      language: english
+      path:     default_path/%{out_name}
+    - locale:   ko
+      language: korean
   ```
 
 1. Create a \*.translatable version for your **iOS** localization files:
@@ -49,7 +51,7 @@ Configuration
   // $specialKComment1$
   // $specialKComment2$
   
-  // $specialKLanguage$
+  // Locale: $specialKLocale$; Language used: $specialKLanguage$
   
   /***********
   *  General
@@ -67,11 +69,21 @@ Configuration
   
   <!-- $specialKComment1$ -->
   <!-- $specialKComment2$ -->
-  <!-- $specialKLanguage$ -->
+  <!-- Locale: $specialKLocale$; Language used: $specialKLanguage$ -->
   
   <resources>
       <string name="delete">$kDelete$</string>
       <string name="cancel">$kCancel$</string>
       <string name="close">$kClose$</string>
   </resources>
+  ```
+  
+1. Create a \*.translatable version for your **RoR** localization files:
+
+  ```
+  $specialKLocale$:
+    resources:
+      delete: $kDelete$
+      cancel: $kCancel$
+      close: $kClose$
   ```
