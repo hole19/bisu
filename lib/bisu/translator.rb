@@ -51,7 +51,7 @@ module Bisu
 
     def localize(text, language, locale)
       t = text
-      t = t.gsub("$specialKLanguage$", language.upcase)
+      t = t.gsub("$specialKLanguage$", language)
       t = t.gsub("$specialKLocale$", locale)
       t = t.gsub("$specialKComment1$", "This file was automatically generated based on a translation template.")
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")

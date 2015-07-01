@@ -32,7 +32,7 @@ class BisuTranslatorTest < Minitest::Test
 
     loc1 = "1: This file was automatically generated based on a translation template."
     loc2 = "2: Remember to CHANGE THE TEMPLATE and not this file!"
-    loc3 = "3: #{@lang.upcase}"
+    loc3 = "3: #{@lang}"
     loc4 = "4: #{@locale}"
     loc5 = "5: Não sabes nada João das Neves"
 
