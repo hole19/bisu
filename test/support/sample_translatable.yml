@@ -1,14 +1,18 @@
-type: iOS
+type: BisuOS
 
 sheet_id: abc1234567890
 keys_column: key_name
 
 in:
-  - folder/file_1.translatable
-  - folder/file_2.translatable
+  - path/to/file/to/1.ext.translatable
+  - path/to/file/to/2.ext.translatable
 
+out_path: path/to/final-%{locale}/%{out_name}
 out:
-  - language: english
-    folder:   hole19/en.lproj/
-  - language: portuguese
-    folder:   hole19/pt.lproj/
+  - locale: en
+    kb_language: english
+    path: path/to/default/%{out_name}
+  - locale: pt
+    kb_language: portuguese
+  - locale: pt-PT
+    kb_language: portuguese

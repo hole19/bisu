@@ -1,0 +1,27 @@
+# supported types are iOS/Android/RoR
+type: iOS
+
+sheet_id: knownledge-base-sheet-id
+keys_column: column-with-translation-keys
+
+in:
+  - path/to/file/to/1.ext.translatable
+  - path/to/file/to/2.ext.translatable
+  - path/to/file/to/3.ext.translatable
+
+# you may define a generic out_path common for all files
+# or a more specific one in out:path
+#
+# when generating the out path you can use two variables:
+# - locale:   replaced by the out:locale
+# - out_name: replaced by the input file name without .translatable
+
+out_path: path/to/final-%{locale}/%{out_name}
+out:
+  - locale: en
+    kb_language: english
+    path: path/to/default/%{out_name}
+  - locale: pt
+    kb_language: portuguese
+  - locale: pt-PT
+    kb_language: portuguese
