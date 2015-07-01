@@ -12,18 +12,9 @@ module Bisu
       end
     end
 
-    def translate(language, in_path, out_folder)
+    def translate(language, in_path, out_path)
       unless @kb.has_language?(language)
         Logger.error("Unknown language #{language}")
-        return false
-      end
-
-      in_name  = File.basename(in_path)
-      out_name = in_name.gsub(/\.translatable$/, "")
-      out_path = "#{out_folder}#{out_name}"
-      
-      unless in_name.match /\.translatable$/
-        Logger.error("Expected .translatable file. Got '#{in_name}'")
         return false
       end
 
