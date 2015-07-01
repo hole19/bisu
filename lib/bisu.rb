@@ -32,7 +32,7 @@ module Bisu
       return false
     end
 
-    out_path = out_path % { locale: locale, out_name: out_name }
+    out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
 
     translator.translate(language, locale, in_path, out_path)
   end
