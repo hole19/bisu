@@ -60,6 +60,7 @@ Configuration
   "klGeneral_Delete" = "$kDelete$";
   "klGeneral_Cancel" = "$kCancel$";
   "klGeneral_Close"  = "$kClose$";
+  "klRequestName"    = "$kRequestName%{user_name: %@}$";
   ```
 
 1. Create a \*.translatable version for your **Android** localization files:
@@ -75,6 +76,7 @@ Configuration
       <string name="delete">$kDelete$</string>
       <string name="cancel">$kCancel$</string>
       <string name="close">$kClose$</string>
+      <string name="request_name">$kRequestName%{user_name: %s}$</string>
   </resources>
   ```
   
@@ -86,4 +88,6 @@ Configuration
       delete: $kDelete$
       cancel: $kCancel$
       close: $kClose$
+    messages:
+      request_name: $kRequestName$
   ```

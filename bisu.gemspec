@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bisu'
-  s.version     = '1.1.1'
+  s.version     = '1.2.0'
   s.date        = '2015-07-01'
   s.summary     = 'A localization automation service'
   s.description = 'Bisu manages your app iOS and Android localization files for you. No more copy+paste induced errors!'
