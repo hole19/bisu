@@ -10,11 +10,13 @@ class BisuTranslatorTest < Minitest::Test
     kb = Bisu::KnowledgeBase.new({
       languages: [@lang],
       keys: {
-        "kRegularKey"  => { @lang => "Não sabes nada João das Neves" },
-        "kIOSKey"      => { @lang => "Não sabes nada \"João das Neves\"" },
-        "kAndroidKey1" => { @lang => "Não sabes nada 'João das Neves'" },
-        "kAndroidKey2" => { @lang => "Não sabes nada João das Neves..." },
-        "kAndroidKey3" => { @lang => "Não sabes nada João das Neves & Pícaros" },
+        "kRegularKey"     => { @lang => "Não sabes nada João das Neves" },
+        "kIOSKey"         => { @lang => "Não sabes nada \"João das Neves\"" },
+        "kAndroidKey1"    => { @lang => "Não sabes nada 'João das Neves'" },
+        "kAndroidKey2"    => { @lang => "Não sabes nada João das Neves..." },
+        "kAndroidKey3"    => { @lang => "Não sabes nada João das Neves & Pícaros" },
+        "k1ParameterKey"  => { @lang => "Não sabes nada %{name}" },
+        "k2ParametersKey" => { @lang => "Sabes %{percentage} por cento %{name}." },
       }
     })
 
@@ -29,19 +31,34 @@ class BisuTranslatorTest < Minitest::Test
     orig3 = "3: $specialKLanguage$"
     orig4 = "4: $specialKLocale$"
     orig5 = "5: $kRegularKey$"
+    orig6_1 = "6.1: $k1ParameterKey$"
+    orig6_2 = "6.2: $k1ParameterKey{name:%1$s}$"
+    orig7_1 = "7.1: $k2ParametersKey$"
+    orig7_2 = "7.2: $k2ParametersKey{percentage:%2$d, name:%1$s}$"
+    orig7_3 = "7.3: $k2ParametersKey{name:%1$s, percentage:%2$d}$"
 
     loc1 = "1: This file was automatically generated based on a translation template."
     loc2 = "2: Remember to CHANGE THE TEMPLATE and not this file!"
     loc3 = "3: #{@lang}"
     loc4 = "4: #{@locale}"
     loc5 = "5: Não sabes nada João das Neves"
+    loc6_1 = "6.1: Não sabes nada %{name}"
+    loc6_2 = "6.2: Não sabes nada %1$s"
+    loc7_1 = "7.1: Sabes %{percentage} por cento %{name}."
+    loc7_2 = "7.2: Sabes %2$d por cento %1$s."
+    loc7_3 = "7.3: Sabes %2$d por cento %1$s."
 
     [@tios, @tand, @tror].each do |translator|
-      assert_equal translator.send(:localize, orig1, @lang, @locale), loc1
-      assert_equal translator.send(:localize, orig2, @lang, @locale), loc2
-      assert_equal translator.send(:localize, orig3, @lang, @locale), loc3
-      assert_equal translator.send(:localize, orig4, @lang, @locale), loc4
-      assert_equal translator.send(:localize, orig5, @lang, @locale), loc5
+      assert_equal translator.send(:localize, orig1,   @lang, @locale), loc1
+      assert_equal translator.send(:localize, orig2,   @lang, @locale), loc2
+      assert_equal translator.send(:localize, orig3,   @lang, @locale), loc3
+      assert_equal translator.send(:localize, orig4,   @lang, @locale), loc4
+      assert_equal translator.send(:localize, orig5,   @lang, @locale), loc5
+      assert_equal translator.send(:localize, orig6_1, @lang, @locale), loc6_1
+      assert_equal translator.send(:localize, orig6_2, @lang, @locale), loc6_2
+      assert_equal translator.send(:localize, orig7_1, @lang, @locale), loc7_1
+      assert_equal translator.send(:localize, orig7_2, @lang, @locale), loc7_2
+      assert_equal translator.send(:localize, orig7_3, @lang, @locale), loc7_3
     end
   end
 

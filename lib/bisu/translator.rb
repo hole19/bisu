@@ -56,11 +56,12 @@ module Bisu
       t = t.gsub("$specialKComment1$", "This file was automatically generated based on a translation template.")
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
-      t = t.gsub(/\$(k[^\$]+)\$/) do |match|
-        if localized = @kb.localize("#{$1}", language)
-          process(localized)
-        else
-          match
+      if l = localization_params(t)
+        if localized = @kb.localize(l[:loc_key], language)
+          l[:loc_vars].each do |param, value|
+            localized = localized.gsub("%{#{param}}", value)
+          end
+          t = t.gsub(l[:match], process(localized))
         end
       end
 
@@ -69,9 +70,26 @@ module Bisu
       t
     end
 
+    def localization_params(text)
+      return nil unless matches = text.match(/\$(k[^\$\{]+)(?:\{(.+)\})?\$/)
+
+      loc_vars = if matches[2]
+        vars = matches[2].split(",").map(&:strip)
+        vars = vars.map do |var|
+          key, value = var.split(":", 2).map(&:strip)
+          [key.to_sym, value]
+        end
+        Hash[vars]
+      end
+
+      { match:    matches[0],
+        loc_key:  matches[1],
+        loc_vars: loc_vars || {} }
+    end
+
     def process(text)
       if @type.eql?(:android)
-        text = text.gsub(/[']/, "\\\\'")
+        text = text.gsub(/[']/, "\\\\\\\\'")
         text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
       
