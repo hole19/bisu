@@ -1,7 +1,9 @@
+require_relative "lib/bisu/version"
+
 Gem::Specification.new do |s|
   s.name        = 'bisu'
-  s.version     = '1.2.0'
-  s.date        = '2015-07-01'
+  s.version     = Bisu::VERSION
+  s.date        = Bisu::VERSION_UPDATED_AT
   s.summary     = 'A localization automation service'
   s.description = 'Bisu manages your app iOS and Android localization files for you. No more copy+paste induced errors!'
   s.authors     = ['joaoffcosta']

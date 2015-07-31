@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'bisu'
-Bisu.run(ARGV[0])
+Bisu.run(ARGV)
