@@ -12,7 +12,7 @@ module Bisu
       end
     end
 
-    def translate(language, locale, in_path, out_path)
+    def translate(language, locale, in_path, out_path, default_language=nil)
       unless @kb.has_language?(language)
         Logger.error("Unknown language #{language}")
         return false
@@ -24,7 +24,7 @@ module Bisu
       Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
       in_file.each_line do |line|
-        out_file.write(localize(line, language, locale))
+        out_file.write(localize(line, language, locale, default_language))
       end
 
       out_file.flush
@@ -49,7 +49,7 @@ module Bisu
       File.open(File.expand_path(file_name), method)
     end
 
-    def localize(text, language, locale)
+    def localize(text, language, locale, default_language=nil)
       t = text
       t = t.gsub("$specialKLanguage$", language)
       t = t.gsub("$specialKLocale$", locale)
@@ -57,7 +57,7 @@ module Bisu
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
       if l = localization_params(t)
-        if localized = @kb.localize(l[:loc_key], language)
+        if localized = @kb.localize(l[:loc_key], language) || @kb.localize(l[:loc_key], default_language)
           l[:loc_vars].each do |param, value|
             localized = localized.gsub("%{#{param}}", value)
           end

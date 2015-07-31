@@ -6,14 +6,14 @@ require 'bisu/translator'
 module Bisu
   extend self
 
-  def run
+  def run(default_language=nil)
     if config = Bisu::Config.parse("translatable.yml")
       kbase = Bisu::GoogleDriveKB.new(config[:sheet_id], config[:keys_column])
       translator = Bisu::Translator.new(kbase, config[:type])
 
       config[:in].each do |in_path|
         config[:out].each do |out|
-          localize(translator, out[:locale], out[:kb_language], in_path, out[:path] || config[:out_path])
+          localize(translator, out[:locale], out[:kb_language], default_language, in_path, out[:path] || config[:out_path])
         end
       end
     end
@@ -23,7 +23,7 @@ module Bisu
 
   private
 
-  def localize(translator, locale, language, in_path, out_path)
+  def localize(translator, locale, language, default_language, in_path, out_path)
     in_name = File.basename(in_path)
     out_name = in_name.gsub(/\.translatable$/, "")
 
@@ -34,7 +34,7 @@ module Bisu
 
     out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
 
-    translator.translate(language, locale, in_path, out_path)
+    translator.translate(language, locale, in_path, out_path, default_language)
   end
 
 end
