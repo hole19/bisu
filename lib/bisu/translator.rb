@@ -66,6 +66,7 @@ module Bisu
       end
 
       t.scan(/\$k[^\$]+\$/) { |match| Logger.warn("Could not find translation for #{match} in #{language}") }
+      t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
 
       t
     end

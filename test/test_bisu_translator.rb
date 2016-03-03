@@ -92,4 +92,24 @@ class BisuTranslatorTest < Minitest::Test
     assert_equal @tand.send(:localize, "2: $kAndroidKey2$", @lang, @locale), "2: Não sabes nada João das Neves…"
     assert_equal @tand.send(:localize, "3: $kAndroidKey3$", @lang, @locale), "3: Não sabes nada João das Neves &amp; Pícaros"
   end
+
+  def test_missing_translations
+    Bisu::Logger.clean_summary
+
+    assert_equal @tios.send(:localize, "1: $kUnknownKey$.", @lang, @locale), "1: $kUnknownKey$."
+
+    sum = Bisu::Logger.summary
+    assert_equal 1, sum[:warn]
+    assert_equal 0, sum[:error]
+  end
+
+  def test_cannot_find_translation_param
+    Bisu::Logger.clean_summary
+
+    assert_equal @tios.send(:localize, "1: $k2ParametersKey$", @lang, @locale), "1: Sabes %{percentage} por cento %{name}."
+
+    sum = Bisu::Logger.summary
+    assert_equal 0, sum[:warn]
+    assert_equal 2, sum[:error]
+  end
 end
