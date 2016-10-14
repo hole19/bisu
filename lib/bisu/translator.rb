@@ -93,11 +93,12 @@ module Bisu
         text = text.gsub(/[']/, "\\\\\\\\'")
         text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
-      
+        text = text.gsub("@", "\\\\@")
+
       elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
       end
-      
+
       text
     end
   end

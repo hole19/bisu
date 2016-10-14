@@ -19,6 +19,8 @@ class BisuTranslatorTest < Minitest::Test
         "kAndroidKey3"    => { @lang => "Não sabes nada João das Neves & Pícaros" },
         "k1ParameterKey"  => { @lang => "Não sabes nada %{name}" },
         "k2ParametersKey" => { @lang => "Sabes %{percentage} por cento %{name}." },
+        "kAtBegin"        => { @lang => "\@hole19golf on twitter" },
+        "kAtMiddle"       => { @lang => "Find us @hole19golf on twitter" },
       }
     })
 
@@ -84,13 +86,17 @@ class BisuTranslatorTest < Minitest::Test
   end
 
   def test_ios_translate
-    assert_equal @tios.send(:localize, "1: $kIOSKey$", @lang, @locale), "1: Não sabes nada \\\"João das Neves\\\""
+    assert_equal @tios.send(:localize, "1: $kIOSKey$",   @lang, @locale), "1: Não sabes nada \\\"João das Neves\\\""
+    assert_equal @tios.send(:localize, "2: $kAtBegin$",  @lang, @locale), "2: @hole19golf on twitter"
+    assert_equal @tios.send(:localize, "3: $kAtMiddle$", @lang, @locale), "3: Find us @hole19golf on twitter"
   end
 
   def test_android_translate
     assert_equal @tand.send(:localize, "1: $kAndroidKey1$", @lang, @locale), "1: Não sabes nada \\'João das Neves\\'"
     assert_equal @tand.send(:localize, "2: $kAndroidKey2$", @lang, @locale), "2: Não sabes nada João das Neves…"
     assert_equal @tand.send(:localize, "3: $kAndroidKey3$", @lang, @locale), "3: Não sabes nada João das Neves &amp; Pícaros"
+    assert_equal @tand.send(:localize, "4: $kAtBegin$",     @lang, @locale), "4: \\@hole19golf on twitter"
+    assert_equal @tand.send(:localize, "5: $kAtMiddle$",    @lang, @locale), "5: Find us \\@hole19golf on twitter"
   end
 
   def test_missing_translations
