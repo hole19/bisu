@@ -40,7 +40,16 @@ module Bisu
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       data = http.get(uri.path, headers)
-      XmlSimple.xml_in(data.body, 'KeyAttr' => 'name')
+
+      unless data.code.to_i == 200
+        raise "Cannot access sheet at #{uri} - HTTP #{data.code}"
+      end
+
+      begin
+        XmlSimple.xml_in(data.body, 'KeyAttr' => 'name')
+      rescue
+        raise "Cannot parse. Expected XML at #{uri}"
+      end
     end
 
     def raw_data(sheet_id)
@@ -49,16 +58,21 @@ module Bisu
       feed_data(sheet["entry"][0]["link"][0]["href"])
     end
 
-    def parse(raw_data, key)
+    def parse(raw_data, key_column)
       Logger.info("Parsing Knowledge Base...")
 
-      remove = ["id", "updated", "category", "title", "content", "link", key]
+      remove = ["id", "updated", "category", "title", "content", "link", key_column]
 
       kb_keys = {}
       raw_data["entry"].each do |entry|
         hash = entry.select { |d| !remove.include?(d) }
         hash = hash.each.map { |k, v| v.first == {} ? [k, nil] : [k, v.first] }
-        kb_keys[entry[key].first] = Hash[hash]
+
+        unless (key = entry[key_column]) && key = key.first
+          raise "Cannot find key column '#{key_column}'"
+        end
+
+        kb_keys[key] = Hash[hash]
       end
 
       kb = { languages: kb_keys.values.first.keys, keys: kb_keys }

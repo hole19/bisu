@@ -49,21 +49,21 @@ describe Bisu::KnowledgeBase do
   context "when missing languages" do
     before { params.delete(:languages) }
     it do
-      expect { subject }.to raise_error RuntimeError
+      expect { subject }.to raise_error /expected :languages/
     end
   end
 
   context "when missing keys" do
     before { params.delete(:keys) }
     it do
-      expect { subject }.to raise_error RuntimeError
+      expect { subject }.to raise_error /expected :keys/
     end
   end
 
   context "when created with invalid type parameters" do
     let(:params) { "cenas" }
     it do
-      expect { subject }.to raise_error RuntimeError
+      expect { subject }.to raise_error /expected Hash/
     end
   end
 end
