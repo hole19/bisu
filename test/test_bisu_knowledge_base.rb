@@ -16,27 +16,4 @@ class BisuKnowledgeBaseTest < Minitest::Test
 
     Bisu::Logger.silent_mode = false
   end
-
-  def test_has_language?
-    kb = Bisu::KnowledgeBase.new({
-      languages: ["portuguese"],
-      keys: {}
-    })
-    
-    assert_equal kb.has_language?("kriolo"),     false
-    assert_equal kb.has_language?("portuguese"), true
-  end
-
-  def test_localize
-    key      = "kYouKnowNothingJohnSnow"
-    pt_trans = "Não sabes nada João das Neves"
-
-    kb = Bisu::KnowledgeBase.new({
-      languages: ["portuguese"],
-      keys: { key => { "portuguese" => pt_trans } }
-    })
-
-    assert_equal kb.localize(key, "kriolo"),     nil
-    assert_equal kb.localize(key, "portuguese"), pt_trans
-  end
 end
