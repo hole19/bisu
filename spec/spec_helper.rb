@@ -28,6 +28,8 @@ RSpec.configure do |config|
     Bisu::Logger.clean_summary
   end
 
+  RSpec::Matchers.define_negated_matcher :not_change, :change
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
