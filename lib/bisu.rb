@@ -1,6 +1,6 @@
 require 'bisu/logger'
 require 'bisu/config'
-require 'bisu/knowledge_base'
+require 'bisu/google_drive_kb'
 require 'bisu/translator'
 require 'bisu/version'
 require 'optparse'

@@ -8,7 +8,7 @@ module Bisu
 
       unless [:ios, :android, :ror].include?(@type)
         Logger.error("Unknown type #{@type}")
-        raise
+        raise "Unknown type #{@type}"
       end
     end
 
@@ -60,12 +60,13 @@ module Bisu
         if localized = @kb.localize(l[:loc_key], language) || @kb.localize(l[:loc_key], default_language)
           l[:loc_vars].each do |param, value|
             localized = localized.gsub("%{#{param}}", value)
+            Logger.error("Parameter #{param} not found in translation for #{l[:loc_key]} in #{language}")
           end
           t = t.gsub(l[:match], process(localized))
         end
       end
 
-      t.scan(/\$k[^\$]+\$/) { |match| Logger.warn("Could not find translation for #{match} in #{language}") }
+      t.scan(/\$(k[^\$\{]+)(?:\{(.+)\})?\$/) { |match| Logger.warn("Could not find translation for #{match} in #{language}") }
       t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
 
       t
