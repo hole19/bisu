@@ -1,6 +1,7 @@
 require 'bisu/logger'
 require 'bisu/config'
-require 'bisu/google_drive_kb'
+require 'bisu/google_sheet'
+require 'bisu/dictionary'
 require 'bisu/translator'
 require 'bisu/version'
 require 'optparse'
@@ -12,8 +13,9 @@ module Bisu
     options = command_line_options(opts)
 
     if config = Bisu::Config.parse("translatable.yml")
-      kbase = Bisu::GoogleDriveKB.new(config[:sheet_id], config[:keys_column])
-      translator = Bisu::Translator.new(kbase, config[:type])
+      google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
+      dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
+      translator   = Bisu::Translator.new(dictionary, config[:type])
 
       config[:in].each do |in_path|
         config[:out].each do |out|

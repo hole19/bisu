@@ -1,5 +1,5 @@
-describe Bisu::KnowledgeBase do
-  subject(:kb) { Bisu::KnowledgeBase.new(keys) }
+describe Bisu::Dictionary do
+  subject(:dict) { Bisu::Dictionary.new(keys) }
 
   let(:keys) { {
     "kYouAreCrazy" => {
@@ -10,7 +10,7 @@ describe Bisu::KnowledgeBase do
   } }
 
   describe "#has_language?" do
-    subject { kb.has_language?(language) }
+    subject { dict.has_language?(language) }
 
     context "when language is not available" do
       let(:language) { "kriolo" }
@@ -24,7 +24,7 @@ describe Bisu::KnowledgeBase do
   end
 
   describe "#localize" do
-    subject { kb.localize(key, language) }
+    subject { dict.localize(key, language) }
     let(:key) { "kYouAreCrazy" }
     let(:language) { "kriolo" }
 

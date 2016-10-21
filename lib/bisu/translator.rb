@@ -2,8 +2,8 @@ require 'fileutils'
 
 module Bisu
   class Translator
-    def initialize(knowledge_base, type)
-      @kb   = knowledge_base
+    def initialize(dictionary, type)
+      @dict = dictionary
       @type = type.downcase.to_sym
 
       unless [:ios, :android, :ror].include?(@type)
@@ -13,7 +13,7 @@ module Bisu
     end
 
     def translate(language, locale, in_path, out_path, default_language=nil)
-      unless @kb.has_language?(language)
+      unless @dict.has_language?(language)
         Logger.error("Unknown language #{language}")
         return false
       end
@@ -57,7 +57,7 @@ module Bisu
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
       if l = localization_params(t)
-        if localized = @kb.localize(l[:loc_key], language) || @kb.localize(l[:loc_key], default_language)
+        if localized = @dict.localize(l[:loc_key], language) || @dict.localize(l[:loc_key], default_language)
           l[:loc_vars].each do |param, value|
             localized = localized.gsub("%{#{param}}", value)
             Logger.error("Parameter #{param} not found in translation for #{l[:loc_key]} in #{language}")

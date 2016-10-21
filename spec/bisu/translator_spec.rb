@@ -16,7 +16,7 @@ describe Bisu::Translator do
     "kAtSign"       => { language => "\@johnsnow sabes alguma coisa?" }
   } }
 
-  let(:kb) { Bisu::KnowledgeBase.new(languages: [language, "english"], keys: keys) }
+  let(:kb) { Bisu::Dictionary.new(keys) }
   let(:translator) { Bisu::Translator.new(kb, type) }
 
   shared_examples_for "a translator" do

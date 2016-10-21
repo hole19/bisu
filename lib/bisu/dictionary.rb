@@ -1,5 +1,5 @@
 module Bisu
-  class KnowledgeBase
+  class Dictionary
     def initialize(keys)
       unless keys.is_a?(Hash)
         raise "Bad KB format: expected Hash"
