@@ -1,21 +1,42 @@
 module Bisu
   class KnowledgeBase
-    def initialize(kb)
-      raise "Bad KB format (expected Hash)"             unless kb.is_a?(Hash)
-      raise "Bad KB format (expected :languages Array)" unless kb.key?(:languages) && kb[:languages].is_a?(Array)
-      raise "Bad KB format (expected :keys Hash)"       unless kb.key?(:keys)      && kb[:keys].is_a?(Hash)
-      @kb = kb
+    def initialize(keys)
+      unless keys.is_a?(Hash)
+        raise "Bad KB format: expected Hash"
+      end
+
+      keys.each do |key,v|
+        unless v.is_a?(Hash)
+          raise "Bad KB format: expected Hash value for key '#{key}'"
+        end
+
+        v.each do |lang,v|
+          unless v.is_a?(String)
+            raise "Bad KB format: expected String value for key '#{key}', language '#{lang}'"
+          end
+        end
+      end
+
+      @keys = keys
     end
 
     def has_language?(language)
-      @kb[:languages].include?(language)
+      languages.include?(language)
     end
 
     def localize(key, language)
-      if locals = @kb[:keys][key]
+      if locals = @keys[key]
         locals[language]
       else
         nil
+      end
+    end
+
+    private
+
+    def languages
+      @languages ||= begin
+        @keys.map { |_,v| v.keys }.flatten.uniq
       end
     end
   end

@@ -12,7 +12,7 @@ module Bisu
 
     private
 
-    def feed_data(uri, headers=nil)
+    def xml_data(uri, headers=nil)
       uri = URI.parse(uri)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -32,8 +32,9 @@ module Bisu
 
     def raw_data(sheet_id)
       Logger.info("Downloading Knowledge Base...")
-      sheet = feed_data("https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full")
-      feed_data(sheet["entry"][0]["link"][0]["href"])
+      sheet = xml_data("https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full")
+      url   = sheet["entry"][0]["link"][0]["href"]
+      xml_data(url)
     end
 
     def parse(raw_data, key_column)
@@ -41,7 +42,7 @@ module Bisu
 
       remove = ["id", "updated", "category", "title", "content", "link", key_column]
 
-      kb_keys = {}
+      kb = {}
       raw_data["entry"].each do |entry|
         hash = entry.select { |d| !remove.include?(d) }
         hash = hash.each.map { |k, v| v.first == {} ? [k, nil] : [k, v.first] }
@@ -50,13 +51,11 @@ module Bisu
           raise "Cannot find key column '#{key_column}'"
         end
 
-        kb_keys[key] = Hash[hash]
+        kb[key] = Hash[hash]
       end
 
-      kb = { languages: kb_keys.values.first.keys, keys: kb_keys }
-
       Logger.info("Knowledge Base parsed successfully!")
-      Logger.info("Found #{kb[:keys].count} keys in #{kb[:languages].count} languages.")
+      Logger.info("Found #{kb.count} keys in #{kb.values.first.keys.count} languages.")
 
       kb
     end

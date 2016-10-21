@@ -1,18 +1,13 @@
 describe Bisu::KnowledgeBase do
-  subject(:kb) { Bisu::KnowledgeBase.new(params) }
+  subject(:kb) { Bisu::KnowledgeBase.new(keys) }
 
-  let(:params) {
-    {
-      languages: ["english", "portuguese", "kriolo"],
-      keys: {
-        "kYouAreCrazy" => {
-          "english" => "You are crazy!",
-          "portuguese" => "Estás maluco!",
-          "kriolo" => "Bo sta crazy!"
-        }
-      }
+  let(:keys) { {
+    "kYouAreCrazy" => {
+      "english" => "You are crazy!",
+      "portuguese" => "Estás maluco!",
+      "kriolo" => "Bo sta crazy!"
     }
-  }
+  } }
 
   describe "#has_language?" do
     subject { kb.has_language?(language) }
@@ -46,24 +41,26 @@ describe Bisu::KnowledgeBase do
     end
   end
 
-  context "when missing languages" do
-    before { params.delete(:languages) }
-    it do
-      expect { subject }.to raise_error /expected :languages/
-    end
-  end
-
-  context "when missing keys" do
-    before { params.delete(:keys) }
-    it do
-      expect { subject }.to raise_error /expected :keys/
-    end
-  end
-
   context "when created with invalid type parameters" do
-    let(:params) { "cenas" }
+    let(:keys) { "cenas" }
     it do
-      expect { subject }.to raise_error /expected Hash/
+      expect { subject }.to raise_error /expected Hash$/
+    end
+  end
+
+  context "when created with an invalid json schema" do
+    let(:keys) { { "kYouAreCrazy" => "Text" } }
+
+    it do
+      expect { subject }.to raise_error /expected Hash value for key/
+    end
+  end
+
+  context "when created with an invalid json schema" do
+    let(:keys) { { "kYouAreCrazy" => { "portuguese" => { "wtvr" => "Text" } } } }
+
+    it do
+      expect { subject }.to raise_error /expected String value for key/
     end
   end
 end
