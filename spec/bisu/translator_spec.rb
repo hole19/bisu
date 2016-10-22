@@ -61,10 +61,26 @@ describe Bisu::Translator do
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
+    it "does not throw a warning when key is found" do
+      expect {
+        translator.send(:localize, "$kTranslationKey$", language, locale)
+      }.to not_change { Bisu::Logger.summary[:warn] }
+       .and not_change { Bisu::Logger.summary[:error] }
+    end
+
     it "throws an error when missing key parameters" do
       expect {
-        translator.send(:localize, "$kUnknownKey$", language, locale)
-      }.to change { Bisu::Logger.summary[:warn] }.by(1)
+        translator.send(:localize, "$k1ParameterKey$", language, locale)
+      }.to not_change { Bisu::Logger.summary[:warn] }
+       .and change { Bisu::Logger.summary[:error] }.by(1)
+    end
+
+    it "does not throw an error when key parameters where given" do
+      Bisu::Logger.silent_mode = false
+
+      expect {
+        translator.send(:localize, "$k1ParameterKey{name:%1$s}$", language, locale)
+      }.to not_change { Bisu::Logger.summary[:warn] }
        .and not_change { Bisu::Logger.summary[:error] }
     end
 

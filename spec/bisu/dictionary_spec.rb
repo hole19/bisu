@@ -63,4 +63,12 @@ describe Bisu::Dictionary do
       expect { subject }.to raise_error /expected String value for key/
     end
   end
+
+  context "when given empty translations" do
+    let(:keys) { { "kYouAreCrazy" => { "portuguese" => nil } } }
+
+    it do
+      expect { subject }.not_to raise_error
+    end
+  end
 end

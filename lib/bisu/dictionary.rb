@@ -11,7 +11,7 @@ module Bisu
         end
 
         v.each do |lang,v|
-          unless v.is_a?(String)
+          unless v.is_a?(String) || v.nil?
             raise "Bad KB format: expected String value for key '#{key}', language '#{lang}'"
           end
         end
