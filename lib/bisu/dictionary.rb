@@ -2,17 +2,17 @@ module Bisu
   class Dictionary
     def initialize(keys)
       unless keys.is_a?(Hash)
-        raise "Bad KB format: expected Hash"
+        raise ArgumentError.new("keys: expected Hash")
       end
 
       keys.each do |key,v|
         unless v.is_a?(Hash)
-          raise "Bad KB format: expected Hash value for key '#{key}'"
+          raise ArgumentError.new("keys['#{key}']: expected Hash")
         end
 
         v.each do |lang,v|
           unless v.is_a?(String) || v.nil?
-            raise "Bad KB format: expected String value for key '#{key}', language '#{lang}'"
+            raise ArgumentError.new("keys['#{key}']['#{lang}']: expected String")
           end
         end
       end

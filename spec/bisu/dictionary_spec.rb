@@ -12,12 +12,12 @@ describe Bisu::Dictionary do
 
     context "when created with an invalid json schema" do
       let(:keys) { { "kNo1" => "text" } }
-      it { expect { subject }.to raise_error /expected Hash value for key/ }
+      it { expect { subject }.to raise_error /kNo1.+expected Hash/ }
     end
 
     context "when created with an invalid json schema" do
-      let(:keys) { { "kNo1" => { "lang" => { "wtvr" => "text" } } } }
-      it { expect { subject }.to raise_error /expected String value for key/ }
+      let(:keys) { { "kNo1" => { "a-lang" => { "wtvr" => "text" } } } }
+      it { expect { subject }.to raise_error /kNo1.+a-lang.+expected String/ }
     end
 
     context "when given empty translations" do
