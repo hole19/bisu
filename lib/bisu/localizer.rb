@@ -1,7 +1,7 @@
 require 'fileutils'
 
 module Bisu
-  class Translator
+  class Localizer
     def initialize(dictionary, type)
       @dict = dictionary
       @type = type.downcase.to_sym
@@ -11,12 +11,6 @@ module Bisu
         raise "Unknown type #{@type}"
       end
     end
-
-    def translate(text, language, locale, default_language=nil)
-      localize(text, language, locale, default_language)
-    end
-
-    private
 
     def localize(text, language, locale, default_language=nil)
       t = text
@@ -43,6 +37,8 @@ module Bisu
 
       t
     end
+
+    private
 
     def localization_params(text)
       return nil unless matches = text.match(/\$(k[^\$\{]+)(?:\{(.+)\})?\$/)

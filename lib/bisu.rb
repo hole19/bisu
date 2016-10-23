@@ -2,7 +2,7 @@ require 'bisu/logger'
 require 'bisu/config'
 require 'bisu/google_sheet'
 require 'bisu/dictionary'
-require 'bisu/translator'
+require 'bisu/localizer'
 require 'bisu/version'
 require 'optparse'
 
@@ -15,7 +15,7 @@ module Bisu
     if config = Bisu::Config.parse("translatable.yml")
       google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
       dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
-      translator   = Bisu::Translator.new(dictionary, config[:type])
+      localizer    = Bisu::Localizer.new(dictionary, config[:type])
 
       config[:in].each do |in_path|
         config[:out].each do |out|
@@ -24,7 +24,7 @@ module Bisu
             return false
           end
 
-          localize_file(translator, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
+          localize_file(localizer, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
         end
       end
     end
@@ -57,7 +57,7 @@ module Bisu
     options
   end
 
-  def localize_file(translator, locale, language, default_language, in_path, out_path)
+  def localize_file(localizer, locale, language, default_language, in_path, out_path)
     in_name = File.basename(in_path)
     out_name = in_name.gsub(/\.translatable$/, "")
 
@@ -74,7 +74,7 @@ module Bisu
     Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
     in_file.each_line do |line|
-      out_file.write(translator.translate(line, language, locale, default_language))
+      out_file.write(localizer.localize(line, language, locale, default_language))
     end
 
     out_file.flush
