@@ -1,5 +1,3 @@
-require 'fileutils'
-
 module Bisu
   class Localizer
     def initialize(dictionary, type)

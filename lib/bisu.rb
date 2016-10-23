@@ -9,8 +9,8 @@ require 'optparse'
 module Bisu
   extend self
 
-  def run(opts)
-    options = command_line_options(opts)
+  def run(options)
+    options = command_line_options(options)
 
     if config = Bisu::Config.parse("translatable.yml")
       google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
@@ -35,11 +35,11 @@ module Bisu
   private
 
   def command_line_options(options)
-    options = {}
+    opts_hash = {}
 
     opts_parser = OptionParser.new do |opts|
       opts.on("-d LANGUAGE", "--default LANGUAGE", "Language to use when there is no available translation") do |language|
-        options[:default_language] = language
+        opts_hash[:default_language] = language
       end
 
       opts.on_tail("-h", "--help", "Show this message") do
@@ -52,9 +52,9 @@ module Bisu
         exit
       end
     end
+    opts_parser.parse!(options)
 
-    opts_parser.parse!(ARGV)
-    options
+    opts_hash
   end
 
   def localize_file(localizer, locale, language, default_language, in_path, out_path)
