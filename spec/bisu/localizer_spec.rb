@@ -4,6 +4,7 @@ describe Bisu::Localizer do
 
   let(:keys) { {
     "kTranslationKey"    => { language => "Não sabes nada João das Neves" },
+    "kTranslationKey2"   => { language => "Naaada!" },
     "kMissingTransKey"   => { "english" => "You know little John Snow" },
     "k1ParameterKey"     => { language => "Não sabes nada %{name}" },
     "k2ParametersKey"    => { language => "Sabes %{perc} por cento %{name}" },
@@ -37,6 +38,7 @@ describe Bisu::Localizer do
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
+    it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }
     it { translates("1 parameter: $k1ParameterKey{name:%1$s}$",              to: "1 parameter: Não sabes nada %1$s") }
