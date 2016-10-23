@@ -2,7 +2,7 @@ require 'bisu/logger'
 require 'bisu/config'
 require 'bisu/google_sheet'
 require 'bisu/dictionary'
-require 'bisu/translator'
+require 'bisu/localizer'
 require 'bisu/version'
 require 'optparse'
 
@@ -15,11 +15,16 @@ module Bisu
     if config = Bisu::Config.parse("translatable.yml")
       google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
       dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
-      translator   = Bisu::Translator.new(dictionary, config[:type])
+      localizer    = Bisu::Localizer.new(dictionary, config[:type])
 
       config[:in].each do |in_path|
         config[:out].each do |out|
-          localize(translator, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
+          unless dictionary.has_language?(out[:kb_language])
+            Logger.error("Unknown language #{out[:kb_language]}")
+            return false
+          end
+
+          localize_file(localizer, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
         end
       end
     end
@@ -52,7 +57,7 @@ module Bisu
     options
   end
 
-  def localize(translator, locale, language, default_language, in_path, out_path)
+  def localize_file(localizer, locale, language, default_language, in_path, out_path)
     in_name = File.basename(in_path)
     out_name = in_name.gsub(/\.translatable$/, "")
 
@@ -63,7 +68,32 @@ module Bisu
 
     out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
 
-    translator.translate(language, locale, in_path, out_path, default_language)
+    return false unless in_file  = open_file(in_path,  "r", true)
+    return false unless out_file = open_file(out_path, "w", false)
+
+    Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
+
+    in_file.each_line do |line|
+      out_file.write(localizer.localize(line, language, locale, default_language))
+    end
+
+    out_file.flush
+    out_file.close
+    in_file.close
+
+    true
   end
 
+  def open_file(file_name, method, should_exist)
+    if !File.file?(File.expand_path(file_name))
+      if should_exist
+        Logger.error("File #{file_name} not found!")
+        return nil
+      else
+        FileUtils.mkdir_p(File.dirname(file_name))
+      end
+    end
+
+    File.open(File.expand_path(file_name), method)
+  end
 end

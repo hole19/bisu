@@ -1,9 +1,10 @@
-describe Bisu::Translator do
+describe Bisu::Localizer do
   let(:language) { "portuguese" }
   let(:locale)   { "PT-PT" }
 
   let(:keys) { {
     "kTranslationKey"    => { language => "Não sabes nada João das Neves" },
+    "kTranslationKey2"   => { language => "Naaada!" },
     "kMissingTransKey"   => { "english" => "You know little John Snow" },
     "k1ParameterKey"     => { language => "Não sabes nada %{name}" },
     "k2ParametersKey"    => { language => "Sabes %{perc} por cento %{name}" },
@@ -17,13 +18,13 @@ describe Bisu::Translator do
   } }
 
   let(:kb) { Bisu::Dictionary.new(keys) }
-  let(:translator) { Bisu::Translator.new(kb, type) }
+  let(:localizer) { Bisu::Localizer.new(kb, type) }
 
-  shared_examples_for "a translator" do
-    it { expect { translator }.not_to raise_error }
+  shared_examples_for "a localizer" do
+    it { expect { localizer }.not_to raise_error }
 
     def translates(text, to:)
-      translation = translator.send(:localize, text, language, locale)
+      translation = localizer.send(:localize, text, language, locale)
       expect(translation).to eq to
     end
 
@@ -37,6 +38,7 @@ describe Bisu::Translator do
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
+    it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }
     it { translates("1 parameter: $k1ParameterKey{name:%1$s}$",              to: "1 parameter: Não sabes nada %1$s") }
@@ -56,21 +58,21 @@ describe Bisu::Translator do
 
     it "throws a warnings when key has no translation" do
       expect {
-        translator.send(:localize, "$kUnknownKey$", language, locale)
+        localizer.send(:localize, "$kUnknownKey$", language, locale)
       }.to change { Bisu::Logger.summary[:warn] }.by(1)
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "does not throw a warning when key is found" do
       expect {
-        translator.send(:localize, "$kTranslationKey$", language, locale)
+        localizer.send(:localize, "$kTranslationKey$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "throws an error when missing key parameters" do
       expect {
-        translator.send(:localize, "$k1ParameterKey$", language, locale)
+        localizer.send(:localize, "$k1ParameterKey$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and change { Bisu::Logger.summary[:error] }.by(1)
     end
@@ -79,14 +81,14 @@ describe Bisu::Translator do
       Bisu::Logger.silent_mode = false
 
       expect {
-        translator.send(:localize, "$k1ParameterKey{name:%1$s}$", language, locale)
+        localizer.send(:localize, "$k1ParameterKey{name:%1$s}$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "throws an error when given parameters for parameterless key" do
       expect {
-        translator.send(:localize, "$kTranslationKey{param:%s}$", language, locale)
+        localizer.send(:localize, "$kTranslationKey{param:%s}$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and change { Bisu::Logger.summary[:error] }.by(1)
     end
@@ -107,7 +109,7 @@ describe Bisu::Translator do
       double_quoted: "Não sabes nada \\\"João das Neves\\\""
     ) }
 
-    it_behaves_like "a translator"
+    it_behaves_like "a localizer"
   end
 
   describe "of type Android" do
@@ -120,7 +122,7 @@ describe Bisu::Translator do
       at_sign: "\\@johnsnow sabes alguma coisa?"
     ) }
 
-    it_behaves_like "a translator"
+    it_behaves_like "a localizer"
   end
 
   describe "of type Ruby on Rails" do
@@ -128,13 +130,13 @@ describe Bisu::Translator do
 
     let(:expected) { type_dependent_defaults }
 
-    it_behaves_like "a translator"
+    it_behaves_like "a localizer"
   end
 
   describe "of an unkown type" do
     let(:type) { :dunno }
     it do
-      expect { translator }.to raise_error /Unknown type/
+      expect { localizer }.to raise_error /Unknown type/
     end
   end
 end
