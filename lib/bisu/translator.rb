@@ -12,42 +12,11 @@ module Bisu
       end
     end
 
-    def translate(language, locale, in_path, out_path, default_language=nil)
-      unless @dict.has_language?(language)
-        Logger.error("Unknown language #{language}")
-        return false
-      end
-
-      return false unless in_file  = open_file(in_path,  "r", true)
-      return false unless out_file = open_file(out_path, "w", false)
-
-      Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
-
-      in_file.each_line do |line|
-        out_file.write(localize(line, language, locale, default_language))
-      end
-
-      out_file.flush
-      out_file.close
-      in_file.close
-
-      true
+    def translate(text, language, locale, default_language=nil)
+      localize(text, language, locale, default_language)
     end
 
     private
-
-    def open_file(file_name, method, must_exist)
-      if !File.file?(File.expand_path(file_name))
-        if must_exist
-          Logger.error("File #{file_name} not found!")
-          return nil
-        else
-          FileUtils.mkdir_p(File.dirname(file_name))
-        end
-      end
-
-      File.open(File.expand_path(file_name), method)
-    end
 
     def localize(text, language, locale, default_language=nil)
       t = text
