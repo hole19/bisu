@@ -31,7 +31,9 @@ module Bisu
       end
 
       t.scan(/\$(k[^\$\{]+)(?:\{(.+)\})?\$/) { |match| Logger.warn("Could not find translation for #{match[0]} in #{language}") }
-      t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
+      unless @type.eql?(:ror)
+        t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
+      end
 
       t
     end

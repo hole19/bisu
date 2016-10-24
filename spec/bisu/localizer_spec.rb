@@ -70,11 +70,18 @@ describe Bisu::Localizer do
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
-    it "throws an error when missing key parameters" do
-      expect {
-        localizer.localize("$k1ParameterKey$", language, locale)
-      }.to not_change { Bisu::Logger.summary[:warn] }
-       .and change { Bisu::Logger.summary[:error] }.by(1)
+    it "throws an error when missing key parameters (expect on ruby on rails)" do
+      if type == :ror
+        expect {
+          localizer.localize("$k1ParameterKey$", language, locale)
+        }.to not_change { Bisu::Logger.summary[:warn] }
+         .and not_change { Bisu::Logger.summary[:error] }
+      else
+        expect {
+          localizer.localize("$k1ParameterKey$", language, locale)
+        }.to not_change { Bisu::Logger.summary[:warn] }
+         .and change { Bisu::Logger.summary[:error] }.by(1)
+       end
     end
 
     it "does not throw an error when key parameters where given" do
