@@ -24,7 +24,7 @@ describe Bisu::Localizer do
     it { expect { localizer }.not_to raise_error }
 
     def translates(text, to:)
-      translation = localizer.send(:localize, text, language, locale)
+      translation = localizer.localize(text, language, locale)
       expect(translation).to eq to
     end
 
@@ -58,21 +58,21 @@ describe Bisu::Localizer do
 
     it "throws a warnings when key has no translation" do
       expect {
-        localizer.send(:localize, "$kUnknownKey$", language, locale)
+        localizer.localize("$kUnknownKey$", language, locale)
       }.to change { Bisu::Logger.summary[:warn] }.by(1)
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "does not throw a warning when key is found" do
       expect {
-        localizer.send(:localize, "$kTranslationKey$", language, locale)
+        localizer.localize("$kTranslationKey$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "throws an error when missing key parameters" do
       expect {
-        localizer.send(:localize, "$k1ParameterKey$", language, locale)
+        localizer.localize("$k1ParameterKey$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and change { Bisu::Logger.summary[:error] }.by(1)
     end
@@ -81,14 +81,14 @@ describe Bisu::Localizer do
       Bisu::Logger.silent_mode = false
 
       expect {
-        localizer.send(:localize, "$k1ParameterKey{name:%1$s}$", language, locale)
+        localizer.localize("$k1ParameterKey{name:%1$s}$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
     it "throws an error when given parameters for parameterless key" do
       expect {
-        localizer.send(:localize, "$kTranslationKey{param:%s}$", language, locale)
+        localizer.localize("$kTranslationKey{param:%s}$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and change { Bisu::Logger.summary[:error] }.by(1)
     end
