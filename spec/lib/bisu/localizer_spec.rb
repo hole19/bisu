@@ -85,8 +85,6 @@ describe Bisu::Localizer do
     end
 
     it "does not throw an error when key parameters where given" do
-      Bisu::Logger.silent_mode = false
-
       expect {
         localizer.localize("$k1ParameterKey{name:%1$s}$", language, locale)
       }.to not_change { Bisu::Logger.summary[:warn] }
