@@ -16,6 +16,9 @@ GEM
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
+    rspec-its (1.2.0)
+      rspec-core (>= 3.0.0)
+      rspec-expectations (>= 3.0.0)
     rspec-mocks (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
@@ -33,6 +36,7 @@ PLATFORMS
 DEPENDENCIES
   colorize (~> 0.7)
   rspec
+  rspec-its
   safe_yaml (~> 1.0)
   webmock (~> 1.20)
   xml-simple (~> 1.1)

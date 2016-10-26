@@ -1,10 +1,8 @@
-require "yaml"
-
 module Bisu
   class Config
-    def initialize(file:)
-      raise ArgumentError.new("file: expected File, got #{file.class}") unless file.is_a? File
-      @hash = deep_sym(YAML::load(file))
+    def initialize(hash:)
+      raise ArgumentError.new("hash: expected Hash, got #{hash.class}") unless hash.is_a? Hash
+      @hash = deep_sym(hash)
     end
 
     def to_h

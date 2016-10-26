@@ -1,10 +1,12 @@
+require 'optparse'
+require 'yaml'
+
 require 'bisu/logger'
 require 'bisu/config'
 require 'bisu/google_sheet'
 require 'bisu/dictionary'
 require 'bisu/localizer'
 require 'bisu/version'
-require 'optparse'
 
 module Bisu
   extend self
@@ -13,7 +15,7 @@ module Bisu
     options = command_line_options(options)
 
     if config_file = open_file("translatable.yml", "r", true)
-      config = Bisu::Config.new(file: config_file)
+      config = Bisu::Config.new(hash: YAML::load(config_file))
       config = config.to_h
 
       google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
