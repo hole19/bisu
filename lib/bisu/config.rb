@@ -1,26 +1,16 @@
 require "yaml"
 
 module Bisu
-  module Config
-    extend self
+  class Config
+    def initialize(file:)
+      raise ArgumentError.new("file: expected String, got #{file.class}") unless file.is_a? String
+      raise ArgumentError.new("File '#{file}' does not exist")            unless File.exists?(file)
 
-    def parse(file_name)
-      unless file_name
-        Logger.error("Config file not provided")
-        return nil
-      end
+      @hash = deep_sym(YAML::load_file(file))
+    end
 
-      unless File.exists?(file_name)
-        Logger.error("Could not find config file #{file_name}")
-        return nil
-      end
-
-      begin
-        deep_sym(YAML::load_file(file_name))
-      rescue Exception => e
-        Logger.error("Could not parse config file #{file_name}: #{e}")
-        return nil
-      end
+    def to_h
+      @hash
     end
 
     private

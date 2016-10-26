@@ -11,8 +11,9 @@ module Bisu
 
   def run(options)
     options = command_line_options(options)
+    config = Bisu::Config.new(file: "translatable.yml")
 
-    if config = Bisu::Config.parse("translatable.yml")
+    if config = config.to_h
       google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
       dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
       localizer    = Bisu::Localizer.new(dictionary, config[:type])
