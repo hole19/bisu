@@ -1,8 +1,8 @@
 describe Bisu::Config do
-  subject(:config) { Bisu::Config.new(file: file_path) }
+  subject(:config) { Bisu::Config.new(file: file) }
 
   context "given a yml file" do
-    let(:file_path) { "spec/fixtures/sample_translatable.yml" }
+    let(:file) { File.open("spec/fixtures/sample_translatable.yml") }
 
     it "should parse the yml with deep key symbolization" do
       expect(config.to_h).to eq({
@@ -23,13 +23,8 @@ describe Bisu::Config do
     end
   end
 
-  context "given an inexistent file" do
-    let(:file_path) { "does_not_exist" }
-    it { expect { config }.to raise_error /does not exist/ }
-  end
-
-  context "given no file path" do
-    let(:file_path) { nil }
-    it { expect { config }.to raise_error /expected String/ }
+  context "given something other then a file" do
+    let(:file) { nil }
+    it { expect { config }.to raise_error /expected File/ }
   end
 end

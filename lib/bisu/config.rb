@@ -3,10 +3,8 @@ require "yaml"
 module Bisu
   class Config
     def initialize(file:)
-      raise ArgumentError.new("file: expected String, got #{file.class}") unless file.is_a? String
-      raise ArgumentError.new("File '#{file}' does not exist")            unless File.exists?(file)
-
-      @hash = deep_sym(YAML::load_file(file))
+      raise ArgumentError.new("file: expected File, got #{file.class}") unless file.is_a? File
+      @hash = deep_sym(YAML::load(file))
     end
 
     def to_h
