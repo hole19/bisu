@@ -2,6 +2,7 @@ require 'optparse'
 require 'yaml'
 
 require 'bisu/logger'
+require 'bisu/object_extension'
 require 'bisu/config'
 require 'bisu/google_sheet'
 require 'bisu/dictionary'
