@@ -16,35 +16,18 @@ module Bisu
     options = command_line_options(options)
 
     if config_file = open_file("translatable.yml", "r", true)
-      config = Bisu::Config.new(hash: YAML::load(config_file))
-      config = config.to_h
-
-      google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
+      config       = Bisu::Config.new(hash: YAML::load(config_file))
+      google_sheet = Bisu::GoogleSheet.new(config.dictionary[:sheet_id], config.dictionary[:keys_column])
       dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
-      localizer    = Bisu::Localizer.new(dictionary, config[:type])
+      localizer    = Bisu::Localizer.new(dictionary, config.type)
 
-      config[:in].each do |in_path|
-        config[:out].each do |out|
-          unless dictionary.has_language?(out[:kb_language])
-            Logger.error("Unknown language #{out[:kb_language]}")
-            return false
-          end
-
-          in_name = File.basename(in_path)
-
-          unless in_name.match /\.translatable$/
-            Logger.error("Expected .translatable file. Got '#{in_name}'")
-            return false
-          end
-
-          out_name = in_name.gsub(/\.translatable$/, "")
-          locale   = out[:locale]
-
-          out_path = out[:path] || config[:out_path]
-          out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
-
-          localize_file(localizer, locale, out[:kb_language], options[:default_language], in_path, out_path)
+      config.localize_files do |in_path, out_path, language, locale|
+        unless dictionary.has_language?(language)
+          Logger.error("Unknown language #{language}")
+          return false
         end
+
+        localize_file(localizer, locale, language, options[:default_language], in_path, out_path)
       end
     end
 
@@ -76,6 +59,19 @@ module Bisu
     opts_hash
   end
 
+  def open_file(file_name, method, should_exist)
+    if !File.file?(File.expand_path(file_name))
+      if should_exist
+        Logger.error("File #{file_name} not found!")
+        return nil
+      else
+        FileUtils.mkdir_p(File.dirname(file_name))
+      end
+    end
+
+    File.open(File.expand_path(file_name), method)
+  end
+
   def localize_file(localizer, locale, language, default_language, in_path, out_path)
     Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
@@ -91,18 +87,5 @@ module Bisu
     in_file.close
 
     true
-  end
-
-  def open_file(file_name, method, should_exist)
-    if !File.file?(File.expand_path(file_name))
-      if should_exist
-        Logger.error("File #{file_name} not found!")
-        return nil
-      else
-        FileUtils.mkdir_p(File.dirname(file_name))
-      end
-    end
-
-    File.open(File.expand_path(file_name), method)
   end
 end

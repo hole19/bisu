@@ -9,6 +9,23 @@ module Bisu
       @hash
     end
 
+    def dictionary
+      { sheet_id: @hash[:sheet_id], keys_column: @hash[:keys_column] }
+    end
+
+    def type
+      @hash[:type]
+    end
+
+    def localize_files
+      @hash[:in].each do |in_path|
+        @hash[:out].each do |out|
+          out_path = out_path_for(out[:path] || @hash[:out_path], in_path, out[:locale])
+          yield(in_path, out_path, out[:kb_language], out[:locale])
+        end
+      end
+    end
+
     private
 
     EXPECTED_HASH = {
@@ -31,5 +48,11 @@ module Bisu
         } }
       }
     }
+
+    def out_path_for(template, in_path, locale)
+      in_name  = File.basename(in_path)
+      out_name = in_name.gsub(/\.translatable$/, "")
+      template % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
+    end
   end
 end
