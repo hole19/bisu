@@ -30,7 +30,20 @@ module Bisu
             return false
           end
 
-          localize_file(localizer, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
+          in_name = File.basename(in_path)
+
+          unless in_name.match /\.translatable$/
+            Logger.error("Expected .translatable file. Got '#{in_name}'")
+            return false
+          end
+
+          out_name = in_name.gsub(/\.translatable$/, "")
+          locale   = out[:locale]
+
+          out_path = out[:path] || config[:out_path]
+          out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
+
+          localize_file(localizer, locale, out[:kb_language], options[:default_language], in_path, out_path)
         end
       end
     end
@@ -64,20 +77,10 @@ module Bisu
   end
 
   def localize_file(localizer, locale, language, default_language, in_path, out_path)
-    in_name = File.basename(in_path)
-    out_name = in_name.gsub(/\.translatable$/, "")
-
-    unless in_name.match /\.translatable$/
-      Logger.error("Expected .translatable file. Got '#{in_name}'")
-      return false
-    end
-
-    out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
+    Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
     return false unless in_file  = open_file(in_path,  "r", true)
     return false unless out_file = open_file(out_path, "w", false)
-
-    Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
     in_file.each_line do |line|
       out_file.write(localizer.localize(line, language, locale, default_language))

@@ -35,10 +35,10 @@ describe Bisu do
     it_behaves_like "a good translation"
 
     it "localizes the right files in the right languages" do
-      expect_loc("en",    "english", nil, "hole19/Localizable.strings.translatable", "hole19/%{locale}.lproj/%{out_name}")
-      expect_loc("en-US", "english", nil, "hole19/Localizable.strings.translatable", "hole19/%{locale}.lproj/%{out_name}")
-      expect_loc("en",    "english", nil, "hole19/Countries.strings.translatable",   "hole19/%{locale}.lproj/%{out_name}")
-      expect_loc("en-US", "english", nil, "hole19/Countries.strings.translatable",   "hole19/%{locale}.lproj/%{out_name}")
+      expect_loc("en",    "english", nil, "hole19/Localizable.strings.translatable", "hole19/en.lproj/Localizable.strings")
+      expect_loc("en-US", "english", nil, "hole19/Localizable.strings.translatable", "hole19/en-US.lproj/Localizable.strings")
+      expect_loc("en",    "english", nil, "hole19/Countries.strings.translatable",   "hole19/en.lproj/Countries.strings")
+      expect_loc("en-US", "english", nil, "hole19/Countries.strings.translatable",   "hole19/en-US.lproj/Countries.strings")
       run
     end
   end
@@ -49,10 +49,10 @@ describe Bisu do
     it_behaves_like "a good translation"
 
     it "localizes the right files in the right languages" do
-      expect_loc("en",    "english", nil, "app/src/main/values-translatable/strings.xml.translatable",                "app/src/main/res/values/%{out_name}")
-      expect_loc("en-US", "english", nil, "app/src/main/values-translatable/strings.xml.translatable",                "app/src/main/res/values-%{android_locale}/%{out_name}")
-      expect_loc("en",    "english", nil, "app/src/main/values-translatable/strings-authentication.xml.translatable", "app/src/main/res/values/%{out_name}")
-      expect_loc("en-US", "english", nil, "app/src/main/values-translatable/strings-authentication.xml.translatable", "app/src/main/res/values-%{android_locale}/%{out_name}")
+      expect_loc("en",    "english", nil, "app/src/main/values-translatable/strings.xml.translatable",                "app/src/main/res/values/strings.xml")
+      expect_loc("en-US", "english", nil, "app/src/main/values-translatable/strings.xml.translatable",                "app/src/main/res/values-en-rUS/strings.xml")
+      expect_loc("en",    "english", nil, "app/src/main/values-translatable/strings-authentication.xml.translatable", "app/src/main/res/values/strings-authentication.xml")
+      expect_loc("en-US", "english", nil, "app/src/main/values-translatable/strings-authentication.xml.translatable", "app/src/main/res/values-en-rUS/strings-authentication.xml")
       run
     end
   end
@@ -63,10 +63,10 @@ describe Bisu do
     it_behaves_like "a good translation"
 
     it "localizes the right files in the right languages" do
-      expect_loc("en",    "english", nil, "config/locales/yml.translatable",           "config/locales/%{locale}.%{out_name}")
-      expect_loc("en-US", "english", nil, "config/locales/yml.translatable",           "config/locales/%{locale}.%{out_name}")
-      expect_loc("en",    "english", nil, "config/locales/countries.yml.translatable", "config/locales/%{locale}.%{out_name}")
-      expect_loc("en-US", "english", nil, "config/locales/countries.yml.translatable", "config/locales/%{locale}.%{out_name}")
+      expect_loc("en",    "english", nil, "config/locales/yml.translatable",           "config/locales/en.yml")
+      expect_loc("en-US", "english", nil, "config/locales/yml.translatable",           "config/locales/en-US.yml")
+      expect_loc("en",    "english", nil, "config/locales/countries.yml.translatable", "config/locales/en.countries.yml")
+      expect_loc("en-US", "english", nil, "config/locales/countries.yml.translatable", "config/locales/en-US.countries.yml")
       run
     end
   end
