@@ -1,0 +1,15 @@
+type: RoR
+
+sheet_id: sheet-id
+keys_column: keys-column
+
+in:
+  - config/locales/yml.translatable
+  - config/locales/countries.yml.translatable
+
+out_path: config/locales/%{locale}.%{out_name}
+out:
+  - locale:      en
+    kb_language: english
+  - locale:      en-US
+    kb_language: english
