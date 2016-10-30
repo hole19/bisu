@@ -18,10 +18,10 @@ module Bisu
     end
 
     def localize_files
-      @hash[:in].each do |in_path|
-        @hash[:out].each do |out|
-          out_path = out_path_for(out[:path] || @hash[:out_path], in_path, out[:locale])
-          yield(in_path, out_path, out[:kb_language], out[:locale])
+      @hash[:translate].each do |t|
+        @hash[:languages].each do |l|
+          downcase_locale = l[:locale].downcase.gsub("-", "_").gsub(" ", "_")
+          yield(t[:in], (t[:"out_#{downcase_locale}"] || t[:out]) % l, l[:language], l[:locale])
         end
       end
     end
@@ -36,25 +36,19 @@ module Bisu
           sheet_id: { type: String },
           keys_column: { type: String }
         } },
-        in: { type: Array, elements: {
-          type: String
+        translate: { type: Array, elements: {
+          type: Hash, elements: {
+            in: { type: String },
+            out: { type: String }
+          }
         } },
-        out_path: { type: String },
-        out: { type: Array, elements: {
-          type: Hash,
-          elements: {
+        languages: { type: Array, elements: {
+          type: Hash, elements: {
             locale: { type: String },
-            kb_language: { type: String },
-            path: { type: String, optional: true }
+            language: { type: String }
           }
         } }
       }
     }
-
-    def out_path_for(template, in_path, locale)
-      in_name  = File.basename(in_path)
-      out_name = in_name.gsub(/\.translatable$/, "")
-      template % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
-    end
   end
 end
