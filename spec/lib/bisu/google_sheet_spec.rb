@@ -1,5 +1,5 @@
 describe Bisu::GoogleSheet do
-  subject(:to_hash) { Bisu::GoogleSheet.new(sheet_id, key_column).to_hash }
+  subject(:to_h) { Bisu::GoogleSheet.new(sheet_id, key_column).to_h }
 
   let(:sheet_id) { "abc1234567890" }
   let(:url_info)  { "https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full" }
@@ -17,20 +17,20 @@ describe Bisu::GoogleSheet do
     end
 
     it do
-      expect { to_hash }.not_to raise_error
+      expect { to_h }.not_to raise_error
     end
 
     it "returns an hash" do
-      expect(to_hash).to include("kConnectEmail")
-      expect(to_hash["kConnectEmail"]).to include("korean")
-      expect(to_hash["kConnectEmail"]).to include("spanish" => "Conéctate con Email")
+      expect(to_h).to include("kConnectEmail")
+      expect(to_h["kConnectEmail"]).to include("korean")
+      expect(to_h["kConnectEmail"]).to include("spanish" => "Conéctate con Email")
     end
 
     context "but the key column is not present in the first sheet" do
       let(:key_column) { "expecting_another_key_column" }
 
       it do
-        expect { to_hash }.to raise_error /Cannot find key column/
+        expect { to_h }.to raise_error /Cannot find key column/
       end
     end
   end
@@ -39,7 +39,7 @@ describe Bisu::GoogleSheet do
     before { stub_request(:get, url_info).to_return(:status => 400, :body => "Not Found", :headers => {}) }
 
     it do
-      expect { to_hash }.to raise_error /Cannot access sheet/
+      expect { to_h }.to raise_error /Cannot access sheet/
     end
   end
 
@@ -47,7 +47,7 @@ describe Bisu::GoogleSheet do
     before { stub_request(:get, url_info).to_return(:status => 302, :body => "<HTML></HTML>", :headers => {}) }
 
     it do
-      expect { to_hash }.to raise_error /Cannot access sheet/
+      expect { to_h }.to raise_error /Cannot access sheet/
     end
   end
 
@@ -55,7 +55,7 @@ describe Bisu::GoogleSheet do
     before { stub_request(:get, url_info).to_return(:status => 200, :body => "This is not XML; { this: \"is json\" }", :headers => {}) }
 
     it do
-      expect { to_hash }.to raise_error /Cannot parse. Expected XML/
+      expect { to_h }.to raise_error /Cannot parse. Expected XML/
     end
   end
 end
