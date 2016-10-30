@@ -2,7 +2,7 @@ module Bisu
   class Localizer
     def initialize(dictionary, type)
       @dict = dictionary
-      @type = type.downcase.to_sym
+      @type = type.to_s.downcase.to_sym
 
       unless [:ios, :android, :ror].include?(@type)
         Logger.error("Unknown type #{@type}")

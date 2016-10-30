@@ -7,3 +7,4 @@ gem 'xml-simple', '~> 1.1'
 
 gem 'webmock',    '~> 1.20'
 gem 'rspec'
+gem 'rspec-its'

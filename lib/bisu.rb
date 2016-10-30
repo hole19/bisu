@@ -1,10 +1,13 @@
+require 'optparse'
+require 'yaml'
+
 require 'bisu/logger'
+require 'bisu/object_extension'
 require 'bisu/config'
 require 'bisu/google_sheet'
 require 'bisu/dictionary'
 require 'bisu/localizer'
 require 'bisu/version'
-require 'optparse'
 
 module Bisu
   extend self
@@ -12,20 +15,19 @@ module Bisu
   def run(options)
     options = command_line_options(options)
 
-    if config = Bisu::Config.parse("translatable.yml")
-      google_sheet = Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
+    if config_file = open_file("translatable.yml", "r", true)
+      config       = Bisu::Config.new(hash: YAML::load(config_file))
+      google_sheet = Bisu::GoogleSheet.new(config.dictionary[:sheet_id], config.dictionary[:keys_column])
       dictionary   = Bisu::Dictionary.new(google_sheet.to_hash)
-      localizer    = Bisu::Localizer.new(dictionary, config[:type])
+      localizer    = Bisu::Localizer.new(dictionary, config.type)
 
-      config[:in].each do |in_path|
-        config[:out].each do |out|
-          unless dictionary.has_language?(out[:kb_language])
-            Logger.error("Unknown language #{out[:kb_language]}")
-            return false
-          end
-
-          localize_file(localizer, out[:locale], out[:kb_language], options[:default_language], in_path, out[:path] || config[:out_path])
+      config.localize_files do |in_path, out_path, language, locale|
+        unless dictionary.has_language?(language)
+          Logger.error("Unknown language #{language}")
+          return false
         end
+
+        localize_file(localizer, locale, language, options[:default_language], in_path, out_path)
       end
     end
 
@@ -57,33 +59,6 @@ module Bisu
     opts_hash
   end
 
-  def localize_file(localizer, locale, language, default_language, in_path, out_path)
-    in_name = File.basename(in_path)
-    out_name = in_name.gsub(/\.translatable$/, "")
-
-    unless in_name.match /\.translatable$/
-      Logger.error("Expected .translatable file. Got '#{in_name}'")
-      return false
-    end
-
-    out_path = out_path % { locale: locale, android_locale: locale.gsub("-", "-r"), out_name: out_name }
-
-    return false unless in_file  = open_file(in_path,  "r", true)
-    return false unless out_file = open_file(out_path, "w", false)
-
-    Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
-
-    in_file.each_line do |line|
-      out_file.write(localizer.localize(line, language, locale, default_language))
-    end
-
-    out_file.flush
-    out_file.close
-    in_file.close
-
-    true
-  end
-
   def open_file(file_name, method, should_exist)
     if !File.file?(File.expand_path(file_name))
       if should_exist
@@ -95,5 +70,22 @@ module Bisu
     end
 
     File.open(File.expand_path(file_name), method)
+  end
+
+  def localize_file(localizer, locale, language, default_language, in_path, out_path)
+    Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
+
+    return false unless in_file  = open_file(in_path,  "r", true)
+    return false unless out_file = open_file(out_path, "w", false)
+
+    in_file.each_line do |line|
+      out_file.write(localizer.localize(line, language, locale, default_language))
+    end
+
+    out_file.flush
+    out_file.close
+    in_file.close
+
+    true
   end
 end
