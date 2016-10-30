@@ -10,7 +10,7 @@ module Bisu
     end
 
     def dictionary
-      { sheet_id: @hash[:sheet_id], keys_column: @hash[:keys_column] }
+      @hash[:dictionary]
     end
 
     def type
@@ -32,8 +32,10 @@ module Bisu
       type: Hash,
       elements: {
         type: { type: String },
-        sheet_id: { type: String },
-        keys_column: { type: String },
+        dictionary: { type: Hash, elements: {
+          sheet_id: { type: String },
+          keys_column: { type: String }
+        } },
         in: { type: Array, elements: {
           type: String
         } },

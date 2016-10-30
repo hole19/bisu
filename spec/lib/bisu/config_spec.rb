@@ -3,8 +3,10 @@ describe Bisu::Config do
 
   let(:hash) { {
     type:        "BisuOS",
-    sheet_id:    "abc1234567890",
-    keys_column: "key_name",
+    dictionary:  {
+      sheet_id:    "abc1234567890",
+      keys_column: "key_name"
+    },
     in:          [
       "path/to/file/to/1.ext.translatable",
       "path/to/file/to/2.ext.translatable"

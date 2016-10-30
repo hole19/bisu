@@ -1,7 +1,8 @@
 type: iOS
 
-sheet_id: sheet-id
-keys_column: keys-column
+dictionary:
+  sheet_id: sheet-id
+  keys_column: keys-column
 
 in:
   - hole19/Localizable.strings.translatable
