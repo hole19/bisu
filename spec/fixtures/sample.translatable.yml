@@ -1,15 +1,17 @@
 type: iOS
 
-sheet_id: sheet-id
-keys_column: keys-column
+dictionary:
+  sheet_id: sheet-id
+  keys_column: keys-column
 
-in:
-  - hole19/Localizable.strings.translatable
-  - hole19/Countries.strings.translatable
+translate:
+  - in: hole19/Localizable.strings.translatable
+    out: hole19/%{locale}.lproj/Localizable.strings
+  - in: hole19/Countries.strings.translatable
+    out: hole19/%{locale}.lproj/Countries.strings
 
-out_path: hole19/%{locale}.lproj/%{out_name}
-out:
-  - locale:      en
-    kb_language: english
-  - locale:      en-US
-    kb_language: english
+languages:
+  - locale: en
+    language: english
+  - locale: en-US
+    language: english

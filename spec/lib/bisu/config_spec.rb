@@ -2,19 +2,26 @@ describe Bisu::Config do
   subject(:config) { Bisu::Config.new(hash: hash) }
 
   let(:hash) { {
-    type:        "BisuOS",
-    sheet_id:    "abc1234567890",
-    keys_column: "key_name",
-    in:          [
-      "path/to/file/to/1.ext.translatable",
-      "path/to/file/to/2.ext.translatable"
+    type: "BisuOS",
+    dictionary: {
+      sheet_id:    "abc1234567890",
+      keys_column: "key_name"
+    },
+    translate: [
+      { in:        "path/to/file/to/1.ext.translatable",
+        out:       "path/to/final-%{locale}/1.ext",
+        out_en_us: "path/to/default/1.ext"
+      },
+      { in:        "path/to/file/to/2.ext.translatable",
+        out:       "path/to/final-%{locale}/2.ext",
+        out_en_us: "path/to/default/2.ext"
+      },
     ],
-    out_path:    "path/to/final-%{locale}/%{out_name}",
-    out:         [
-      { locale: "en",    kb_language: "english", path: "path/to/default/%{out_name}" },
-      { locale: "pt",    kb_language: "portuguese" },
-      { locale: "pt-PT", kb_language: "portuguese" },
-      { locale: "pt-BR", kb_language: "portuguese", path: "path/to/final-%{android_locale}/%{out_name}" },
+    languages: [
+      { locale: "en-US",      language: "english"    },
+      { locale: "pt",         language: "portuguese" },
+      { locale: "pt-PT",      language: "portuguese" },
+      { locale: "pt-Batatas", language: "portuguese" }
     ]
   } }
 
@@ -32,14 +39,14 @@ describe Bisu::Config do
       expect { |b|
         config.localize_files(&b)
       }.to yield_successive_args(
-        ["path/to/file/to/1.ext.translatable", "path/to/default/1.ext",      "english",    "en"   ],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt/1.ext",     "portuguese", "pt"   ],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-PT/1.ext",  "portuguese", "pt-PT"],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-rBR/1.ext", "portuguese", "pt-BR"],
-        ["path/to/file/to/2.ext.translatable", "path/to/default/2.ext",      "english",    "en"   ],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt/2.ext",     "portuguese", "pt"   ],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-PT/2.ext",  "portuguese", "pt-PT"],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-rBR/2.ext", "portuguese", "pt-BR"]
+        ["path/to/file/to/1.ext.translatable", "path/to/default/1.ext",          "english",    "en-US"     ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt/1.ext",         "portuguese", "pt"        ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-PT/1.ext",      "portuguese", "pt-PT"     ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-Batatas/1.ext", "portuguese", "pt-Batatas"],
+        ["path/to/file/to/2.ext.translatable", "path/to/default/2.ext",          "english",    "en-US"     ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt/2.ext",         "portuguese", "pt"        ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-PT/2.ext",      "portuguese", "pt-PT"     ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-Batatas/2.ext", "portuguese", "pt-Batatas"]
       )
     end
   end

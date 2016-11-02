@@ -8,7 +8,7 @@ module Bisu
       @key_column = keys_column_title
     end
 
-    def to_hash
+    def to_h
       raw = raw_data(@sheet_id)
 
       Logger.info("Parsing Google Sheet...")
