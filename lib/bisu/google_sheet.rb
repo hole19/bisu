@@ -8,23 +8,23 @@ module Bisu
       @key_column = keys_column_title
     end
 
-    def to_h
+    def to_i18
       raw = raw_data(@sheet_id)
 
       Logger.info("Parsing Google Sheet...")
 
-      remove = ["id", "updated", "category", "title", "content", "link", @key_column]
+      non_language_columns = ["id", "updated", "category", "title", "content", "link", @key_column]
 
       kb = {}
       raw["entry"].each do |entry|
-        hash = entry.select { |d| !remove.include?(d) }
-        hash = hash.each.map { |k, v| v.first == {} ? [k, nil] : [k, v.first] }
-
         unless (key = entry[@key_column]) && key = key.first
           raise "Cannot find key column '#{@key_column}'"
         end
 
-        kb[key] = Hash[hash]
+        entry.select { |c| !non_language_columns.include?(c) }.each do |lang, texts|
+          kb[lang] ||= {}
+          kb[lang][key] = texts.first unless texts.first == {}
+        end
       end
 
       Logger.info("Google Sheet parsed successfully!")

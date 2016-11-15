@@ -3,18 +3,22 @@ describe Bisu::Localizer do
   let(:locale)   { "PT-PT" }
 
   let(:keys) { {
-    "kTranslationKey"    => { language => "Não sabes nada João das Neves" },
-    "kTranslationKey2"   => { language => "Naaada!" },
-    "kMissingTransKey"   => { "english" => "You know little John Snow" },
-    "k1ParameterKey"     => { language => "Não sabes nada %{name}" },
-    "k2ParametersKey"    => { language => "Sabes %{perc} por cento %{name}" },
+    language => {
+      "kTranslationKey"  => "Não sabes nada João das Neves",
+      "kTranslationKey2" => "Naaada!",
+      "k1ParameterKey"   => "Não sabes nada %{name}",
+      "k2ParametersKey"  => "Sabes %{perc} por cento %{name}",
 
-    # type dependent translations
-    "kDoubleQuoted" => { language => "Não sabes nada \"João das Neves\"" },
-    "kSingleQuoted" => { language => "Não sabes nada 'João das Neves'" },
-    "kEllipsis"     => { language => "Não sabes nada João das Neves..." },
-    "kAmpersand"    => { language => "Não sabes nada João das Neves & Pícaros" },
-    "kAtSign"       => { language => "\@johnsnow sabes alguma coisa?" }
+      # type dependent translations
+      "kDoubleQuoted"    => "Não sabes nada \"João das Neves\"",
+      "kSingleQuoted"    => "Não sabes nada 'João das Neves'",
+      "kEllipsis"        => "Não sabes nada João das Neves...",
+      "kAmpersand"       => "Não sabes nada João das Neves & Pícaros",
+      "kAtSign"          => "\@johnsnow sabes alguma coisa?"
+    },
+    "english" => {
+      "kMissingTransKey" => "You know little John Snow"
+    }
   } }
 
   let(:kb) { Bisu::Dictionary.new(keys) }
@@ -23,8 +27,8 @@ describe Bisu::Localizer do
   shared_examples_for "a localizer" do
     it { expect { localizer }.not_to raise_error }
 
-    def translates(text, to:)
-      translation = localizer.localize(text, language, locale)
+    def translates(text, fallback: nil, to:)
+      translation = localizer.localize(text, language, locale, fallback)
       expect(translation).to eq to
     end
 
@@ -38,6 +42,7 @@ describe Bisu::Localizer do
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
+    it { translates("this key with missing translations: $kMissingTransKey$", fallback: "english", to: "this key with missing translations: You know little John Snow") }
     it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }
@@ -100,11 +105,11 @@ describe Bisu::Localizer do
   end
 
   let(:type_dependent_defaults) { {
-    double_quoted: keys["kDoubleQuoted"][language],
-    single_quoted: keys["kSingleQuoted"][language],
-    ellipsis:      keys["kEllipsis"][language],
-    ampersand:     keys["kAmpersand"][language],
-    at_sign:       keys["kAtSign"][language]
+    double_quoted: keys[language]["kDoubleQuoted"],
+    single_quoted: keys[language]["kSingleQuoted"],
+    ellipsis:      keys[language]["kEllipsis"],
+    ampersand:     keys[language]["kAmpersand"],
+    at_sign:       keys[language]["kAtSign"]
   } }
 
   describe "of type iOS" do

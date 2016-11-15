@@ -2,17 +2,17 @@ module Bisu
   class Dictionary
     def initialize(keys)
       unless keys.is_a?(Hash)
-        raise ArgumentError.new("keys: expected Hash")
+        raise ArgumentError.new("keys: expected Hash, got #{keys.class}")
       end
 
-      keys.each do |key,v|
+      keys.each do |lang,v|
         unless v.is_a?(Hash)
-          raise ArgumentError.new("keys['#{key}']: expected Hash")
+          raise ArgumentError.new("keys['#{lang}']: expected Hash, got #{v.class}")
         end
 
-        v.each do |lang,v|
+        v.each do |key,v|
           unless v.is_a?(String) || v.nil?
-            raise ArgumentError.new("keys['#{key}']['#{lang}']: expected String")
+            raise ArgumentError.new("keys['#{lang}']['#{key}']: expected String, got #{v.class}")
           end
         end
       end
@@ -21,22 +21,14 @@ module Bisu
     end
 
     def has_language?(language)
-      languages.include?(language)
+      @keys.include?(language)
     end
 
-    def localize(key, language)
-      if locals = @keys[key]
-        locals[language]
+    def localize(language, key)
+      if has_language?(language)
+        @keys[language][key]
       else
         nil
-      end
-    end
-
-    private
-
-    def languages
-      @languages ||= begin
-        @keys.map { |_,v| v.keys }.flatten.uniq
       end
     end
   end
