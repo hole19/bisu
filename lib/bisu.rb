@@ -18,7 +18,7 @@ module Bisu
     if config_file = open_file("translatable.yml", "r", true)
       config       = Bisu::Config.new(hash: YAML::load(config_file))
       google_sheet = Bisu::GoogleSheet.new(config.dictionary[:sheet_id], config.dictionary[:keys_column])
-      dictionary   = Bisu::Dictionary.new(google_sheet.to_h)
+      dictionary   = Bisu::Dictionary.new(google_sheet.to_i18)
       localizer    = Bisu::Localizer.new(dictionary, config.type)
 
       config.localize_files do |in_path, out_path, language, locale|
