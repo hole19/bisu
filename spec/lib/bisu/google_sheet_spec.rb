@@ -20,10 +20,17 @@ describe Bisu::GoogleSheet do
       expect { to_i18 }.not_to raise_error
     end
 
-    it "returns an hash" do
-      expect(to_i18).to include("korean", "spanish")
-      expect(to_i18["korean"]).to include("kConnectEmail", "kConnectFacebook")
-      expect(to_i18["spanish"]).to include("kConnectEmail" => "Conéctate con Email")
+    it "returns an hash in i18 format" do
+      expect(to_i18).to eq({
+        "english"    => { "kConnectFacebook" => "Connect with Facebook",  "kConnectEmail" => "Connect with Email" },
+        "german"     => { "kConnectFacebook" => "Mit Facebook verbinden", "kConnectEmail" => "Mit E-Mail verbinden" },
+        "portuguese" => { "kConnectFacebook" => "Registar com Facebook",  "kConnectEmail" => "Registar com Email" },
+        "spanish"    => { "kConnectFacebook" => "Conéctate con Facebook", "kConnectEmail" => "Conéctate con Email" },
+        "french"     => { "kConnectFacebook" => "Connecter Facebook" },
+        "dutch"      => { "kConnectFacebook" => "Facebook Verbinden",     "kConnectEmail" => "Email Verbinden" },
+        "korean"     => { "kConnectFacebook" => "페이스북으로 접속",           "kConnectEmail" => "이메일로 접속" },
+        "japanese"   => { "kConnectFacebook" => "フェイスブックへ接続",      "kConnectEmail" => "電子メールアカウントに接続" }
+     })
     end
 
     context "but the key column is not present in the first sheet" do

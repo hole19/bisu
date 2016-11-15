@@ -23,7 +23,7 @@ module Bisu
 
         entry.select { |c| !non_language_columns.include?(c) }.each do |lang, texts|
           kb[lang] ||= {}
-          kb[lang][key] = texts.first
+          kb[lang][key] = texts.first unless texts.first == {}
         end
       end
 
