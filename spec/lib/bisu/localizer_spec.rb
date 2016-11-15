@@ -3,18 +3,22 @@ describe Bisu::Localizer do
   let(:locale)   { "PT-PT" }
 
   let(:keys) { {
-    "kTranslationKey"    => { language => "Não sabes nada João das Neves" },
-    "kTranslationKey2"   => { language => "Naaada!" },
-    "kMissingTransKey"   => { "english" => "You know little John Snow" },
-    "k1ParameterKey"     => { language => "Não sabes nada %{name}" },
-    "k2ParametersKey"    => { language => "Sabes %{perc} por cento %{name}" },
+    language => {
+      "kTranslationKey"  => "Não sabes nada João das Neves",
+      "kTranslationKey2" => "Naaada!",
+      "k1ParameterKey"   => "Não sabes nada %{name}",
+      "k2ParametersKey"  => "Sabes %{perc} por cento %{name}",
 
-    # type dependent translations
-    "kDoubleQuoted" => { language => "Não sabes nada \"João das Neves\"" },
-    "kSingleQuoted" => { language => "Não sabes nada 'João das Neves'" },
-    "kEllipsis"     => { language => "Não sabes nada João das Neves..." },
-    "kAmpersand"    => { language => "Não sabes nada João das Neves & Pícaros" },
-    "kAtSign"       => { language => "\@johnsnow sabes alguma coisa?" }
+      # type dependent translations
+      "kDoubleQuoted"    => "Não sabes nada \"João das Neves\"",
+      "kSingleQuoted"    => "Não sabes nada 'João das Neves'",
+      "kEllipsis"        => "Não sabes nada João das Neves...",
+      "kAmpersand"       => "Não sabes nada João das Neves & Pícaros",
+      "kAtSign"          => "\@johnsnow sabes alguma coisa?"
+    },
+    "english" => {
+      "kMissingTransKey" => "You know little John Snow"
+    }
   } }
 
   let(:kb) { Bisu::Dictionary.new(keys) }
@@ -100,11 +104,11 @@ describe Bisu::Localizer do
   end
 
   let(:type_dependent_defaults) { {
-    double_quoted: keys["kDoubleQuoted"][language],
-    single_quoted: keys["kSingleQuoted"][language],
-    ellipsis:      keys["kEllipsis"][language],
-    ampersand:     keys["kAmpersand"][language],
-    at_sign:       keys["kAtSign"][language]
+    double_quoted: keys[language]["kDoubleQuoted"],
+    single_quoted: keys[language]["kSingleQuoted"],
+    ellipsis:      keys[language]["kEllipsis"],
+    ampersand:     keys[language]["kAmpersand"],
+    at_sign:       keys[language]["kAtSign"]
   } }
 
   describe "of type iOS" do
