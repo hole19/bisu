@@ -7,7 +7,7 @@ describe Bisu::Dictionary do
 
     context "when created with invalid type parameters" do
       let(:keys) { "cenas" }
-      it { expect { subject }.to raise_error /expected Hash$/ }
+      it { expect { subject }.to raise_error /expected Hash/ }
     end
 
     context "when created with an invalid json schema" do
