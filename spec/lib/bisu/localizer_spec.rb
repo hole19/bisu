@@ -27,8 +27,8 @@ describe Bisu::Localizer do
   shared_examples_for "a localizer" do
     it { expect { localizer }.not_to raise_error }
 
-    def translates(text, to:)
-      translation = localizer.localize(text, language, locale)
+    def translates(text, fallback: nil, to:)
+      translation = localizer.localize(text, language, locale, fallback)
       expect(translation).to eq to
     end
 
@@ -42,6 +42,7 @@ describe Bisu::Localizer do
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
+    it { translates("this key with missing translations: $kMissingTransKey$", fallback: "english", to: "this key with missing translations: You know little John Snow") }
     it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }
