@@ -3,9 +3,9 @@ require "xmlsimple"
 
 module Bisu
   class GoogleSheet
-    def initialize(sheet_id, keys_column_title)
+    def initialize(sheet_id, keys_column)
       @sheet_id = sheet_id
-      @key_column = keys_column_title
+      @key_column = keys_column
     end
 
     def to_i18

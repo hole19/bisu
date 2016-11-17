@@ -18,8 +18,7 @@ module Bisu
 
     if config_file = open_file("translatable.yml", "r", true)
       config       = Bisu::Config.new(hash: YAML::load(config_file))
-      google_sheet = Bisu::GoogleSheet.new(config.dictionary[:sheet_id], config.dictionary[:keys_column])
-      dictionary   = Bisu::Dictionary.new(google_sheet.to_i18)
+      dictionary   = dictionary_for(config: config.dictionary)
       localizer    = Bisu::Localizer.new(dictionary, config.type)
 
       config.localize_files do |in_path, out_path, language, locale|
@@ -36,6 +35,18 @@ module Bisu
   end
 
   private
+
+  def dictionary_for(config: config)
+    source =
+      case config[:type]
+      when "google_sheet"
+        Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
+      when "one_sky"
+        Bisu::OneSky.new(config[:api_key], config[:api_secret], config[:project_id], config[:file_name])
+      end
+
+    Bisu::Dictionary.new(source.to_i18)
+  end
 
   def command_line_options(options)
     opts_hash = {}

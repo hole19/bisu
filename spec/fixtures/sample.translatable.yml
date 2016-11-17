@@ -1,6 +1,7 @@
 type: iOS
 
 dictionary:
+  type: google_sheet
   sheet_id: sheet-id
   keys_column: keys-column
 
