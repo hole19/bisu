@@ -2,7 +2,13 @@ module Bisu
   class Config
     def initialize(hash:)
       @hash = hash.deep_symbolize
-      @hash.validate_structure!(EXPECTED_HASH)
+      @hash.validate_structure!(CONFIG_STRUCT)
+
+      unless dict_struct = DICTIONARY_STRUCT[@hash[:dictionary][:type]]
+        raise ArgumentError.new("unknown dictionary type '#{@hash[:dictionary][:type]}'")
+      end
+
+      @hash[:dictionary].validate_structure!(dict_struct)
     end
 
     def to_h
@@ -28,13 +34,12 @@ module Bisu
 
     private
 
-    EXPECTED_HASH = {
+    CONFIG_STRUCT = {
       type: Hash,
       elements: {
         type: { type: String },
         dictionary: { type: Hash, elements: {
-          sheet_id: { type: String },
-          keys_column: { type: String }
+          type: { type: String }
         } },
         translate: { type: Array, elements: {
           type: Hash, elements: {
@@ -49,6 +54,30 @@ module Bisu
           }
         } }
       }
+    }
+
+    GOOGLE_SHEET_STRUCT = {
+      type: Hash,
+      elements: {
+        type: { type: String },
+        sheet_id: { type: String },
+        keys_column: { type: String }
+      }
+    }
+
+    ONE_SKY_STRUCT = {
+      type: Hash,
+      elements: {
+        api_key: { type: String },
+        api_secret: { type: String },
+        project_id: { type: Integer },
+        file_name: { type: String }
+      }
+    }
+
+    DICTIONARY_STRUCT = {
+      "google_sheet" => GOOGLE_SHEET_STRUCT,
+      "one_sky"      => ONE_SKY_STRUCT
     }
   end
 end

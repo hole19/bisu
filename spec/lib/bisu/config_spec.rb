@@ -4,8 +4,9 @@ describe Bisu::Config do
   let(:hash) { {
     type: "BisuOS",
     dictionary: {
-      sheet_id:    "abc1234567890",
-      keys_column: "key_name"
+      type:         "google_sheet",
+      sheet_id:     "abc1234567890",
+      keys_column:  "key_name"
     },
     translate: [
       { in:        "path/to/file/to/1.ext.translatable",
@@ -30,9 +31,33 @@ describe Bisu::Config do
     it { expect { config }.to raise_error /missing keys/i }
   end
 
-  its(:to_h)       { should eq(hash) }
-  its(:type)       { should eq("BisuOS") }
-  its(:dictionary) { should eq({ sheet_id: "abc1234567890", keys_column: "key_name" }) }
+  its(:to_h) { should eq(hash) }
+  its(:type) { should eq("BisuOS") }
+
+  describe "#dictionary" do
+    subject(:dictionary) { config.dictionary }
+
+    it { should eq({ type: "google_sheet", sheet_id: "abc1234567890", keys_column: "key_name" }) }
+
+    context "when given a OneSky type dictionary" do
+      before do
+        hash[:dictionary] = {
+          type:       "one_sky",
+          api_key:    "as387oavh48",
+          api_secret: "bp0s5avo8a59",
+          project_id: 328742,
+          file_name:  "file.json"
+        }
+      end
+
+      it { should eq({ type: "one_sky", api_key: "as387oavh48", api_secret: "bp0s5avo8a59", project_id: 328742, file_name: "file.json" }) }
+    end
+
+    context "when given an unknown type dictionary" do
+      before { hash[:dictionary] = { type: "i_dunno" } }
+      it { expect { config }.to raise_error /unknown dictionary type 'i_dunno'/i }
+    end
+  end
 
   describe "#localize_files" do
     it "yields 5 times with the expected arguments" do

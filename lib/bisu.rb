@@ -5,6 +5,7 @@ require 'bisu/logger'
 require 'bisu/object_extension'
 require 'bisu/config'
 require 'bisu/google_sheet'
+require 'bisu/one_sky'
 require 'bisu/dictionary'
 require 'bisu/localizer'
 require 'bisu/version'
@@ -17,8 +18,7 @@ module Bisu
 
     if config_file = open_file("translatable.yml", "r", true)
       config       = Bisu::Config.new(hash: YAML::load(config_file))
-      google_sheet = Bisu::GoogleSheet.new(config.dictionary[:sheet_id], config.dictionary[:keys_column])
-      dictionary   = Bisu::Dictionary.new(google_sheet.to_i18)
+      dictionary   = dictionary_for(config: config.dictionary, save_to_path: options[:dictionary_save_path])
       localizer    = Bisu::Localizer.new(dictionary, config.type)
 
       config.localize_files do |in_path, out_path, language, locale|
@@ -36,12 +36,36 @@ module Bisu
 
   private
 
+  def dictionary_for(config:, save_to_path:)
+    source =
+      case config[:type]
+      when "google_sheet"
+        Bisu::GoogleSheet.new(config[:sheet_id], config[:keys_column])
+      when "one_sky"
+        Bisu::OneSky.new(config[:api_key], config[:api_secret], config[:project_id], config[:file_name])
+      end
+
+    source = source.to_i18
+
+    if save_to_path && file = open_file(save_to_path, "w", false)
+      file.write(source)
+      file.flush
+      file.close
+    end
+
+    Bisu::Dictionary.new(source)
+  end
+
   def command_line_options(options)
     opts_hash = {}
 
     opts_parser = OptionParser.new do |opts|
       opts.on("-d LANGUAGE", "--default LANGUAGE", "Language to use when there is no available translation") do |language|
         opts_hash[:default_language] = language
+      end
+
+      opts.on("--save-dictionary PATH", "Save downloaded dictionary locally at given path") do |path|
+        opts_hash[:dictionary_save_path] = path
       end
 
       opts.on_tail("-h", "--help", "Show this message") do
