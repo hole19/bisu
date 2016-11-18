@@ -36,7 +36,7 @@ module Bisu
 
   private
 
-  def dictionary_for(config: config)
+  def dictionary_for(config:)
     source =
       case config[:type]
       when "google_sheet"
