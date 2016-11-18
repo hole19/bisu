@@ -1,4 +1,4 @@
 module Bisu
-  VERSION = '1.3.1'
-  VERSION_UPDATED_AT = '2016-11-15'
+  VERSION = '1.4.0'
+  VERSION_UPDATED_AT = '2016-11-18'
 end
