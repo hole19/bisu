@@ -22,7 +22,7 @@ describe Bisu::OneSky do
       "ja" => { "kConnectFacebook" => "フェイスブックへ接続" },
       "fr" => { "kConnectFacebook" => "Connexion par Facebook" },
       "de" => { "kConnectFacebook" => "Mit Facebook verbinden" },
-      "ko" => { "kConnectFacebook" => "페이스북으로 접속" }
+      "ko" => { "kConnectFacebook" => "페이스북으로 접속", "kTwitterServer" => "트위터 서버연결 실패. \n잠시 후 재시도." }
     })
   end
 

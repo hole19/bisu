@@ -22,7 +22,8 @@
     },
     "ko": {
         "translation": {
-            "kConnectFacebook": "\ud398\uc774\uc2a4\ubd81\uc73c\ub85c \uc811\uc18d"
+            "kConnectFacebook": "\ud398\uc774\uc2a4\ubd81\uc73c\ub85c \uc811\uc18d",
+            "kTwitterServer": ["트위터 서버연결 실패. ", "잠시 후 재시도."]
         }
     }
 }

@@ -11,7 +11,7 @@ module Bisu
     def to_i18
       raw = raw_data(@sheet_id)
 
-      Logger.info("Parsing Google Sheet...")
+      Logger.info("Downloading dictionary from Google Sheet...")
 
       non_language_columns = ["id", "updated", "category", "title", "content", "link", @key_column]
 
@@ -28,7 +28,7 @@ module Bisu
       end
 
       Logger.info("Google Sheet parsed successfully!")
-      Logger.info("Found #{kb.count} keys in #{kb.values.first.keys.count} languages.")
+      Logger.info("Found #{kb.count} languages.")
 
       kb
     end
