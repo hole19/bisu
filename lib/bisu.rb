@@ -48,7 +48,7 @@ module Bisu
     source = source.to_i18
 
     if save_to_path && file = open_file(save_to_path, "w", false)
-      file.write(source)
+      file.write(source.to_json)
       file.flush
       file.close
     end
