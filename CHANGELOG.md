@@ -2,8 +2,14 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.4.0](https://github.com/hole19/bisu/releases/tag/v1.4.0)
+## [1.4.1](https://github.com/hole19/bisu/releases/tag/v1.4.1)
 Released on 2016/12/01
+
+#### Added
+- *nothing*
+
+## [1.4.0](https://github.com/hole19/bisu/releases/tag/v1.4.0)
+Released on 2016/11/18
 
 #### Added
 - OneSky integration
