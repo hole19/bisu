@@ -1,0 +1,8 @@
+{
+    "en": {
+        "translation": {
+            "kRegularNewLine": "This is the first line\\nthis is the second line",
+            "kErrorNewLine": "This is the first line\nthis is the second line"
+        }
+    }
+}

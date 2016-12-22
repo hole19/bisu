@@ -22,7 +22,7 @@ describe Bisu::OneSky do
       "ja" => { "kConnectFacebook" => "フェイスブックへ接続" },
       "fr" => { "kConnectFacebook" => "Connexion par Facebook" },
       "de" => { "kConnectFacebook" => "Mit Facebook verbinden" },
-      "ko" => { "kConnectFacebook" => "페이스북으로 접속", "kTwitterServer" => "트위터 서버연결 실패. \n잠시 후 재시도." }
+      "ko" => { "kConnectFacebook" => "페이스북으로 접속", "kTwitterServer" => "트위터 서버연결 실패. \\n잠시 후 재시도." }
     })
   end
 
@@ -31,6 +31,21 @@ describe Bisu::OneSky do
 
     it "raises that same error" do
       expect { to_i18 }.to raise_error /not allowed/
+    end
+  end
+
+  context "when OneSky returns the newline bug" do
+    let(:os_response) { File.read("spec/fixtures/sample_one_sky_response_with_bug.txt") }
+
+    it { expect { to_i18 }.not_to raise_error }
+
+    it "returns an hash in i18 format with the newline bug fixed" do
+      expect(to_i18).to eq({
+        "en" => {
+          "kRegularNewLine" => "This is the first line\\nthis is the second line",
+          "kErrorNewLine" => "This is the first line\\nthis is the second line"
+        }
+      })
     end
   end
 end

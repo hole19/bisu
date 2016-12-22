@@ -18,7 +18,8 @@ module Bisu
       hash.each do |lang, v|
         hash[lang] = v["translation"]
         hash[lang].each do |key, text|
-          hash[lang][key] = hash[lang][key].join("\n") if hash[lang][key].is_a? Array
+          hash[lang][key] = hash[lang][key].join("\\n") if hash[lang][key].is_a? Array
+          hash[lang][key] = hash[lang][key].gsub("\n", "\\n") # fixes the 'stupid newline bug'
         end
       end
 
