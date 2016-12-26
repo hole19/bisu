@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.3](https://github.com/hole19/bisu/releases/tag/v1.4.3)
+Released on 2016/12/22
+
+#### Added
+- Fixed a bug related to OneSky integration related to new line character handling
+
+## [1.4.2](https://github.com/hole19/bisu/releases/tag/v1.4.2)
+Released on 2016/12/12
+
+#### Added
+- Fixed a missing gem dependency
+
 ## [1.4.1](https://github.com/hole19/bisu/releases/tag/v1.4.1)
 Released on 2016/12/01
 
