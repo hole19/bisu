@@ -8,11 +8,13 @@ describe Bisu::OneSky do
 
   let(:os_response) { File.read("spec/fixtures/sample_one_sky_response.txt") }
 
-  before do
-    project = double("OSProject")
-    allow_any_instance_of(Onesky::Client).to receive(:project).with(project_id).and_return(project)
-    allow(project).to receive(:export_multilingual).with(source_file_name: file_name, file_format: "I18NEXT_MULTILINGUAL_JSON").and_return(os_response)
+  def stub_multilingual(status:, response:)
+    stub_request(:get, "https://platform.api.onesky.io/1/projects/#{project_id}/translations/multilingual").
+      with(query: hash_including(api_key: api_key, file_format: "I18NEXT_MULTILINGUAL_JSON", source_file_name: file_name)).
+      to_return(:status => status, :body => response, :headers => {})
   end
+
+  before { stub_multilingual(status: 200, response: os_response) }
 
   it { expect { to_i18 }.not_to raise_error }
 
@@ -27,7 +29,7 @@ describe Bisu::OneSky do
   end
 
   context "when OneSky raises an error" do
-    before { allow_any_instance_of(Onesky::Client).to receive(:project).and_raise("ups... not allowed!") }
+    before { stub_multilingual(status: 400, response: { error: "ups... not allowed!" }.to_json) }
 
     it "raises that same error" do
       expect { to_i18 }.to raise_error /not allowed/
