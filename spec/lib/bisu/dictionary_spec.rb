@@ -44,6 +44,10 @@ describe Bisu::Dictionary do
     it "returns false if that language does not exist in any key" do
       expect(dict.has_language?("lang-no-available")).to be false
     end
+
+    it "returns true if that language is in another case" do
+      expect(dict.has_language?("Lang2")).to be true
+    end
   end
 
   describe "#localize" do
@@ -63,6 +67,10 @@ describe Bisu::Dictionary do
 
     it "returns nil when language is not available" do
       expect(dict.localize("finish", "kCray")).to be nil
+    end
+
+    it "localizes a key when the language is in another case" do
+      expect(dict.localize("krioLo", "kCray")).to eq "Bo sta crazy!"
     end
   end
 end

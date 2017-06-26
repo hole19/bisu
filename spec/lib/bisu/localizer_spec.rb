@@ -1,6 +1,6 @@
 describe Bisu::Localizer do
-  let(:language) { "portuguese" }
-  let(:locale)   { "PT-PT" }
+  let(:language) { "Portuguese" }
+  let(:locale)   { "pt-PT" }
 
   let(:keys) { {
     language => {
@@ -16,7 +16,7 @@ describe Bisu::Localizer do
       "kAmpersand"       => "Não sabes nada João das Neves & Pícaros",
       "kAtSign"          => "\@johnsnow sabes alguma coisa?"
     },
-    "english" => {
+    "English" => {
       "kMissingTransKey" => "You know little John Snow"
     }
   } }
@@ -27,8 +27,8 @@ describe Bisu::Localizer do
   shared_examples_for "a localizer" do
     it { expect { localizer }.not_to raise_error }
 
-    def translates(text, fallback: nil, to:)
-      translation = localizer.localize(text, language, locale, fallback)
+    def translates(text, fallback: nil, to:, lang: nil)
+      translation = localizer.localize(text, lang || language, locale, fallback)
       expect(translation).to eq to
     end
 
@@ -40,9 +40,10 @@ describe Bisu::Localizer do
     it { translates("this special key: $specialKLocale$",   to: "this special key: #{locale}") }
 
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves") }
+    it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves", lang: "portuguese") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
-    it { translates("this key with missing translations: $kMissingTransKey$", fallback: "english", to: "this key with missing translations: You know little John Snow") }
+    it { translates("this key with missing translations: $kMissingTransKey$", fallback: "English", to: "this key with missing translations: You know little John Snow") }
     it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }

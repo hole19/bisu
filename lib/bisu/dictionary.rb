@@ -17,16 +17,16 @@ module Bisu
         end
       end
 
-      @keys = keys
+      @keys = Hash[keys.map { |k,v| [k.downcase, v] }]
     end
 
     def has_language?(language)
-      @keys.include?(language)
+      @keys.include?(language&.downcase)
     end
 
     def localize(language, key)
       if has_language?(language)
-        @keys[language][key]
+        @keys[language&.downcase][key]
       else
         nil
       end
