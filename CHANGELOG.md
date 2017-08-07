@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.6](https://github.com/hole19/bisu/releases/tag/v1.4.6)
+Released on 2017/08/27
+
+#### Added
+- Fixes crash when final file does not exist
+
 ## [1.4.5](https://github.com/hole19/bisu/releases/tag/v1.4.5)
 Released on 2017/06/26
 
