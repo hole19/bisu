@@ -1,5 +1,6 @@
 require 'optparse'
 require 'yaml'
+require 'fileutils'
 
 require 'bisu/logger'
 require 'bisu/object_extension'
