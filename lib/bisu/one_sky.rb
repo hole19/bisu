@@ -17,11 +17,13 @@ module Bisu
       file = get(path, source_file_name: @file_name, file_format: "I18NEXT_MULTILINGUAL_JSON")
 
       hash = JSON.parse(file)
+
       hash.each do |lang, v|
         hash[lang] = v["translation"]
         hash[lang].each do |key, text|
           hash[lang][key] = hash[lang][key].join("\\n") if hash[lang][key].is_a? Array
           hash[lang][key] = hash[lang][key].gsub("\n", "\\n") # fixes the 'stupid newline bug'
+          hash[lang][key] = hash[lang][key].gsub("\\'", "'") # fixes the 'stupid single quote bug'
         end
       end
 
