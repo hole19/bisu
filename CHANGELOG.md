@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.7](https://github.com/hole19/bisu/releases/tag/v1.4.7)
+Released on 2018/07/24
+
+#### Added
+- Fixes bug handling already escaped single quotes coming from OneSky
+
 ## [1.4.6](https://github.com/hole19/bisu/releases/tag/v1.4.6)
 Released on 2017/08/27
 
