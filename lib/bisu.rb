@@ -33,6 +33,9 @@ module Bisu
     end
 
     Bisu::Logger.print_summary
+    if (options[:strict] && Bisu::Logger.summary[:warn] > 0)
+      Logger.error("Found a warning while in strict mode")
+    end
   end
 
   private
@@ -67,6 +70,10 @@ module Bisu
 
       opts.on("--save-dictionary PATH", "Save downloaded dictionary locally at given path") do |path|
         opts_hash[:dictionary_save_path] = path
+      end
+
+      opts.on("-s", "--strict", "Fail in the presence of any warning") do
+        opts_hash[:strict] = true
       end
 
       opts.on_tail("-h", "--help", "Show this message") do
