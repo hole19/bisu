@@ -32,8 +32,8 @@ module Bisu
       end
     end
 
-    Bisu::Logger.print_summary
-    if (options[:strict] && Bisu::Logger.summary[:warn] > 0)
+    Logger.print_summary
+    if options[:strict] && Logger.summary[:warn] > 0
       Logger.error("Found a warning while in strict mode")
     end
   end
