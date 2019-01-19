@@ -6,7 +6,7 @@ describe Bisu do
 
     before do
       allow(Bisu).to receive(:open_file).and_return(file)
-      allow_any_instance_of(Bisu::GoogleSheet).to receive(:to_i18).and_return({
+      allow_any_instance_of(Bisu::Source::GoogleSheet).to receive(:to_i18).and_return({
         "english" => { "kKey" => "Value" }
       })
       allow(Bisu).to receive(:localize_file)

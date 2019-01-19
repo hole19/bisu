@@ -1,5 +1,5 @@
-describe Bisu::GoogleSheet do
-  subject(:to_i18) { Bisu::GoogleSheet.new(sheet_id, key_column).to_i18 }
+describe Bisu::Source::GoogleSheet do
+  subject(:to_i18) { Bisu::Source::GoogleSheet.new(sheet_id, key_column).to_i18 }
 
   let(:sheet_id) { "abc1234567890" }
   let(:url_info)  { "https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full" }
