@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.0](https://github.com/hole19/bisu/releases/tag/v1.5.0)
+Released on 2019/01/19
+
+#### Added
+- Adds an option to skip downloading i18n dictionary from an external source and loads it directly from a local file in that format
+
 ## [1.4.7](https://github.com/hole19/bisu/releases/tag/v1.4.7)
 Released on 2018/07/24
 
