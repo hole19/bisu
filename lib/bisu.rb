@@ -19,7 +19,7 @@ module Bisu
 
     if config_file = open_file("translatable.yml", "r", true)
       config       = Bisu::Config.new(hash: YAML::load(config_file))
-      dictionary   = dictionary_for(config: config.dictionary, save_to_path: options[:dictionary_save_path])
+      dictionary   = dictionary_for(config: config.dictionary, options: options)
       localizer    = Bisu::Localizer.new(dictionary, config.type)
 
       config.localize_files do |in_path, out_path, language, locale|
@@ -37,7 +37,18 @@ module Bisu
 
   private
 
-  def dictionary_for(config:, save_to_path:)
+  def dictionary_for(config:, options:)
+    source =
+      if from_file_path = options[:from_file_path]
+        i18n_from(path: from_file_path)
+      else
+        i18n_for(config: config, options: options)
+      end
+
+    Bisu::Dictionary.new(source)
+  end
+
+  def i18n_for(config:, options:)
     source =
       case config[:type]
       when "google_sheet"
@@ -48,13 +59,21 @@ module Bisu
 
     source = source.to_i18
 
+    save_to_path = options[:dictionary_save_path]
     if save_to_path && file = open_file(save_to_path, "w", false)
       file.write(source.to_json)
       file.flush
       file.close
     end
 
-    Bisu::Dictionary.new(source)
+    source
+  end
+
+  def i18n_from(path:)
+    file = open_file(path, "r", true)
+    data = file.read
+    file.close
+    JSON.parse(data)
   end
 
   def command_line_options(options)
@@ -63,6 +82,10 @@ module Bisu
     opts_parser = OptionParser.new do |opts|
       opts.on("-d LANGUAGE", "--default LANGUAGE", "Language to use when there is no available translation") do |language|
         opts_hash[:default_language] = language
+      end
+
+      opts.on("--file PATH", "Loads i18n source directly from a local file") do |file|
+        opts_hash[:from_file_path] = file
       end
 
       opts.on("--save-dictionary PATH", "Save downloaded dictionary locally at given path") do |path|
