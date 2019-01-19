@@ -1,5 +1,5 @@
-describe Bisu::OneSky do
-  subject(:to_i18) { Bisu::OneSky.new(api_key, api_secret, project_id, file_name).to_i18 }
+describe Bisu::Source::OneSky do
+  subject(:to_i18) { Bisu::Source::OneSky.new(api_key, api_secret, project_id, file_name).to_i18 }
 
   let(:api_key)    { "a123" }
   let(:api_secret) { "b123" }
