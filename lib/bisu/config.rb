@@ -75,9 +75,17 @@ module Bisu
       }
     }
 
+    URL_STRUCT = {
+      type: Hash,
+      elements: {
+        url: { type: String }
+      }
+    }
+
     DICTIONARY_STRUCT = {
       "google_sheet" => GOOGLE_SHEET_STRUCT,
-      "one_sky"      => ONE_SKY_STRUCT
+      "one_sky"      => ONE_SKY_STRUCT,
+      "url"          => URL_STRUCT
     }
   end
 end

@@ -1,0 +1,19 @@
+{
+    "en": {
+        "kConnectFacebook": "Connect with Facebook",
+        "kNoNoNoMr": "No, no, no. Mr %{name} not here"
+    },
+    "ja": {
+        "kConnectFacebook": "\u30d5\u30a7\u30a4\u30b9\u30d6\u30c3\u30af\u3078\u63a5\u7d9a"
+    },
+    "fr": {
+        "kConnectFacebook": "Connexion par Facebook"
+    },
+    "de": {
+        "kConnectFacebook": "Mit Facebook verbinden"
+    },
+    "ko": {
+        "kConnectFacebook": "\ud398\uc774\uc2a4\ubd81\uc73c\ub85c \uc811\uc18d",
+        "kTwitterServer": "트위터 서버연결 실패. \\n잠시 후 재시도."
+    }
+}
