@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0](https://github.com/hole19/bisu/releases/tag/v1.6.0)
+Released on 2019/01/18
+
+#### Added
+- Merges changes from [Onfido's fork](https://github.com/onfido/bisu)
+  - Removes the restriction for keys to start with k
+  - Adds a strict mode to fail if there's any warning
+
 ## [1.5.0](https://github.com/hole19/bisu/releases/tag/v1.5.0)
 Released on 2019/01/19
 
