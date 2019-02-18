@@ -58,6 +58,11 @@ Setup your configuration file
 
 ##### Google Sheets Dictionary:
 
+1. First ["Publish to the web"](https://www.google.com/search?q=google+sheets+publish+to+web) your Google Sheet
+1. Share only the sheet that contains the translations
+1. First column should contain the translation keys
+1. First row should contain the locale for each language
+
   ```
   dictionary:
     type: google_sheet
