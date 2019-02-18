@@ -1,27 +1,22 @@
 # supported types are iOS/Android/RoR
 type: iOS
 
-sheet_id: knownledge-base-sheet-id
-keys_column: column-with-translation-keys
+dictionary:
+  type: google_sheet
+  sheet_id: <GOOGLE-DRIVE-SHEET-ID>
+  keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
 
-in:
-  - path/to/file/to/1.ext.translatable
-  - path/to/file/to/2.ext.translatable
-  - path/to/file/to/3.ext.translatable
+translate:
+  - in: path/to/1st/file.translatable
+    out: path/to/%{locale}/strings.xml
+    out_en: path/to/default/strings.xml
+  - in: path/to/2nd/file.translatable
+    out: path/to/2nd-%{locale}/strings.xml
 
-# you may define a generic out_path common for all files
-# or a more specific one in out:path
-#
-# when generating the out path you can use two variables:
-# - locale:   replaced by the out:locale
-# - out_name: replaced by the input file name without .translatable
-
-out_path: path/to/final-%{locale}/%{out_name}
-out:
-  - locale: en
-    kb_language: english
-    path: path/to/default/%{out_name}
-  - locale: pt
-    kb_language: portuguese
-  - locale: pt-PT
-    kb_language: portuguese
+languages:
+  - locale:   en
+    language: en
+  - locale:   en-US
+    language: en
+  - locale:   pt
+    language: pt
