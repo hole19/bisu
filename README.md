@@ -3,7 +3,9 @@ Bisu 홀
 
 Bisu manages your app iOS, Android and RoR localization files for you. No more copy+paste induced errors!
 
----
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hole19/bisu/master/README_explanation.png" width="500">
+</p>
 
 Instalation
 -----
