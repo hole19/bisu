@@ -26,11 +26,15 @@ module Bisu
               Logger.error("Parameter #{param} not found in translation for #{l[:key]} in #{language}")
             end
           end
-          t = t.gsub(l[:match], process(localized))
+
+          unless t.gsub!(l[:match], process(localized))
+            Logger.warn("Could not find translation for #{l[:match]} in #{language}")
+          end
+        else
+          Logger.warn("Could not find translation for #{l[:match]} in #{language}")
         end
       end
 
-      t.scan(/\$([^\$\{]+)(?:\{(.+)\})?\$/) { |match| Logger.warn("Could not find translation for #{match[0]} in #{language}") }
       unless @type.eql?(:ror)
         t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
       end
