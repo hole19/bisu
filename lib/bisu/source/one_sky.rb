@@ -47,7 +47,7 @@ module Bisu
         request = Net::HTTP::Get.new(uri.request_uri)
         response = http.request(request)
 
-        raise "OneSky: Http Error #{JSON.parse(response.body)}" if response.code.to_i >= 400
+        raise "Bisu::Source::OneSky: Http Error #{JSON.parse(response.body)}" if response.code.to_i >= 400
 
         response.body
       end

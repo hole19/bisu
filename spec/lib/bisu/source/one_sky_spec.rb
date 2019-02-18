@@ -6,7 +6,7 @@ describe Bisu::Source::OneSky do
   let(:project_id) { 98765 }
   let(:file_name)  { "file456.json" }
 
-  let(:os_response) { File.read("spec/fixtures/sample_one_sky_response.txt") }
+  let(:os_response) { File.read("spec/fixtures/sample_one_sky_response.json") }
 
   def stub_multilingual(status:, response:)
     stub_request(:get, "https://platform.api.onesky.io/1/projects/#{project_id}/translations/multilingual").
@@ -37,7 +37,7 @@ describe Bisu::Source::OneSky do
   end
 
   context "when OneSky returns the newline bug" do
-    let(:os_response) { File.read("spec/fixtures/sample_one_sky_response_with_bug.txt") }
+    let(:os_response) { File.read("spec/fixtures/sample_one_sky_response_with_bug.json") }
 
     it { expect { to_i18 }.not_to raise_error }
 
