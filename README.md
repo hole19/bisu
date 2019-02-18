@@ -21,7 +21,7 @@ Usage
 
 *given that someone already configured Bisu
 
-Configuration
+Setup your configuration file
 -----
 
 1. Create in your project base folder a translatable.yml:
@@ -30,9 +30,7 @@ Configuration
   type: <iOS|Android|RoR>
 
   dictionary:
-    type: google_sheet
-    sheet_id: <GOOGLE-DRIVE-SHEET-ID>
-    keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
+    (see options below)
 
   translate:
     - in: path/to/1st/file.translatable
@@ -50,14 +48,25 @@ Configuration
       language: pt
   ```
 
-  Also available generic URL source:
+##### Dictionary from a URL source:
+
   ```
   dictionary:
     type: url
     url: <A-GET-URL>
   ```
 
-  Also available [OneSky](https://www.oneskyapp.com) integration:
+##### Google Sheets Dictionary:
+
+  ```
+  dictionary:
+    type: google_sheet
+    sheet_id: <GOOGLE-DRIVE-SHEET-ID>
+    keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
+  ```
+
+##### OneSky integration:
+
   ```
   dictionary:
     type: one_sky
@@ -67,7 +76,13 @@ Configuration
     file_name: <ONE-SKY-FILE-NAME>
   ```
 
-1. Create a \*.translatable version for your **iOS** localization files:
+Create translation templates
+-----
+
+Create a \*.translatable version for your platform specific localization files:
+
+##### iOS
+*example: Localizable.strings.translatable*
 
   ```
   // $specialKComment1$
@@ -85,7 +100,8 @@ Configuration
   "klRequestName"    = "$kRequestName%{user_name: %@}$";
   ```
 
-1. Create a \*.translatable version for your **Android** localization files:
+##### Android
+*example: strings.xml.translatable*
 
   ```
   <?xml version="1.0" encoding="utf-8"?>
@@ -102,7 +118,8 @@ Configuration
   </resources>
   ```
 
-1. Create a \*.translatable version for your **RoR** localization files:
+##### Ruby on Rails
+*example: config/locales/yml.translatable*
 
   ```
   $specialKLocale$:
