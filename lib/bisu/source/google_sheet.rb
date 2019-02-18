@@ -19,7 +19,7 @@ module Bisu
         kb = {}
         raw["entry"].each do |entry|
           unless (key = entry[@key_column]) && key = key.first
-            raise "Cannot find key column '#{@key_column}'"
+            raise "Bisu::Source::GoogleSheet: Cannot find key column '#{@key_column}'"
           end
 
           entry.select { |c| !non_language_columns.include?(c) }.each do |lang, texts|
@@ -44,13 +44,13 @@ module Bisu
         data = http.get(uri.path, headers)
 
         unless data.code.to_i == 200
-          raise "Cannot access sheet at #{uri} - HTTP #{data.code}"
+          raise "Bisu::Source::GoogleSheet: Cannot access sheet at #{uri} - HTTP #{data.code}"
         end
 
         begin
           XmlSimple.xml_in(data.body, 'KeyAttr' => 'name')
         rescue
-          raise "Cannot parse. Expected XML at #{uri}"
+          raise "Bisu::Source::GoogleSheet: Cannot parse. Expected XML at #{uri}"
         end
       end
 

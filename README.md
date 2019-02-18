@@ -50,6 +50,13 @@ Configuration
       language: pt
   ```
 
+  Also available generic URL source:
+  ```
+  dictionary:
+    type: url
+    url: <A-GET-URL>
+  ```
+
   Also available [OneSky](https://www.oneskyapp.com) integration:
   ```
   dictionary:

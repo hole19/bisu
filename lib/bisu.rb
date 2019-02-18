@@ -7,6 +7,7 @@ require 'bisu/object_extension'
 require 'bisu/config'
 require 'bisu/source/google_sheet'
 require 'bisu/source/one_sky'
+require 'bisu/source/url'
 require 'bisu/dictionary'
 require 'bisu/localizer'
 require 'bisu/version'
@@ -59,6 +60,8 @@ module Bisu
         Bisu::Source::GoogleSheet.new(config[:sheet_id], config[:keys_column])
       when "one_sky"
         Bisu::Source::OneSky.new(config[:api_key], config[:api_secret], config[:project_id], config[:file_name])
+      when "url"
+        Bisu::Source::Url.new(config[:url])
       end
 
     source = source.to_i18

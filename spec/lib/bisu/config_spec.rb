@@ -53,6 +53,17 @@ describe Bisu::Config do
       it { should eq({ type: "one_sky", api_key: "as387oavh48", api_secret: "bp0s5avo8a59", project_id: 328742, file_name: "file.json" }) }
     end
 
+    context "when given a Url type dictionary" do
+      before do
+        hash[:dictionary] = {
+          type: "url",
+          url:  "a_url"
+        }
+      end
+
+      it { should eq({ type: "url", url: "a_url" }) }
+    end
+
     context "when given an unknown type dictionary" do
       before { hash[:dictionary] = { type: "i_dunno" } }
       it { expect { config }.to raise_error /unknown dictionary type 'i_dunno'/i }
