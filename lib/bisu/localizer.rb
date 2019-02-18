@@ -30,7 +30,7 @@ module Bisu
         end
       end
 
-      t.scan(/\$(k[^\$\{]+)(?:\{(.+)\})?\$/) { |match| Logger.warn("Could not find translation for #{match[0]} in #{language}") }
+      t.scan(/\$([^\$\{]+)(?:\{(.+)\})?\$/) { |match| Logger.warn("Could not find translation for #{match[0]} in #{language}") }
       unless @type.eql?(:ror)
         t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
       end
@@ -41,7 +41,7 @@ module Bisu
     private
 
     def to_localize(text)
-      all_matches = text.to_enum(:scan, /\$(k[^\$\{]+)(?:\{(.+)\})?\$/).map { Regexp.last_match }
+      all_matches = text.to_enum(:scan, /\$([^\$\{]+)(?:\{(.+)\})?\$/).map { Regexp.last_match }
       all_matches.map do |match|
         params = if match[2]
           params = match[2].split(",").map(&:strip).map do |param|
