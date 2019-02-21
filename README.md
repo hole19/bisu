@@ -1,6 +1,9 @@
 Bisu 홀
 ========
 
+[![Status](https://travis-ci.org/hole19/bisu.svg?branch=master)](https://travis-ci.org/hole19/bisu?branch=master)
+[![Gem](https://img.shields.io/gem/v/bisu.svg?style=flat)](http://rubygems.org/gems/bisu "View this project in Rubygems")
+
 Bisu manages your app iOS, Android and RoR localization files for you. No more copy+paste induced errors!
 
 <p align="center">
