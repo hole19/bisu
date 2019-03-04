@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.1](https://github.com/hole19/bisu/releases/tag/v1.7.1)
+Released on 2019/03/04
+
+#### Added
+- Applies the same new line behaviour in every platform
+
 ## [1.7.0](https://github.com/hole19/bisu/releases/tag/v1.7.0)
 Released on 2019/02/18
 
