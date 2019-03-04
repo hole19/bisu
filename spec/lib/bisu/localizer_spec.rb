@@ -8,6 +8,8 @@ describe Bisu::Localizer do
       "kTranslationKey2" => "Naaada!",
       "k1ParameterKey"   => "Não sabes nada %{name}",
       "k2ParametersKey"  => "Sabes %{perc} por cento %{name}",
+      "kNewLineSingle"   => "Não sabes nada\nJoão das Neves",
+      "kNewLineMultiple" => "Não sabes nada\\nJoão das Neves",
 
       # type dependent translations
       "kDoubleQuoted"    => "Não sabes nada \"João das Neves\"",
@@ -51,6 +53,9 @@ describe Bisu::Localizer do
     it { translates("2 parameters: $k2ParametersKey$",                       to: "2 parameters: Sabes %{perc} por cento %{name}") }
     it { translates("2 parameters: $k2ParametersKey{perc:%2$d, name:%1$s}$", to: "2 parameters: Sabes %2$d por cento %1$s") }
     it { translates("2 parameters: $k2ParametersKey{name:%1$s, perc:%2$d}$", to: "2 parameters: Sabes %2$d por cento %1$s") }
+
+    it { translates("$kNewLineSingle$",   to: "Não sabes nada\\nJoão das Neves") }
+    it { translates("$kNewLineMultiple$", to: "Não sabes nada\\nJoão das Neves") }
 
     # type dependent translations
 

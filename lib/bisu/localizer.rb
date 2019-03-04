@@ -62,6 +62,8 @@ module Bisu
     end
 
     def process(text)
+      text = text.gsub("\n", "\\n")
+
       if @type.eql?(:android)
         text = text.gsub(/[']/, "\\\\\\\\'")
         text = text.gsub("...", "…")

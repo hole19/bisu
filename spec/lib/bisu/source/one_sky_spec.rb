@@ -45,7 +45,7 @@ describe Bisu::Source::OneSky do
       expect(to_i18).to eq({
         "en" => {
           "kRegularNewLine" => "This is the first line\\nthis is the second line",
-          "kErrorNewLine" => "This is the first line\\nthis is the second line"
+          "kErrorNewLine"   => "This is the first line\\nthis is the second line"
         }
       })
     end
