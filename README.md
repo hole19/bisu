@@ -107,7 +107,7 @@ Create a \*.translatable version for your platform specific localization files:
   "klGeneral_Delete" = "$kDelete$";
   "klGeneral_Cancel" = "$kCancel$";
   "klGeneral_Close"  = "$kClose$";
-  "klRequestName"    = "$kRequestName%{user_name: %@}$";
+  "klRequestName"    = "$kRequestName{user_name: %@}$";
   ```
 
 ##### Android
@@ -124,7 +124,7 @@ Create a \*.translatable version for your platform specific localization files:
       <string name="delete">$kDelete$</string>
       <string name="cancel">$kCancel$</string>
       <string name="close">$kClose$</string>
-      <string name="request_name">$kRequestName%{user_name: %s}$</string>
+      <string name="request_name">$kRequestName{user_name: %s}$</string>
   </resources>
   ```
 
