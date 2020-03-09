@@ -19,6 +19,8 @@ module Bisu
 
       to_localize(t).map do |l|
         if localized = @dict.localize(language, l[:key]) || @dict.localize(fallback_language, l[:key])
+          localized = process(localized)
+
           l[:params].each do |param, value|
             if localized.match("%{#{param}}")
               localized = localized.gsub("%{#{param}}", value)
@@ -27,7 +29,7 @@ module Bisu
             end
           end
 
-          unless t.gsub!(l[:match], process(localized))
+          unless t.gsub!(l[:match], localized)
             Logger.warn("Could not find translation for #{l[:match]} in #{language}")
           end
         else
@@ -69,6 +71,7 @@ module Bisu
         text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
         text = text.gsub("@", "\\\\@")
+        text = text.gsub(/%(?!{)/, "\\\\%%")
 
       elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
