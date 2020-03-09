@@ -75,6 +75,7 @@ module Bisu
 
       elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
+        text = text.gsub(/%(?!{)/, "%%")
       end
 
       text

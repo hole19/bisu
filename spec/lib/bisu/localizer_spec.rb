@@ -125,7 +125,8 @@ describe Bisu::Localizer do
     let(:type) { :ios }
 
     let(:expected) { type_dependent_defaults.merge(
-      double_quoted: "Não sabes nada \\\"João das Neves\\\""
+      double_quoted: "Não sabes nada \\\"João das Neves\\\"",
+      percentage: "Sabes 0%% João das Neves."
     ) }
 
     it_behaves_like "a localizer"
