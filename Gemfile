@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.5.0'
 
 gem 'safe_yaml',  '~> 1.0'
 gem 'colorize',   '~> 0.7'
