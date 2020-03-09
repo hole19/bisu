@@ -16,7 +16,8 @@ describe Bisu::Localizer do
       "kSingleQuoted"    => "Não sabes nada 'João das Neves'",
       "kEllipsis"        => "Não sabes nada João das Neves...",
       "kAmpersand"       => "Não sabes nada João das Neves & Pícaros",
-      "kAtSign"          => "\@johnsnow sabes alguma coisa?"
+      "kAtSign"          => "\@johnsnow sabes alguma coisa?",
+      "kPercentage"      => "Sabes 0% João das Neves."
     },
     "English" => {
       "kMissingTransKey" => "You know little John Snow"
@@ -64,6 +65,7 @@ describe Bisu::Localizer do
     it { translates("$kEllipsis$",     to: expected[:ellipsis]) }
     it { translates("$kAmpersand$",    to: expected[:ampersand]) }
     it { translates("$kAtSign$",       to: expected[:at_sign]) }
+    it { translates("$kPercentage$",   to: expected[:percentage]) }
 
     # error handling
 
@@ -115,7 +117,8 @@ describe Bisu::Localizer do
     single_quoted: keys[language]["kSingleQuoted"],
     ellipsis:      keys[language]["kEllipsis"],
     ampersand:     keys[language]["kAmpersand"],
-    at_sign:       keys[language]["kAtSign"]
+    at_sign:       keys[language]["kAtSign"],
+    percentage:    keys[language]["kPercentage"]
   } }
 
   describe "of type iOS" do
@@ -135,7 +138,8 @@ describe Bisu::Localizer do
       single_quoted: "Não sabes nada \\'João das Neves\\'",
       ellipsis: "Não sabes nada João das Neves…",
       ampersand: "Não sabes nada João das Neves &amp; Pícaros",
-      at_sign: "\\@johnsnow sabes alguma coisa?"
+      at_sign: "\\@johnsnow sabes alguma coisa?",
+      percentage: "Sabes 0\\%% João das Neves."
     ) }
 
     it_behaves_like "a localizer"
