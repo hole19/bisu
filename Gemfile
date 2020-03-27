@@ -7,7 +7,7 @@ gem 'xml-simple', '~> 1.1'
 
 group :test do
   gem 'rake'
-  gem 'webmock',    '~> 1.20'
+  gem 'webmock',    '~> 3.8'
   gem 'rspec'
   gem 'rspec-its'
 end
