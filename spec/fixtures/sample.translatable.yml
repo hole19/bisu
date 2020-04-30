@@ -15,4 +15,5 @@ languages:
   - locale: en
     language: english
   - locale: en-US
-    language: english
+    language: english-us
+    fallback_language: english

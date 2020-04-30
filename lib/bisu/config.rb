@@ -50,7 +50,8 @@ module Bisu
         languages: { type: Array, elements: {
           type: Hash, elements: {
             locale: { type: String },
-            language: { type: String }
+            language: { type: String },
+            fallback_language: { type: String, optional: true }
           }
         } }
       }

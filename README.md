@@ -45,11 +45,12 @@ Setup your configuration file
       out: path/to/2nd-%{locale}/strings.xml
 
   languages:
-    - locale:   en
-      language: en
-    - locale:   en-US
-      language: en
-    - locale:   pt
+    - locale: en
+      language: en # the language as it appears in the dictionary
+    - locale: en-US
+      language: en-us
+      fallback_language: en
+    - locale: pt
       language: pt
   ```
 
