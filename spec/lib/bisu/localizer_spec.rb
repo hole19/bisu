@@ -19,6 +19,9 @@ describe Bisu::Localizer do
       "kAtSign"          => "\@johnsnow sabes alguma coisa?",
       "kPercentage"      => "Sabes 0% João das Neves."
     },
+    "Spanish" => {
+      "kMissingTransKey" => "Sabes poco John Snow"
+    },
     "English" => {
       "kMissingTransKey" => "You know little John Snow"
     }
@@ -30,8 +33,8 @@ describe Bisu::Localizer do
   shared_examples_for "a localizer" do
     it { expect { localizer }.not_to raise_error }
 
-    def translates(text, fallback: nil, to:, lang: nil)
-      translation = localizer.localize(text, lang || language, locale, fallback)
+    def translates(text, fallbacks: [], to:, lang: nil)
+      translation = localizer.localize(text, lang || language, locale, fallbacks)
       expect(translation).to eq to
     end
 
@@ -46,7 +49,8 @@ describe Bisu::Localizer do
     it { translates("this key: $kTranslationKey$", to: "this key: Não sabes nada João das Neves", lang: "portuguese") }
     it { translates("this unknown key: $kUnknownKey$", to: "this unknown key: $kUnknownKey$") }
     it { translates("this key with missing translations: $kMissingTransKey$", to: "this key with missing translations: $kMissingTransKey$") }
-    it { translates("this key with missing translations: $kMissingTransKey$", fallback: "English", to: "this key with missing translations: You know little John Snow") }
+    it { translates("this key with missing translations: $kMissingTransKey$", fallbacks: ["English"], to: "this key with missing translations: You know little John Snow") }
+    it { translates("this key with missing translations: $kMissingTransKey$", fallbacks: ["Spanish", "English"], to: "this key with missing translations: Sabes poco John Snow") }
     it { translates("these 2 keys: $kTranslationKey$, $kTranslationKey2$", to: "these 2 keys: Não sabes nada João das Neves, Naaada!") }
 
     it { translates("1 parameter: $k1ParameterKey$",                         to: "1 parameter: Não sabes nada %{name}") }

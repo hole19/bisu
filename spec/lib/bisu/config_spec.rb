@@ -22,7 +22,7 @@ describe Bisu::Config do
       { locale: "en-US",      language: "english"    },
       { locale: "pt",         language: "portuguese" },
       { locale: "pt-PT",      language: "portuguese" },
-      { locale: "pt-Batatas", language: "portuguese" }
+      { locale: "pt-Batatas", language: "portuguese-bt", fallback_language: "portuguese" }
     ]
   } }
 
@@ -75,14 +75,14 @@ describe Bisu::Config do
       expect { |b|
         config.localize_files(&b)
       }.to yield_successive_args(
-        ["path/to/file/to/1.ext.translatable", "path/to/default/1.ext",          "english",    "en-US"     ],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt/1.ext",         "portuguese", "pt"        ],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-PT/1.ext",      "portuguese", "pt-PT"     ],
-        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-Batatas/1.ext", "portuguese", "pt-Batatas"],
-        ["path/to/file/to/2.ext.translatable", "path/to/default/2.ext",          "english",    "en-US"     ],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt/2.ext",         "portuguese", "pt"        ],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-PT/2.ext",      "portuguese", "pt-PT"     ],
-        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-Batatas/2.ext", "portuguese", "pt-Batatas"]
+        ["path/to/file/to/1.ext.translatable", "path/to/default/1.ext",          "en-US",      "english",       nil         ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt/1.ext",         "pt",         "portuguese",    nil         ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-PT/1.ext",      "pt-PT",      "portuguese",    nil         ],
+        ["path/to/file/to/1.ext.translatable", "path/to/final-pt-Batatas/1.ext", "pt-Batatas", "portuguese-bt", "portuguese"],
+        ["path/to/file/to/2.ext.translatable", "path/to/default/2.ext",          "en-US",      "english",       nil         ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt/2.ext",         "pt",         "portuguese",    nil         ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-PT/2.ext",      "pt-PT",      "portuguese",    nil         ],
+        ["path/to/file/to/2.ext.translatable", "path/to/final-pt-Batatas/2.ext", "pt-Batatas", "portuguese-bt", "portuguese"]
       )
     end
   end
