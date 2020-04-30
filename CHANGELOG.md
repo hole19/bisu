@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.0](https://github.com/hole19/bisu/releases/tag/v1.8.0)
+Released on 2020/04/30
+
+#### Added
+- Adds a new option: allows a single translation to have a specific fallback language (example: "es-MX" fallback to "es")
+
 ## [1.7.3](https://github.com/hole19/bisu/releases/tag/v1.7.3)
 Released on 2020/03/09
 
