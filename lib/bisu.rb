@@ -29,7 +29,7 @@ module Bisu
           return false
         end
 
-        fallback_languages = ([fallback_language] + [options[:default_language]]).compact!
+        fallback_languages = ([fallback_language] + [options[:default_language]]).compact
 
         localize_file(localizer, locale, language, fallback_languages, in_path, out_path)
       end
