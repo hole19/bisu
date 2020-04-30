@@ -23,13 +23,15 @@ module Bisu
       dictionary   = dictionary_for(config: config.dictionary, options: options)
       localizer    = Bisu::Localizer.new(dictionary, config.type)
 
-      config.localize_files do |in_path, out_path, language, locale|
+      config.localize_files do |in_path, out_path, locale, language, fallback_language|
         unless dictionary.has_language?(language)
           Logger.error("Unknown language #{language}")
           return false
         end
 
-        localize_file(localizer, locale, language, [options[:default_language]].compact!, in_path, out_path)
+        fallback_languages = ([fallback_language] + [options[:default_language]]).compact!
+
+        localize_file(localizer, locale, language, fallback_languages, in_path, out_path)
       end
     end
 

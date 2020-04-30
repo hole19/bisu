@@ -27,7 +27,7 @@ module Bisu
       @hash[:translate].each do |t|
         @hash[:languages].each do |l|
           downcase_locale = l[:locale].downcase.gsub("-", "_").gsub(" ", "_")
-          yield(t[:in], (t[:"out_#{downcase_locale}"] || t[:out]) % l, l[:language], l[:locale])
+          yield(t[:in], (t[:"out_#{downcase_locale}"] || t[:out]) % l, l[:locale], l[:language], l[:fallback_language])
         end
       end
     end
