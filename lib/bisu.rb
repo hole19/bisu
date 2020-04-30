@@ -29,7 +29,7 @@ module Bisu
           return false
         end
 
-        localize_file(localizer, locale, language, options[:default_language], in_path, out_path)
+        localize_file(localizer, locale, language, [options[:default_language]].compact!, in_path, out_path)
       end
     end
 
@@ -131,14 +131,14 @@ module Bisu
     File.open(File.expand_path(file_name), method)
   end
 
-  def localize_file(localizer, locale, language, default_language, in_path, out_path)
+  def localize_file(localizer, locale, language, fallback_languages, in_path, out_path)
     Logger.info("Translating #{in_path} to #{language} > #{out_path}...")
 
     return false unless in_file  = open_file(in_path,  "r", true)
     return false unless out_file = open_file(out_path, "w", false)
 
     in_file.each_line do |line|
-      out_file.write(localizer.localize(line, language, locale, default_language))
+      out_file.write(localizer.localize(line, language, locale, fallback_languages))
     end
 
     out_file.flush

@@ -10,7 +10,7 @@ module Bisu
       end
     end
 
-    def localize(text, language, locale, fallback_language=nil)
+    def localize(text, language, locale, fallback_languages=[])
       t = text
       t = t.gsub("$specialKLanguage$", language)
       t = t.gsub("$specialKLocale$", locale)
@@ -18,7 +18,7 @@ module Bisu
       t = t.gsub("$specialKComment2$", "Remember to CHANGE THE TEMPLATE and not this file!")
 
       to_localize(t).map do |l|
-        if localized = @dict.localize(language, l[:key]) || @dict.localize(fallback_language, l[:key])
+        if localized = localize_key(l[:key], [language] + fallback_languages)
           localized = process(localized)
 
           l[:params].each do |param, value|
@@ -42,6 +42,16 @@ module Bisu
       end
 
       t
+    end
+
+    def localize_key(key, ordered_languages)
+      ordered_languages.each do |language|
+        if localized = @dict.localize(language, key)
+          return localized
+        end
+      end
+
+      nil
     end
 
     private
