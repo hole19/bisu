@@ -32,13 +32,13 @@ module Bisu
           unless t.gsub!(l[:match], localized)
             Logger.warn("Could not find translation for #{l[:match]} in #{language}")
           end
+
+          unless @type.eql?(:ror) || l[:ignore_param_warn] == true
+            localized.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
+          end
         else
           Logger.warn("Could not find translation for #{l[:match]} in #{language}")
         end
-      end
-
-      unless @type.eql?(:ror)
-        t.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
       end
 
       t
@@ -57,7 +57,7 @@ module Bisu
     private
 
     def to_localize(text)
-      all_matches = text.to_enum(:scan, /\$([^\$\{]+)(?:\{(.+)\})?\$/).map { Regexp.last_match }
+      all_matches = text.to_enum(:scan, /\$([^\$\{\/]+)(?:\{(.+)\})?(\/\/ignore-params)?\$/).map { Regexp.last_match }
       all_matches.map do |match|
         params = if match[2]
           params = match[2].split(",").map(&:strip).map do |param|
@@ -67,9 +67,12 @@ module Bisu
           Hash[params]
         end
 
-        { match:  match[0],
+        {
+          match:  match[0],
           key:    match[1],
-          params: params || {} }
+          params: params || {},
+          ignore_param_warn: text.include?("//ignore-params")
+        }
       end
     end
 

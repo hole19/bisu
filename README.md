@@ -24,7 +24,7 @@ Usage
 1. Run: `bisu`
 1. That's it!*
 
-*given that someone already configured Bisu
+\*_given that someone already configured Bisu_
 
 Setup your configuration file
 -----

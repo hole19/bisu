@@ -1,4 +1,9 @@
 describe Bisu::Localizer do
+  def translates(text, fallbacks: [], to:, lang: nil)
+    translation = localizer.localize(text, lang || language, locale, fallbacks)
+    expect(translation).to eq to
+  end
+
   let(:language) { "Portuguese" }
   let(:locale)   { "pt-PT" }
 
@@ -32,11 +37,6 @@ describe Bisu::Localizer do
 
   shared_examples_for "a localizer" do
     it { expect { localizer }.not_to raise_error }
-
-    def translates(text, fallbacks: [], to:, lang: nil)
-      translation = localizer.localize(text, lang || language, locale, fallbacks)
-      expect(translation).to eq to
-    end
 
     it { translates("a line with no key", to: "a line with no key") }
 
@@ -87,7 +87,7 @@ describe Bisu::Localizer do
        .and not_change { Bisu::Logger.summary[:error] }
     end
 
-    it "throws an error when missing key parameters (expect on ruby on rails)" do
+    it "throws a error when missing key parameters (expect on ruby on rails)" do
       if type == :ror
         expect {
           localizer.localize("$k1ParameterKey$", language, locale)
@@ -114,6 +114,17 @@ describe Bisu::Localizer do
       }.to not_change { Bisu::Logger.summary[:warn] }
        .and change { Bisu::Logger.summary[:error] }.by(1)
     end
+
+    # non localizable text with params
+
+    it "does not try to translate params outside $$" do
+      translates("%{some_text}", to: "%{some_text}")
+
+      expect {
+        localizer.localize("%{some_text}", language, locale)
+      }.to not_change { Bisu::Logger.summary[:warn] }
+       .and not_change { Bisu::Logger.summary[:error] }
+    end
   end
 
   let(:type_dependent_defaults) { {
@@ -134,6 +145,33 @@ describe Bisu::Localizer do
     ) }
 
     it_behaves_like "a localizer"
+
+    context "when a parameter replacemnt was not defined" do
+      let(:line) { "1 parameter: $k1ParameterKey$" }
+      let(:expected) { "1 parameter: Não sabes nada %{name}" }
+
+      it { translates(line, to: expected) }
+
+      it "returns an error" do
+        expect {
+          localizer.localize(line, language, locale)
+        }.to not_change { Bisu::Logger.summary[:warn] }
+         .and change { Bisu::Logger.summary[:error] }.by(1)
+      end
+
+      context "when passing //ignore-params" do
+        let(:line) { "1 parameter: $k1ParameterKey//ignore-params$" }
+
+        it { translates(line, to: expected) }
+
+        it "does not return an error" do
+          expect {
+            localizer.localize(line, language, locale)
+          }.to not_change { Bisu::Logger.summary[:warn] }
+           .and not_change { Bisu::Logger.summary[:error] }
+        end
+      end
+    end
   end
 
   describe "of type Android" do
