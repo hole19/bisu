@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.9.0](https://github.com/hole19/bisu/releases/tag/v1.9.0)
+Released on 2021/05/21
+
+#### Added
+- Adds a new option to surpress missing params when that's intentional: add "//ignore-params" to the end of the translation key
+
 ## [1.8.0](https://github.com/hole19/bisu/releases/tag/v1.8.0)
 Released on 2020/04/30
 
