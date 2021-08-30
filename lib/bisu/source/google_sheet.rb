@@ -42,7 +42,9 @@ module Bisu
         end
       end
 
-      def get(url)
+      def get(url, max_redirects = 1)
+        raise "Bisu::Source::GoogleSheet: Too may redirects" if max_redirects == -1
+
         uri = URI(url)
 
         http = Net::HTTP.new(uri.host, uri.port)
@@ -51,6 +53,8 @@ module Bisu
 
         request = Net::HTTP::Get.new(uri.request_uri)
         response = http.request(request)
+
+        return get(response['location'], max_redirects - 1) if response.is_a? Net::HTTPRedirection
 
         raise "Bisu::Source::GoogleSheet: Http Error #{response.body}" if response.code.to_i >= 400
 
