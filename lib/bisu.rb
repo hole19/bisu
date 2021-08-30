@@ -70,7 +70,7 @@ module Bisu
 
     save_to_path = options[:dictionary_save_path]
     if save_to_path && file = open_file(save_to_path, "w", false)
-      file.write(source.to_json)
+      file.write(deep_force_encoding(source).to_json)
       file.flush
       file.close
     end
@@ -148,5 +148,16 @@ module Bisu
     in_file.close
 
     true
+  end
+
+  def deep_force_encoding(hash)
+    hash.each do |_, value|
+      case value
+      when String
+        value.force_encoding(Encoding::UTF_8)
+      when Hash
+        deep_force_encoding(value)
+      end
+    end
   end
 end
