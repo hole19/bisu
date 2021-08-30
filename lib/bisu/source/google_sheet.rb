@@ -4,8 +4,9 @@ require "csv"
 module Bisu
   module Source
     class GoogleSheet
-      def initialize(url)
+      def initialize(url, keys_column)
         @url = url
+        @keys_column = keys_column
       end
 
       def to_i18
@@ -20,7 +21,7 @@ module Bisu
 
         csv.each do |row|
           languages.each do |lang|
-            hash[lang][row["key"]] = row[lang] unless row[lang].nil?
+            hash[lang][row[@keys_column]] = row[lang] unless row[lang].nil?
           end
         end
 

@@ -74,6 +74,7 @@ Setup your configuration file
   dictionary:
     type: google_sheet
     url: <GOOGLE-DRIVE-SHEET-CSV-URL>
+    keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
   ```
 
 ##### OneSky integration:

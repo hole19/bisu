@@ -3,6 +3,7 @@ type: iOS
 dictionary:
   type: google_sheet
   url: sheet-public-url
+  keys_column: "key name"
 
 translate:
   - in: hole19/Localizable.strings.translatable

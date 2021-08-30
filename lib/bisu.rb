@@ -59,7 +59,7 @@ module Bisu
     source =
       case config[:type]
       when "google_sheet"
-        Bisu::Source::GoogleSheet.new(config[:url])
+        Bisu::Source::GoogleSheet.new(config[:url], config[:keys_column])
       when "one_sky"
         Bisu::Source::OneSky.new(config[:api_key], config[:api_secret], config[:project_id], config[:file_name])
       when "url"

@@ -62,6 +62,7 @@ module Bisu
       elements: {
         type: { type: String },
         url: { type: String },
+        keys_column: { type: String },
       },
     }
 

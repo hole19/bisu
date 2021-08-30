@@ -6,6 +6,7 @@ describe Bisu::Config do
     dictionary: {
       type: "google_sheet",
       url: "https://abc1234567890",
+      keys_column: "key name",
     },
     translate: [
       { in: "path/to/file/to/1.ext.translatable",
@@ -36,7 +37,7 @@ describe Bisu::Config do
   describe "#dictionary" do
     subject(:dictionary) { config.dictionary }
 
-    it { should eq({ type: "google_sheet", url: "https://abc1234567890" }) }
+    it { should eq({ type: "google_sheet", url: "https://abc1234567890", keys_column: "key name" }) }
 
     context "when given a OneSky type dictionary" do
       before do

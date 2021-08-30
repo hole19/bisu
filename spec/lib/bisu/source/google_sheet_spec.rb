@@ -1,5 +1,5 @@
 describe Bisu::Source::GoogleSheet do
-  subject(:to_i18) { Bisu::Source::GoogleSheet.new(url).to_i18 }
+  subject(:to_i18) { Bisu::Source::GoogleSheet.new(url, "key name").to_i18 }
 
   let(:url) { "https://docs.google.com/spreadsheets/d/e/2PACX-1vTm6yu_zfbxKizC-PvUE1HVFCsplmiyz0s0qLSIGeokA7KtS3BgtqaA79CsfYfPsXH6xzUaP8HDTcj8/pub?gid=0&single=true&output=csv" }
   let(:response) { File.read("spec/fixtures/sample_google_response.csv") }
