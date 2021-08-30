@@ -66,14 +66,14 @@ Setup your configuration file
 
 1. First ["Publish to the web"](https://www.google.com/search?q=google+sheets+publish+to+web) your Google Sheet
 1. Share only the sheet that contains the translations
+1. Make sure you CSV format
 1. First column should contain the translation keys
 1. First row should contain the locale for each language
 
   ```
   dictionary:
     type: google_sheet
-    sheet_id: <GOOGLE-DRIVE-SHEET-ID>
-    keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
+    url: <GOOGLE-DRIVE-SHEET-CSV-URL>
   ```
 
 ##### OneSky integration:

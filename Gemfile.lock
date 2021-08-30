@@ -32,7 +32,6 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    xml-simple (1.1.8)
 
 PLATFORMS
   ruby
@@ -44,7 +43,6 @@ DEPENDENCIES
   rspec-its
   safe_yaml (~> 1.0)
   webmock (~> 1.20)
-  xml-simple (~> 1.1)
 
 RUBY VERSION
    ruby 2.7.3p183

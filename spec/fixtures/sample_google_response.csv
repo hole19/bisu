@@ -1,0 +1,4 @@
+key,en,ja,fr,de,ko
+kConnectFacebook,Connect with Facebook,フェイスブックへ接続,Connexion par Facebook,Mit Facebook verbinden,페이스북으로 접속
+kNoNoNoMr,"No, no, no. Mr %{name} not here",,,,
+kTwitterServer,,,,,트위터 서버연결 실패. \n잠시 후 재시도.

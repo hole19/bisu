@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.10.0](https://github.com/hole19/bisu/releases/tag/v1.10.0)
+Released on 2021/08/30
+
+#### Fixed
+- Google Spreadsheet option stopped working due to a change in the API. This version fixes that.
+
+Note: You'll need a new setup. View README.
+
 ## [1.9.0](https://github.com/hole19/bisu/releases/tag/v1.9.0)
 Released on 2021/05/21
 

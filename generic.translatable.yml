@@ -3,8 +3,7 @@ type: iOS
 
 dictionary:
   type: google_sheet
-  sheet_id: <GOOGLE-DRIVE-SHEET-ID>
-  keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
+  url: <GOOGLE-DRIVE-SHEET-CSV-URL>
 
 translate:
   - in: path/to/1st/file.translatable

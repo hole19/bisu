@@ -18,7 +18,4 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'safe_yaml',  '~> 1.0'
   s.add_runtime_dependency 'colorize',   '~> 0.7'
-  s.add_runtime_dependency 'xml-simple', '~> 1.1'
-
-  s.add_development_dependency 'webmock', '~> 1.20'
 end

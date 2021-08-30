@@ -4,24 +4,23 @@ describe Bisu::Config do
   let(:hash) { {
     type: "BisuOS",
     dictionary: {
-      type:         "google_sheet",
-      sheet_id:     "abc1234567890",
-      keys_column:  "key_name"
+      type: "google_sheet",
+      url: "https://abc1234567890",
     },
     translate: [
-      { in:        "path/to/file/to/1.ext.translatable",
-        out:       "path/to/final-%{locale}/1.ext",
+      { in: "path/to/file/to/1.ext.translatable",
+        out: "path/to/final-%{locale}/1.ext",
         out_en_us: "path/to/default/1.ext"
       },
-      { in:        "path/to/file/to/2.ext.translatable",
-        out:       "path/to/final-%{locale}/2.ext",
+      { in: "path/to/file/to/2.ext.translatable",
+        out: "path/to/final-%{locale}/2.ext",
         out_en_us: "path/to/default/2.ext"
       },
     ],
     languages: [
-      { locale: "en-US",      language: "english"    },
-      { locale: "pt",         language: "portuguese" },
-      { locale: "pt-PT",      language: "portuguese" },
+      { locale: "en-US", language: "english"    },
+      { locale: "pt", language: "portuguese" },
+      { locale: "pt-PT", language: "portuguese" },
       { locale: "pt-Batatas", language: "portuguese-bt", fallback_language: "portuguese" }
     ]
   } }
@@ -37,16 +36,16 @@ describe Bisu::Config do
   describe "#dictionary" do
     subject(:dictionary) { config.dictionary }
 
-    it { should eq({ type: "google_sheet", sheet_id: "abc1234567890", keys_column: "key_name" }) }
+    it { should eq({ type: "google_sheet", url: "https://abc1234567890" }) }
 
     context "when given a OneSky type dictionary" do
       before do
         hash[:dictionary] = {
-          type:       "one_sky",
-          api_key:    "as387oavh48",
+          type: "one_sky",
+          api_key: "as387oavh48",
           api_secret: "bp0s5avo8a59",
           project_id: 328742,
-          file_name:  "file.json"
+          file_name: "file.json"
         }
       end
 
@@ -57,7 +56,7 @@ describe Bisu::Config do
       before do
         hash[:dictionary] = {
           type: "url",
-          url:  "a_url"
+          url: "a_url"
         }
       end
 

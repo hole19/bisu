@@ -61,9 +61,8 @@ module Bisu
       type: Hash,
       elements: {
         type: { type: String },
-        sheet_id: { type: String },
-        keys_column: { type: String }
-      }
+        url: { type: String },
+      },
     }
 
     ONE_SKY_STRUCT = {
@@ -72,15 +71,15 @@ module Bisu
         api_key: { type: String },
         api_secret: { type: String },
         project_id: { type: Integer },
-        file_name: { type: String }
-      }
+        file_name: { type: String },
+      },
     }
 
     URL_STRUCT = {
       type: Hash,
       elements: {
-        url: { type: String }
-      }
+        url: { type: String },
+      },
     }
 
     DICTIONARY_STRUCT = {

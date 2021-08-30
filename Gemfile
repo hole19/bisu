@@ -3,7 +3,6 @@ ruby '2.7.3'
 
 gem 'safe_yaml',  '~> 1.0'
 gem 'colorize',   '~> 0.7'
-gem 'xml-simple', '~> 1.1'
 
 group :test do
   gem 'rake'

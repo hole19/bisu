@@ -1,68 +1,43 @@
 describe Bisu::Source::GoogleSheet do
-  subject(:to_i18) { Bisu::Source::GoogleSheet.new(sheet_id, key_column).to_i18 }
+  subject(:to_i18) { Bisu::Source::GoogleSheet.new(url).to_i18 }
 
-  let(:sheet_id) { "abc1234567890" }
-  let(:url_info)  { "https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full" }
-  let(:url_sheet) { "https://spreadsheets.google.com/feeds/list/#{sheet_id}/od6/public/full" }
+  let(:url) { "https://docs.google.com/spreadsheets/d/e/2PACX-1vTm6yu_zfbxKizC-PvUE1HVFCsplmiyz0s0qLSIGeokA7KtS3BgtqaA79CsfYfPsXH6xzUaP8HDTcj8/pub?gid=0&single=true&output=csv" }
+  let(:response) { File.read("spec/fixtures/sample_google_response.csv") }
 
-  let(:key_column) { "key_column" }
+  def stub_url(status:, response:)
+    stub_request(:get, url).
+      to_return(:status => status, :body => response, :headers => {})
+  end
 
-  context "when given a valid sheet" do
-    let(:file_info)  { File.read("spec/fixtures/sample_kb_public_info.html") }
-    let(:file_sheet) { File.read("spec/fixtures/sample_kb_public_sheet.html") }
+  before { stub_url(status: 200, response: response) }
 
-    before do
-      stub_request(:get, url_info).to_return(:status => 200, :body => file_info, :headers => {})
-      stub_request(:get, url_sheet).to_return(:status => 200, :body => file_sheet, :headers => {})
-    end
+  it do
+    expect { to_i18 }.not_to raise_error
+  end
 
-    it do
-      expect { to_i18 }.not_to raise_error
-    end
-
-    it "returns an hash in i18 format" do
-      expect(to_i18).to eq({
-        "english"    => { "kConnectFacebook" => "Connect with Facebook",  "kConnectEmail" => "Connect with Email" },
-        "german"     => { "kConnectFacebook" => "Mit Facebook verbinden", "kConnectEmail" => "Mit E-Mail verbinden" },
-        "portuguese" => { "kConnectFacebook" => "Registar com Facebook",  "kConnectEmail" => "Registar com Email" },
-        "spanish"    => { "kConnectFacebook" => "Conéctate con Facebook", "kConnectEmail" => "Conéctate con Email" },
-        "french"     => { "kConnectFacebook" => "Connecter Facebook" },
-        "dutch"      => { "kConnectFacebook" => "Facebook Verbinden",     "kConnectEmail" => "Email Verbinden" },
-        "korean"     => { "kConnectFacebook" => "페이스북으로 접속",           "kConnectEmail" => "이메일로 접속" },
-        "japanese"   => { "kConnectFacebook" => "フェイスブックへ接続",      "kConnectEmail" => "電子メールアカウントに接続" }
-     })
-    end
-
-    context "but the key column is not present in the first sheet" do
-      let(:key_column) { "expecting_another_key_column" }
-
-      it do
-        expect { to_i18 }.to raise_error /Cannot find key column/
-      end
-    end
+  it "returns an hash in i18 format" do
+    expect(to_i18).to eq({
+      "en" => { "kConnectFacebook" => "Connect with Facebook", "kNoNoNoMr" => "No, no, no. Mr %{name} not here" },
+      "ja" => { "kConnectFacebook" => "フェイスブックへ接続" },
+      "fr" => { "kConnectFacebook" => "Connexion par Facebook" },
+      "de" => { "kConnectFacebook" => "Mit Facebook verbinden" },
+      "ko" => { "kConnectFacebook" => "페이스북으로 접속", "kTwitterServer" => "트위터 서버연결 실패. \\n잠시 후 재시도." }
+   })
   end
 
   context "when given an inexistent sheet" do
-    before { stub_request(:get, url_info).to_return(:status => 400, :body => "Not Found", :headers => {}) }
+    before { stub_url(status: 400, response: "Not Found") }
 
     it do
-      expect { to_i18 }.to raise_error /Cannot access sheet/
+      expect { to_i18 }.to raise_error /Http Error/
     end
   end
 
-  context "when given a private sheet" do
-    before { stub_request(:get, url_info).to_return(:status => 302, :body => "<HTML></HTML>", :headers => {}) }
+  context "when url content is not CSV" do
+    before { stub_url(status: 200, response: "{\"asdsa\": \"This is a json\"}") }
 
     it do
-      expect { to_i18 }.to raise_error /Cannot access sheet/
-    end
-  end
-
-  context "when url content is not XML" do
-    before { stub_request(:get, url_info).to_return(:status => 200, :body => "This is not XML; { this: \"is json\" }", :headers => {}) }
-
-    it do
-      expect { to_i18 }.to raise_error /Cannot parse. Expected XML/
+      expect { to_i18 }.to raise_error /Cannot parse. Expected CSV/
     end
   end
 end

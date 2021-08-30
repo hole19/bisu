@@ -1,64 +1,60 @@
 require "net/https"
-require "xmlsimple"
+require "csv"
 
 module Bisu
   module Source
     class GoogleSheet
-      def initialize(sheet_id, keys_column)
-        @sheet_id = sheet_id
-        @key_column = keys_column
+      def initialize(url)
+        @url = url
       end
 
       def to_i18
-        raw = raw_data(@sheet_id)
+        Logger.info("Downloading Google Sheet from #{@url}...")
 
-        Logger.info("Downloading dictionary from Google Sheet...")
+        csv = get_csv(@url)
 
-        non_language_columns = ["id", "updated", "category", "title", "content", "link", @key_column]
+        hash = {}
 
-        kb = {}
-        raw["entry"].each do |entry|
-          unless (key = entry[@key_column]) && key = key.first
-            raise "Bisu::Source::GoogleSheet: Cannot find key column '#{@key_column}'"
-          end
+        languages = csv.headers[1..]
+        languages.each { |lang| hash[lang] = {} }
 
-          entry.select { |c| !non_language_columns.include?(c) }.each do |lang, texts|
-            kb[lang] ||= {}
-            kb[lang][key] = texts.first unless texts.first == {}
+        csv.each do |row|
+          languages.each do |lang|
+            hash[lang][row["key"]] = row[lang] unless row[lang].nil?
           end
         end
 
         Logger.info("Google Sheet parsed successfully!")
-        Logger.info("Found #{kb.count} languages.")
+        Logger.info("Found #{languages.count} languages.")
 
-        kb
+        hash
       end
 
       private
 
-      def xml_data(uri, headers=nil)
-        uri = URI.parse(uri)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        data = http.get(uri.path, headers)
-
-        unless data.code.to_i == 200
-          raise "Bisu::Source::GoogleSheet: Cannot access sheet at #{uri} - HTTP #{data.code}"
-        end
+      def get_csv(url)
+        data = get(url)
 
         begin
-          XmlSimple.xml_in(data.body, 'KeyAttr' => 'name')
-        rescue
-          raise "Bisu::Source::GoogleSheet: Cannot parse. Expected XML at #{uri}"
+          CSV.parse(data, headers: true)
+        rescue StandardError => e
+          raise "Bisu::Source::GoogleSheet: Cannot parse. Expected CSV at #{url}: #{e}"
         end
       end
 
-      def raw_data(sheet_id)
-        Logger.info("Downloading Google Sheet...")
-        sheet = xml_data("https://spreadsheets.google.com/feeds/worksheets/#{sheet_id}/public/full")
-        url   = sheet["entry"][0]["link"][0]["href"]
-        xml_data(url)
+      def get(url)
+        uri = URI(url)
+
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+        request = Net::HTTP::Get.new(uri.request_uri)
+        response = http.request(request)
+
+        raise "Bisu::Source::GoogleSheet: Http Error #{response.body}" if response.code.to_i >= 400
+
+        response.body
       end
     end
   end
