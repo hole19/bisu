@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.10.2](https://github.com/hole19/bisu/releases/tag/v1.10.2)
+Released on 2021/08/30
+
+#### Fixed
+- Fixes bug where we were assuming "key" would always be the translations-key column title
+
 ## [1.10.1](https://github.com/hole19/bisu/releases/tag/v1.10.1)
 Released on 2021/08/30
 
