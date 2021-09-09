@@ -11,7 +11,7 @@ module Bisu
     end
 
     def localize(text, language, locale, fallback_languages=[])
-      t = text
+      t = text.force_encoding(Encoding::UTF_8)
       t = t.gsub("$specialKLanguage$", language)
       t = t.gsub("$specialKLocale$", locale)
       t = t.gsub("$specialKComment1$", "This file was automatically generated based on a translation template.")
@@ -81,7 +81,7 @@ module Bisu
 
       if @type.eql?(:android)
         text = text.gsub(/[']/, "\\\\\\\\'")
-        #text = text.gsub("...", "…")
+        text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
         text = text.gsub("@", "\\\\@")
         text = text.gsub(/%(?!{)/, "\\\\%%")
