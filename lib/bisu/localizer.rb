@@ -77,6 +77,7 @@ module Bisu
     end
 
     def process(text)
+      text = text.force_encoding(Encoding::UTF_8)
       text = text.gsub("\n", "\\n")
 
       if @type.eql?(:android)
