@@ -27,6 +27,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.1)
+    rubyzip (2.3.2)
     safe_yaml (1.0.5)
     webmock (3.19.1)
       addressable (>= 2.8.0)
@@ -41,6 +42,7 @@ DEPENDENCIES
   rake
   rspec
   rspec-its
+  rubyzip (~> 2)
   safe_yaml (~> 1)
   webmock (~> 3)
 
