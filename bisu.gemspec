@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
   s.executables << 'bisu'
 
-  s.add_runtime_dependency 'safe_yaml',  '~> 1.0'
-  s.add_runtime_dependency 'colorize',   '~> 0.7'
+  s.add_runtime_dependency 'safe_yaml',  '~> 1'
+  s.add_runtime_dependency 'colorize',   '~> 1'
 end
