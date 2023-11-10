@@ -4,13 +4,19 @@ Bisu 홀
 [![Status](https://travis-ci.org/hole19/bisu.svg?branch=master)](https://travis-ci.org/hole19/bisu?branch=master)
 [![Gem](https://img.shields.io/gem/v/bisu.svg?style=flat)](http://rubygems.org/gems/bisu "View this project in Rubygems")
 
-Bisu manages your app iOS, Android and RoR localization files for you. No more copy+paste induced errors!
+Bisu manages your app [iOS](#ios), [Android](#android) and [RoR](#ruby-on-rails) localization files for you. No more copy+paste induced errors!
+
+It works with the following sources out of the box:
+- [URL](#url)
+- [Tolgee](#tolgee)
+- [Google Sheets](#google-sheets)
+- [OneSky](#onesky)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/hole19/bisu/master/README_explanation.png" width="500">
 </p>
 
-Instalation
+Installation
 -----
 
 ```
@@ -54,7 +60,9 @@ Setup your configuration file
       language: pt
   ```
 
-##### Dictionary from a URL source:
+#### Sources
+
+##### URL
 
   ```
   dictionary:
@@ -62,7 +70,15 @@ Setup your configuration file
     url: <A-GET-URL>
   ```
 
-##### Google Sheets Dictionary:
+##### Tolgee
+
+  ```
+  dictionary:
+    type: tolgee
+    api_key: <TOLGEE-API-KEY>
+  ```
+
+##### Google Sheets
 
 1. First ["Publish to the web"](https://www.google.com/search?q=google+sheets+publish+to+web) your Google Sheet
 1. Share only the sheet that contains the translations
@@ -77,7 +93,7 @@ Setup your configuration file
     keys_column: <GOOGLE-DRIVE-KEY-COLUMN-TITLE>
   ```
 
-##### OneSky integration:
+##### OneSky
 
   ```
   dictionary:
