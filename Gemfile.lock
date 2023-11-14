@@ -1,3 +1,11 @@
+PATH
+  remote: .
+  specs:
+    bisu (1.10.2)
+      colorize
+      rubyzip (>= 2.0.0)
+      safe_yaml (>= 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -38,16 +46,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  colorize (~> 1)
+  bisu!
   rake
   rspec
   rspec-its
-  rubyzip (~> 2)
-  safe_yaml (~> 1)
   webmock (~> 3)
-
-RUBY VERSION
-   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.22

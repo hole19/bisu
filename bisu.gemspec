@@ -11,12 +11,11 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.homepage    = 'https://github.com/hole19/bisu'
 
-  s.files         = `git ls-files`.split("\n")
+  s.files = `git ls-files`.split("\n")
   s.require_paths = ['lib']
+  s.executables = %w[ bisu ]
 
-  s.executables << 'bisu'
-
-  s.add_runtime_dependency 'rubyzip',    '~> 2'
-  s.add_runtime_dependency 'safe_yaml',  '~> 1'
-  s.add_runtime_dependency 'colorize',   '~> 1'
+  s.add_dependency 'safe_yaml',  '>= 1.0.0'
+  s.add_dependency 'colorize'
+  s.add_runtime_dependency 'rubyzip', '>= 2.0.0' # For extracting the Tolgee zip file
 end
