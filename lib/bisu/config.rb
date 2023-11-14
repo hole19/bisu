@@ -83,10 +83,18 @@ module Bisu
       },
     }
 
+    TOLGEE_STRUCT = {
+      type: Hash,
+      elements: {
+        api_key: { type: String },
+      },
+    }
+
     DICTIONARY_STRUCT = {
       "google_sheet" => GOOGLE_SHEET_STRUCT,
       "one_sky"      => ONE_SKY_STRUCT,
-      "url"          => URL_STRUCT
+      "url"          => URL_STRUCT,
+      "tolgee"       => TOLGEE_STRUCT,
     }
   end
 end
