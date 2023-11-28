@@ -4,8 +4,8 @@ describe Bisu::Source::Tolgee do
   let(:api_key)    { "a123" }
   let(:os_response) { File.read("spec/fixtures/sample_tolgee_response.zip") }
 
-  def stub_url(status:, response:)
-    stub_request(:get, "https://app.tolgee.io/v2/projects/export?format=JSON&structureDelimiter=").
+  def stub_url(status:, response:, host: "app.tolgee.io")
+    stub_request(:get, "https://#{host}/v2/projects/export?format=JSON&structureDelimiter=").
       to_return(:status => status, :body => response, :headers => {})
   end
 
@@ -28,6 +28,18 @@ describe Bisu::Source::Tolgee do
 
     it "raises that same error" do
       expect { to_i18 }.to raise_error /not allowed/
+    end
+  end
+
+  context "with a custom host" do
+    let(:host) { "translations.example.com" }
+    subject(:to_i18) { Bisu::Source::Tolgee.new(api_key, host).to_i18 }
+
+    before { stub_url(status: 200, response: os_response, host: host) }
+
+    it "uses that host" do
+      to_i18
+      expect(WebMock).to have_requested(:get, "https://translations.example.com/v2/projects/export?format=JSON&structureDelimiter=")
     end
   end
 end
