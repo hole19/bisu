@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+
+
+## [2.0.0](https://github.com/hole19/bisu/releases/tag/v2.0.0)
+Released on 2023/12/07
+
 ### Added
 - Add [Tolgee](https://tolgee.io/) as a source.
 
