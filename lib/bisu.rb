@@ -66,7 +66,7 @@ module Bisu
       when "url"
         Bisu::Source::Url.new(config[:url])
       when "tolgee"
-        Bisu::Source::Tolgee.new(config[:api_key])
+        Bisu::Source::Tolgee.new(config[:api_key], config[:host])
       end
 
     source = source.to_i18
