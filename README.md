@@ -76,6 +76,7 @@ Setup your configuration file
   dictionary:
     type: tolgee
     api_key: <TOLGEE-API-KEY>
+    host: <TOLGEE-CUSTOM-HOST> (default: app.tolgee.io)
   ```
 
 ##### Google Sheets

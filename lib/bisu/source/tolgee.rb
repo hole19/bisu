@@ -5,8 +5,9 @@ require 'zip'
 module Bisu
   module Source
     class Tolgee
-      def initialize(api_key)
+      def initialize(api_key, custom_host = nil)
         @api_key = api_key
+        @host = custom_host || "app.tolgee.io"
       end
 
       def to_i18
@@ -25,7 +26,7 @@ module Bisu
       private
 
       def export
-        uri = URI("https://app.tolgee.io/v2/projects/export?format=JSON&structureDelimiter=")
+        uri = URI("https://#{@host}/v2/projects/export?format=JSON&structureDelimiter=")
 
         request = Net::HTTP::Get.new(uri)
         request['X-API-Key'] = @api_key
