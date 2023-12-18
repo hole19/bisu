@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bisu (1.10.2)
+    bisu (2.0.0)
       colorize
       rubyzip (>= 2.0.0)
       safe_yaml (>= 1.0.0)

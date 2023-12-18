@@ -19,7 +19,7 @@ module Bisu
 
       to_localize(t).map do |l|
         if localized = localize_key(l[:key], [language] + fallback_languages)
-          localized = process(localized)
+          localized = process(localized, l[:is_formatted_string])
 
           l[:params].each do |param, value|
             if localized.match("%{#{param}}")
@@ -33,8 +33,8 @@ module Bisu
             Logger.warn("Could not find translation for #{l[:match]} in #{language}")
           end
 
-          unless @type.eql?(:ror) || l[:ignore_param_warn] == true
-            localized.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} in #{language}") }
+          unless @type.eql?(:ror) || l[:ignore_params] == true
+            localized.scan(/%{[^}]+}/) { |match| Logger.error("Could not find translation param for #{match} for #{l[:key]} in #{language}") }
           end
         else
           Logger.warn("Could not find translation for #{l[:match]} in #{language}")
@@ -57,7 +57,7 @@ module Bisu
     private
 
     def to_localize(text)
-      all_matches = text.to_enum(:scan, /\$([^\$\{\/]+)(?:\{(.+)\})?(\/\/ignore-params)?\$/).map { Regexp.last_match }
+      all_matches = text.to_enum(:scan, /\$([^\$\{\/]+)(?:\{(.+)\})?(\/\/[A-Za-z-]+)*\$/).map { Regexp.last_match }
       all_matches.map do |match|
         params = if match[2]
           params = match[2].split(",").map(&:strip).map do |param|
@@ -71,12 +71,13 @@ module Bisu
           match:  match[0],
           key:    match[1],
           params: params || {},
-          ignore_param_warn: text.include?("//ignore-params")
+          ignore_params: text.include?("//ignore-params"),
+          is_formatted_string: text.include?("//formatted-string"),
         }
       end
     end
 
-    def process(text)
+    def process(text, is_formatted_string)
       text = text.gsub("\n", "\\n")
 
       if @type.eql?(:android)
@@ -88,7 +89,7 @@ module Bisu
 
       elsif @type.eql?(:ios)
         text = text.gsub(/\"/, "\\\\\"")
-        text = text.gsub(/%(?!{)/, "%%")
+        text = text.gsub(/%(?!{)/, "%%") if is_formatted_string
       end
 
       text
