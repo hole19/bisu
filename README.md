@@ -105,7 +105,7 @@ Setup your configuration file
     file_name: <ONE-SKY-FILE-NAME>
   ```
 
-Create translation templates
+Create translatable files templates
 -----
 
 Create a \*.translatable version for your platform specific localization files:
@@ -114,19 +114,10 @@ Create a \*.translatable version for your platform specific localization files:
 *example: Localizable.strings.translatable*
 
   ```
-  // $specialKComment1$
-  // $specialKComment2$
-
-  // Locale: $specialKLocale$; Language used: $specialKLanguage$
-
-  /***********
-  *  General
-  ************/
-
-  "klGeneral_Delete" = "$kDelete$";
-  "klGeneral_Cancel" = "$kCancel$";
-  "klGeneral_Close"  = "$kClose$";
-  "klRequestName"    = "$kRequestName{user_name: %@}$";
+  "delete" = "$general.delete$";
+  "cancel" = "$general.cancel$";
+  "close" = "$general.close$";
+  "requestName" = "$request.name{user_name: %@}$";
   ```
 
 ##### Android
@@ -135,15 +126,11 @@ Create a \*.translatable version for your platform specific localization files:
   ```
   <?xml version="1.0" encoding="utf-8"?>
 
-  <!-- $specialKComment1$ -->
-  <!-- $specialKComment2$ -->
-  <!-- Locale: $specialKLocale$; Language used: $specialKLanguage$ -->
-
   <resources>
-      <string name="delete">$kDelete$</string>
-      <string name="cancel">$kCancel$</string>
-      <string name="close">$kClose$</string>
-      <string name="request_name">$kRequestName{user_name: %s}$</string>
+      <string name="delete">$general.delete$</string>
+      <string name="cancel">$general.cancel$</string>
+      <string name="close">$general.close$</string>
+      <string name="request_name">$request.name{user_name: %s}$</string>
   </resources>
   ```
 
@@ -153,9 +140,27 @@ Create a \*.translatable version for your platform specific localization files:
   ```
   $specialKLocale$:
     resources:
-      delete: $kDelete$
-      cancel: $kCancel$
-      close: $kClose$
+      delete: $general.delete$
+      cancel: $general.cancel$
+      close: $general.close$
     messages:
-      request_name: $kRequestName$
+      request_name: $request.name$
   ```
+
+### Translatable options
+
+#### Parameters
+
+Given a key with params such as "Missing ${attribute} value"
+- `$some-key-with-params{param: %s}$`: `Missing $s value`
+- `$some-key-with-params//ignore-params$`: `Missing ${attribute} value`
+
+#### Locale (useful for Rails localization files)
+
+- `$specialKLocale$`: the respective locale of this file
+- `$specialKLanguage$`: the respective language on the translation platform
+
+#### Special comments
+
+- `$specialKComment1$`: `This file was automatically generated based on a translation template.`
+- `$specialKComment2$`: `Remember to CHANGE THE TEMPLATE and not this file!`
