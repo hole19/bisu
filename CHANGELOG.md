@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [2.1.0](https://github.com/hole19/bisu/releases/tag/v2.1.0)
+
 #### Fixed
 - Fixes handling of % character on iOS localization
 
