@@ -66,10 +66,11 @@ describe Bisu::Localizer do
 
     it { translates("$kDoubleQuoted$", to: expected[:double_quoted]) }
     it { translates("$kSingleQuoted$", to: expected[:single_quoted]) }
-    it { translates("$kEllipsis$",     to: expected[:ellipsis]) }
-    it { translates("$kAmpersand$",    to: expected[:ampersand]) }
-    it { translates("$kAtSign$",       to: expected[:at_sign]) }
-    it { translates("$kPercentage$",   to: expected[:percentage]) }
+    it { translates("$kEllipsis$", to: expected[:ellipsis]) }
+    it { translates("$kAmpersand$", to: expected[:ampersand]) }
+    it { translates("$kAtSign$", to: expected[:at_sign]) }
+    it { translates("$kPercentage$", to: expected[:percentage]) }
+    it { translates("$kPercentage//formatted-string$", to: expected[:percentage_formatted]) }
 
     # error handling
 
@@ -130,10 +131,11 @@ describe Bisu::Localizer do
   let(:type_dependent_defaults) { {
     double_quoted: keys[language]["kDoubleQuoted"],
     single_quoted: keys[language]["kSingleQuoted"],
-    ellipsis:      keys[language]["kEllipsis"],
-    ampersand:     keys[language]["kAmpersand"],
-    at_sign:       keys[language]["kAtSign"],
-    percentage:    keys[language]["kPercentage"]
+    ellipsis: keys[language]["kEllipsis"],
+    ampersand: keys[language]["kAmpersand"],
+    at_sign: keys[language]["kAtSign"],
+    percentage: keys[language]["kPercentage"],
+    percentage_formatted: keys[language]["kPercentage"],
   } }
 
   describe "of type iOS" do
@@ -141,7 +143,8 @@ describe Bisu::Localizer do
 
     let(:expected) { type_dependent_defaults.merge(
       double_quoted: "Não sabes nada \\\"João das Neves\\\"",
-      percentage: "Sabes 0%% João das Neves."
+      percentage: "Sabes 0% João das Neves.",
+      percentage_formatted: "Sabes 0%% João das Neves.",
     ) }
 
     it_behaves_like "a localizer"
@@ -182,7 +185,8 @@ describe Bisu::Localizer do
       ellipsis: "Não sabes nada João das Neves…",
       ampersand: "Não sabes nada João das Neves &amp; Pícaros",
       at_sign: "\\@johnsnow sabes alguma coisa?",
-      percentage: "Sabes 0\\%% João das Neves."
+      percentage: "Sabes 0\\%% João das Neves.",
+      percentage_formatted: "Sabes 0\\%% João das Neves.",
     ) }
 
     it_behaves_like "a localizer"

@@ -155,6 +155,16 @@ Given a key with params such as "Missing ${attribute} value"
 - `$some-key-with-params{param: %s}$`: `Missing $s value`
 - `$some-key-with-params//ignore-params$`: `Missing ${attribute} value`
 
+#### Formated strings (special characters)
+
+##### "%" character (iOS only)
+
+When is should be localized as given such as "Perfect: 100 (%)"
+- `$some-key-with-percentage$`: `Perfect: 100%`
+
+When it should be localized as a formated string such as "Perfect: %{percentage} (%)"
+- `$some-key-with-percentage{percentage: %d}//formatted-string$`: `Perfect: %d (%%)` (note the double `%`)
+
 #### Locale (useful for Rails localization files)
 
 - `$specialKLocale$`: the respective locale of this file
