@@ -105,7 +105,7 @@ Setup your configuration file
     file_name: <ONE-SKY-FILE-NAME>
   ```
 
-Create translatable files templates
+Create translatable file templates
 -----
 
 Create a \*.translatable version for your platform specific localization files:
@@ -159,7 +159,7 @@ Given a key with params such as "Missing ${attribute} value"
 
 ##### "%" character (iOS only)
 
-When is should be localized as given such as "Perfect: 100 (%)"
+When it should be localized as given such as "Perfect: 100 (%)"
 - `$some-key-with-percentage$`: `Perfect: 100%`
 
 When it should be localized as a formated string such as "Perfect: %{percentage} (%)"
