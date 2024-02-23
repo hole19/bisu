@@ -182,6 +182,7 @@ describe Bisu::Localizer do
 
     let(:expected) { type_dependent_defaults.merge(
       single_quoted: "Não sabes nada \\'João das Neves\\'",
+      double_quoted: "Não sabes nada \\\"João das Neves\\\"",
       ellipsis: "Não sabes nada João das Neves…",
       ampersand: "Não sabes nada João das Neves &amp; Pícaros",
       at_sign: "\\@johnsnow sabes alguma coisa?",

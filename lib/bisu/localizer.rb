@@ -82,6 +82,7 @@ module Bisu
 
       if @type.eql?(:android)
         text = text.gsub(/[']/, "\\\\\\\\'")
+        text = text.gsub(/\"/, "\\\\\"")
         text = text.gsub("...", "…")
         text = text.gsub("& ", "&amp; ")
         text = text.gsub("@", "\\\\@")
