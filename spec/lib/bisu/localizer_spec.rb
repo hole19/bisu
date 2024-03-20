@@ -20,7 +20,7 @@ describe Bisu::Localizer do
       "kDoubleQuoted"    => "Não sabes nada \"João das Neves\"",
       "kSingleQuoted"    => "Não sabes nada 'João das Neves'",
       "kEllipsis"        => "Não sabes nada João das Neves...",
-      "kAmpersand"       => "Não sabes nada João das Neves & Pícaros",
+      "kAmpersand"       => "Não sabes nada João das Neves T&C",
       "kAtSign"          => "\@johnsnow sabes alguma coisa?",
       "kPercentage"      => "Sabes 0% João das Neves."
     },
@@ -184,7 +184,7 @@ describe Bisu::Localizer do
       single_quoted: "Não sabes nada \\'João das Neves\\'",
       double_quoted: "Não sabes nada \\\"João das Neves\\\"",
       ellipsis: "Não sabes nada João das Neves…",
-      ampersand: "Não sabes nada João das Neves &amp; Pícaros",
+      ampersand: "Não sabes nada João das Neves T&amp;C",
       at_sign: "\\@johnsnow sabes alguma coisa?",
       percentage: "Sabes 0\\%% João das Neves.",
       percentage_formatted: "Sabes 0\\%% João das Neves.",
