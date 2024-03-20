@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [2.3.0](https://github.com/hole19/bisu/releases/tag/v2.2.0)
+
+#### Fixed
+- Fix handling of ampersand (&) character on Android localization
+
 ## [2.2.0](https://github.com/hole19/bisu/releases/tag/v2.2.0)
 
 #### Fixed
