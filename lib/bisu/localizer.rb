@@ -84,7 +84,7 @@ module Bisu
         text = text.gsub(/[']/, "\\\\\\\\'")
         text = text.gsub(/\"/, "\\\\\"")
         text = text.gsub("...", "…")
-        text = text.gsub("& ", "&amp; ")
+        text = text.gsub("&", "&amp;")
         text = text.gsub("@", "\\\\@")
         text = text.gsub(/%(?!{)/, "\\\\%%")
 
