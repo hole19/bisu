@@ -18,8 +18,7 @@ GEM
     hashdiff (1.0.1)
     public_suffix (5.0.3)
     rake (13.1.0)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.9)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -38,7 +37,6 @@ GEM
     rspec-support (3.12.1)
     rubyzip (2.3.2)
     safe_yaml (1.0.5)
-    strscan (3.1.0)
     webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
