@@ -79,17 +79,16 @@ module Bisu
 
     def process(text, is_formatted_string)
       text = text.gsub("\n", "\\n")
+      text = text.gsub(/\"/, "\\\\\"")
 
-      if @type.eql?(:android)
+      case @type
+      when :android
         text = text.gsub(/[']/, "\\\\\\\\'")
-        text = text.gsub(/\"/, "\\\\\"")
         text = text.gsub("...", "…")
         text = text.gsub("&", "&amp;")
         text = text.gsub("@", "\\\\@")
         text = text.gsub(/%(?!{)/, "\\\\%%")
-
-      elsif @type.eql?(:ios)
-        text = text.gsub(/\"/, "\\\\\"")
+      when :ios
         text = text.gsub(/%(?!{)/, "%%") if is_formatted_string
       end
 
