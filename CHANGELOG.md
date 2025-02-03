@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-## [2.3.0](https://github.com/hole19/bisu/releases/tag/v2.2.0)
+## [2.4.0](https://github.com/hole19/bisu/releases/tag/v2.4.0)
+
+#### Fixed
+- Escape double quotes (") for every supported language
+
+## [2.3.0](https://github.com/hole19/bisu/releases/tag/v2.3.0)
 
 #### Fixed
 - Fix handling of ampersand (&) character on Android localization
