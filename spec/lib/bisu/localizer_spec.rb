@@ -196,7 +196,9 @@ describe Bisu::Localizer do
   describe "of type Ruby on Rails" do
     let(:type) { :ror }
 
-    let(:expected) { type_dependent_defaults }
+    let(:expected) { type_dependent_defaults.merge(
+      double_quoted: "Não sabes nada \\\"João das Neves\\\"",
+    ) }
 
     it_behaves_like "a localizer"
   end
