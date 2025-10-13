@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [3.0.0](https://github.com/hole19/bisu/releases/tag/v2.5.0)(2025-10-13)
+
+- Add support for ruby 3.4
+- Add Github test workflow
+- (Breaking) Set ruby 3.0 as minimum supported version
+
 ## [2.4.0](https://github.com/hole19/bisu/releases/tag/v2.4.0)
 
 #### Fixed
