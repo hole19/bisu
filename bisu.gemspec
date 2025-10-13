@@ -15,7 +15,10 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.executables = %w[ bisu ]
 
+  s.required_ruby_version = '>= 3.0.0'
+
   s.add_dependency 'safe_yaml',  '>= 1.0.0'
   s.add_dependency 'colorize'
+  s.add_runtime_dependency 'csv' # For Google Sheets interpretation
   s.add_runtime_dependency 'rubyzip', '>= 2.0.0' # For extracting the Tolgee zip file
 end
