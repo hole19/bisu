@@ -31,7 +31,7 @@ module Bisu
         request = Net::HTTP::Get.new(uri)
         request['X-API-Key'] = @api_key
 
-        response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+        response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
           http.request(request)
         end
 
