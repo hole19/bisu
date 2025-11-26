@@ -87,7 +87,7 @@ module Bisu
         text = text.gsub("...", "…")
         text = text.gsub("&", "&amp;")
         text = text.gsub("@", "\\\\@")
-        text = text.gsub(/%(?!{)/, "\\\\%")
+        text = text.gsub(/%(?!{)/, "%%")
       when :ios
         text = text.gsub(/%(?!{)/, "%%") if is_formatted_string
       end
