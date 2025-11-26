@@ -186,7 +186,7 @@ describe Bisu::Localizer do
       ellipsis: "Não sabes nada João das Neves…",
       ampersand: "Não sabes nada João das Neves T&amp;C",
       at_sign: "\\@johnsnow sabes alguma coisa?",
-      percentage: "Sabes 0%% João das Neves.",
+      percentage: "Sabes 0% João das Neves.",
       percentage_formatted: "Sabes 0%% João das Neves.",
     ) }
 
