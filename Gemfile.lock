@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bisu (3.0.1)
+    bisu (3.0.2)
       colorize
       csv
       rubyzip (>= 2.0.0)

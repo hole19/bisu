@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [3.0.2](https://github.com/hole19/bisu/releases/tag/v3.0.2)(2025-11-26)
+
+- Escape percentage character properly on Android
+
 ## [3.0.1](https://github.com/hole19/bisu/releases/tag/v3.0.1)(2025-10-13)
 
 - Fix SSL verification in Tolgee source
