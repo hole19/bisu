@@ -9,6 +9,7 @@ require 'bisu/source/google_sheet'
 require 'bisu/source/one_sky'
 require 'bisu/source/url'
 require 'bisu/source/tolgee'
+require 'bisu/source/bisu'
 require 'bisu/dictionary'
 require 'bisu/localizer'
 require 'bisu/version'
@@ -67,6 +68,8 @@ module Bisu
         Bisu::Source::Url.new(config[:url])
       when "tolgee"
         Bisu::Source::Tolgee.new(config[:api_key], config[:host])
+      when "bisu"
+        Bisu::Source::Bisu.new(config[:api_key], config[:host])
       end
 
     source = source.to_i18

@@ -79,6 +79,15 @@ Setup your configuration file
     host: <TOLGEE-CUSTOM-HOST> (default: app.tolgee.io)
   ```
 
+##### Bisu Platform
+
+  ```
+  dictionary:
+    type: bisu
+    api_key: <BISU-API-TOKEN> # bsu_...
+    host: <BISU-PLATFORM-HOST>
+  ```
+
 ##### Google Sheets
 
 1. First ["Publish to the web"](https://www.google.com/search?q=google+sheets+publish+to+web) your Google Sheet

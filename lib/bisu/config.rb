@@ -90,11 +90,20 @@ module Bisu
       },
     }
 
+    BISU_STRUCT = {
+      type: Hash,
+      elements: {
+        api_key: { type: String },
+        host: { type: String },
+      },
+    }
+
     DICTIONARY_STRUCT = {
       "google_sheet" => GOOGLE_SHEET_STRUCT,
       "one_sky"      => ONE_SKY_STRUCT,
       "url"          => URL_STRUCT,
       "tolgee"       => TOLGEE_STRUCT,
+      "bisu"         => BISU_STRUCT,
     }
   end
 end
