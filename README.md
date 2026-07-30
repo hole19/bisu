@@ -79,7 +79,7 @@ Setup your configuration file
     host: <TOLGEE-CUSTOM-HOST> (default: app.tolgee.io)
   ```
 
-##### Bisu Platform
+##### [Bisu Platform](https://github.com/hole19/bisu-platform)
 
   ```
   dictionary:
