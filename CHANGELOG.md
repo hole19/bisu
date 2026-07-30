@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 `Bisu` adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [3.1.0](https://github.com/hole19/bisu/releases/tag/v3.1.0)(2026-07-30)
 
 - Add Bisu Platform as a translation source
 
