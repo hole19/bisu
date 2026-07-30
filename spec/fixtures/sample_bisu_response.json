@@ -1,0 +1,8 @@
+{
+  "data": {
+    "en": { "kConnectFacebook": "Connect with Facebook", "kNoNoNoMr": "No, no, no. Mr %{name} not here" },
+    "ja": { "kConnectFacebook": "フェイスブックへ接続" },
+    "pt-BR": { "kConnectFacebook": "Conectar com o Facebook" },
+    "ko": { "kConnectFacebook": "페이스북으로 접속", "kTwitterServer": "트위터 서버연결 실패. \\n잠시 후 재시도." }
+  }
+}

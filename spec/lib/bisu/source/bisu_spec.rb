@@ -3,7 +3,7 @@ describe Bisu::Source::Bisu do
 
   let(:api_key)     { "bsu_a123" }
   let(:host)        { "translations.example.com" }
-  let(:os_response) { File.read("spec/fixtures/sample_bisu_response.zip") }
+  let(:os_response) { File.read("spec/fixtures/sample_bisu_response.json", encoding: "UTF-8") }
 
   def stub_url(status:, response:, host: "translations.example.com")
     stub_request(:get, "https://#{host}/api/v1/export?languages=all&mode=flat").
@@ -14,10 +14,11 @@ describe Bisu::Source::Bisu do
 
   it { expect { to_i18 }.not_to raise_error }
 
-  it "returns an hash in i18 format" do
+  it "returns an hash in i18 format keyed by language code" do
     expect(to_i18).to eq({
       "en" => { "kConnectFacebook" => "Connect with Facebook", "kNoNoNoMr" => "No, no, no. Mr %{name} not here" },
       "ja" => { "kConnectFacebook" => "フェイスブックへ接続" },
+      "pt-BR" => { "kConnectFacebook" => "Conectar com o Facebook" },
       "ko" => { "kConnectFacebook" => "페이스북으로 접속", "kTwitterServer" => "트위터 서버연결 실패. \\n잠시 후 재시도." }
     })
   end
