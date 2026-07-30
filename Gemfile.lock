@@ -2,10 +2,9 @@ PATH
   remote: .
   specs:
     bisu (3.0.2)
-      colorize
-      csv
-      rubyzip (>= 2.0.0)
-      safe_yaml (>= 1.0.0)
+      colorize (~> 1.1)
+      csv (>= 3.0)
+      rubyzip (>= 2.0.0, < 4.0)
 
 GEM
   remote: https://rubygems.org/
@@ -40,7 +39,6 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.6)
     rubyzip (3.1.1)
-    safe_yaml (1.0.5)
     webmock (3.25.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
